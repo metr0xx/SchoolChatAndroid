@@ -13,6 +13,7 @@ import 'dart:math';
 
 var chatDatas = [];
 var addedNames = [];
+
 bool loaded = false;
 void fillChats2(var incomming){
     var chatinfo = incomming['chat'];
@@ -112,8 +113,6 @@ class Chats extends StatelessWidget {
        currNames.add(addedNames[i]);
      }
    }
-  
-  
   print('ПЕРВЫЙ chatDatas:');
   print(chatDatas);
   print(currNames); // Имена чатов, взятые из chatDatas, + введенные через плюсик
@@ -345,31 +344,36 @@ class Chats extends StatelessWidget {
           height: 83.0,
           child: OutlinedButton(
           onPressed: () {
-            ChatView chatView = ChatView(chatDatas[i].id);           
+            Navigator.push(
+              context, 
+              MaterialPageRoute(
+                builder: (context) => ChatView(chatDatas[i].id)
+              )
+            );          
           showDialog(
-          context: context,     
-          builder: (context) {
+            context: context,     
+            builder: (context) {
             // print(messages);
-            Future.delayed(          
-              Duration(seconds: 3), () {     
+              Future.delayed(          
+                Duration(seconds: 4), () {     
                   Navigator.push(
                     context, 
                     MaterialPageRoute(
-                      builder: (context) => ChatView(2) //id
+                      builder: (context) => ChatView(chatDatas[i].id) //id
                     )
-                  );                                
-              }
-            ); 
-                           
-            return AlertDialog(
-              title: Text('Загрузка сообщений...'),
-            );
-          }
-        );
+                  );                             
+                }
+              ); 
+                            
+              return AlertDialog(
+                title: Text('Загрузка сообщений...'),
+              );
+            }
+          );
             // Navigator.push(
             //   context, 
             //   MaterialPageRoute(
-            //     builder: (context) => chatView
+            //     builder: (context as Element).reassemble()
             //   )
             // );
           }, 

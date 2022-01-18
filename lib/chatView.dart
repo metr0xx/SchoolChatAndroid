@@ -13,46 +13,56 @@ class ChatView extends StatefulWidget {
 }
 
 var MessagesSize = ValueNotifier<int>(0);
+List messages = [];
+List allMsgs = [];
+Column columnOfMessages = Column(children: <Widget>[]);
+
+void get_message(mass) {
+    // print(mass['data'][0]);
+    bool noSame = true;
+    var data = mass['data'];
+    // var chatId = data["id"];
+    for(int i = 0; i < messages.length; i++) {
+      // if(messages[i].id == chatId) {
+      //   noSame = false;
+      //   break;
+      // }
+    }
+    // if(noSame) {
+      for(int o = 0; o < data.length; o++) {
+        messages.add(
+          Message(
+            int.parse(data[o]["id"]), 
+            int.parse(data[o]["chat_id"]), 
+            int.parse(data[o]["user_id"]), 
+            data[o]["attachments"],
+            data[o]["deleted_all"],
+            data[o]["deleted_user"],
+            data[o]["edited"],
+            data[o]["service"]
+          )
+        );
+        MessagesSize = ValueNotifier<int>(messages.length);
+               // print(data[o]);
+      }
+    }
+  // } 
+  void fill_all_msgs() {
+    for(int i = 0; i < messages.length; i++) {
+      allMsgs.add(messages[i].text);
+    }
+  }
 
 class ChatViewState extends State<ChatView> {
   @override
   int? id;
-  List messages = [];
-  void get_message(mass) {
-    print(mass['data'][0]);
-    var data = mass['data'];
-    for(int o = 0; o < data.length; o++) {
-      messages.add(
-        Message(
-          int.parse(data[o]["id"]), 
-          int.parse(data[o]["chat_id"]), 
-          int.parse(data[o]["user_id"]), 
-          data[o]["attachments"],
-          data[o]["deleted_all"],
-          data[o]["deleted_user"],
-          data[o]["edited"],
-          data[o]["service"]
-        )
-      );
-      MessagesSize = ValueNotifier<int>(messages.length);
-      print(data[o]);
-    }
-  } 
-  List fill_all_msgs() {
-    List allMsgs = [];
-    for(int i = 0; i < messages.length; i++) {
-      allMsgs.add(messages[i].text);
-    }
-  return allMsgs;
-  }
 
   Widget build(BuildContext context) {
     print("vnizu messages");
-    print(fill_all_msgs());
     print(messages);
+    print(MessagesSize);
     recieve_chat_msgs(get_message);
     requestChatMsgs(2, id!);
-
     return  MaterialApp(
       home: Scaffold(
         appBar: AppBar( 
@@ -64,7 +74,20 @@ class ChatViewState extends State<ChatView> {
           child: Column(   
             children: [
               ValueListenableBuilder(valueListenable: MessagesSize, builder: (context, value, widget) {
-                return Text("aboba");
+                // print('messages:');
+                // print(messages);
+                // print(MessagesSize);
+                for(int i = 0; i < messages.length; i++) {
+                  columnOfMessages.children.add(
+                    Container(
+                      child: Text(messages[i].text,
+                      style: TextStyle(color: Colors.black, fontSize: 30),
+                      ),
+                    )
+                  );
+                }
+                // return (Text("aboba"));
+                return columnOfMessages;
               })
             ],      //child: test,
           )

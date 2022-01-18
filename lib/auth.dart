@@ -44,7 +44,6 @@ class Auth extends StatelessWidget {
         filled: true,
     ),
   );
-    
 
     ElevatedButton signIn = ElevatedButton(
       onPressed: () {
@@ -60,38 +59,15 @@ class Auth extends StatelessWidget {
           builder: (context) {
             Future.delayed(          
               Duration(seconds: 3), () {     
-                  print('loaded in AUTH');
-                  Navigator.push(
-                    context, 
-                    MaterialPageRoute(
-                      builder: (context) => Chats()
-                    )
-                  ); 
-                                     
+                print('loaded in AUTH');
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(
+                    builder: (context) => Chats()
+                  )
+                );                                    
               }
-            ); 
-            // int millisec = 0;
-            // while(!loaded) {
-            //   millisec += 1;
-            // }
-            // print('вышел из цикла');
-            //  Future.delayed(          
-            //   Duration(milliseconds: millisec), () {
-            //     if(loaded) {
-            //       print('loaded in AUTH');
-            //       Navigator.push(
-            //         context, 
-            //         MaterialPageRoute(
-            //           builder: (context) => Chats()
-            //         )
-            //       ); 
-            //     }                       
-            //   }
-            // ); 
-            
-            
-             
-            
+            );                        
             return AlertDialog(
               title: Text('Загрузка чатов...'),
             );
