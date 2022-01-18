@@ -355,13 +355,13 @@ class Chats extends StatelessWidget {
             builder: (context) {
             // print(messages);
               Future.delayed(          
-                Duration(seconds: 4), () {     
+                Duration(seconds: 3), () {     
                   Navigator.push(
                     context, 
                     MaterialPageRoute(
-                      builder: (context) => ChatView(chatDatas[i].id) //id
+                      builder: (context) => ChatView(chatDatas[i].id),
                     )
-                  );                             
+                  );                                                
                 }
               ); 
                             
@@ -370,12 +370,7 @@ class Chats extends StatelessWidget {
               );
             }
           );
-            // Navigator.push(
-            //   context, 
-            //   MaterialPageRoute(
-            //     builder: (context as Element).reassemble()
-            //   )
-            // );
+  
           }, 
           child: Row(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -478,7 +473,7 @@ class Chats extends StatelessWidget {
         // color: Hexcolor("#0EBB64"),
         alignment: FractionalOffset(0.5, 0.2), 
         child: Column(   
-        children: <Widget>[chatRows]           
+        children: <Widget>[chatRows,]           
         ) 
       )
     )
