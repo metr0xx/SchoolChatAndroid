@@ -365,12 +365,12 @@ class Chats extends StatelessWidget {
             );
           }
         );
-            Navigator.push(
-              context, 
-              MaterialPageRoute(
-                builder: (context) => chatView
-              )
-            );
+            // Navigator.push(
+            //   context, 
+            //   MaterialPageRoute(
+            //     builder: (context) => chatView
+            //   )
+            // );
           }, 
           child: Row(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
