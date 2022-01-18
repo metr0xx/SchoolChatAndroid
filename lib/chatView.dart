@@ -22,9 +22,9 @@ class ChatViewState extends State<ChatView> {
     for(int o = 0; o < data.length; o++) {
       messages.add(
         Message(
-          data[o]["id"], 
-          data[o]["chat_id"], 
-          data[o]["user_id"], 
+          int.parse(data[o]["id"]), 
+          int.parse(data[o]["chat_id"]), 
+          int.parse(data[o]["user_id"]), 
           data[o]["attachments"],
           data[o]["deleted_all"],
           data[o]["deleted_user"],
@@ -32,6 +32,7 @@ class ChatViewState extends State<ChatView> {
           data[o]["service"]
         )
       );
+      print(data[o]);
     }
   } 
   List fill_all_msgs() {
