@@ -12,6 +12,8 @@ class ChatView extends StatefulWidget {
   }
 }
 
+var MessagesSize = ValueNotifier<int>(0);
+
 class ChatViewState extends State<ChatView> {
   @override
   int? id;
@@ -32,6 +34,7 @@ class ChatViewState extends State<ChatView> {
           data[o]["service"]
         )
       );
+      MessagesSize = ValueNotifier<int>(messages.length);
       print(data[o]);
     }
   } 
@@ -59,7 +62,11 @@ class ChatViewState extends State<ChatView> {
           color: Colors.white,
           alignment: FractionalOffset(0.5, 0.2), 
           child: Column(   
-            // children: <Widget>[messages]           //child: test,
+            children: [
+              ValueListenableBuilder(valueListenable: MessagesSize, builder: (context, value, widget) {
+                return Text("aboba");
+              })
+            ],      //child: test,
           )
         )
       )
