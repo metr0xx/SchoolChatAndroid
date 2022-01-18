@@ -26,8 +26,10 @@ List allMsgs = [];
 class ChatViewState extends State<ChatView> {
   @override
   int? id;
+  
 
   Widget build(BuildContext context) {
+    // messages.clear();
     int lastSize = 0;
     bool has = false;
     void get_message(mass) { 
@@ -49,6 +51,7 @@ class ChatViewState extends State<ChatView> {
               int.parse(data[o]["id"]), 
               int.parse(data[o]["chat_id"]), 
               int.parse(data[o]["user_id"]), 
+              data[o]["text"],
               data[o]["attachments"],
               data[o]["deleted_all"],
               data[o]["deleted_user"],
@@ -72,11 +75,13 @@ class ChatViewState extends State<ChatView> {
     has = true;
     }
 
-
     Column createMsgs() {
       Column columnOfMessages = Column(children: <Widget>[]);
-      for(int i = 0; i < messages.length; i++) {       
+      for(int i = 0; i < messages.length; i++) {  
+        print("vnizu MSG");
+        print(messages[i].text);     
           Container msg = Container(
+      
             child: Text(
               messages[i].text,
               style: TextStyle(color: Colors.black, fontSize: 30),
@@ -97,7 +102,7 @@ class ChatViewState extends State<ChatView> {
           color: Colors.white,
           alignment: FractionalOffset(0.5, 0.2), 
           child: Column(   
-            children: <Widget> [msgRows],      //child: test,
+            children: <Widget> [msgRows] //[msgRows],      //child: test,
           )
         )
       )
