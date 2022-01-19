@@ -7,106 +7,79 @@ class ChatView extends StatefulWidget {
   @override
   int? id;
   ChatView(this.id);
-  State <StatefulWidget> createState() {
+  State<StatefulWidget> createState() {
     return ChatViewState(id);
   }
 }
 
 var MessagesSize = ValueNotifier<int>(0);
-List messages = [];
-List allMsgs = [];
 
-  // } 
-  void fill_all_msgs() {
-    for(int i = 0; i < messages.length; i++) {
-      allMsgs.add(messages[i].text);
-    }
-  }
+// List allMsgs = [];
+List messages = [];
 
 class ChatViewState extends State<ChatView> {
   @override
   int? id;
-  
 
   Widget build(BuildContext context) {
-    // messages.clear();
     int lastSize = 0;
     bool has = false;
-    void get_message(mass) { 
-    // print(mass['data'][0]);
-    bool nosame = true;
-    var data = mass['data'];
-    // if(data.length == lastSize) {
-    //   return;
-    // }
-    for(int o = 0; o < data.length; o++) {
-      // for(int i = 0; i < messages.length; i++) {
-      //   if(messages[i].id == mass["data"][o].id) {
-      //     nosame = false;
-      //     // break;
-      //   }
-      //   if(nosame){
-          messages.add(
-            Message(
-              int.parse(data[o]["id"]), 
-              int.parse(data[o]["chat_id"]), 
-              int.parse(data[o]["user_id"]), 
-              data[o]["text"],
-              data[o]["attachments"],
-              data[o]["deleted_all"],
-              data[o]["deleted_user"],
-              data[o]["edited"],
-              data[o]["service"]
-            )
-          );
-          lastSize = messages.length;
-          MessagesSize = ValueNotifier<int>(messages.length);        
-        }          // print(data[o]);
-      }
-    // }
-    // }
+    void get_message(mass) {
+      messages.clear();
+      // print(mass['data'][0]);
+      bool nosame = true;
+      var data = mass['data'];
+      for (int o = 0; o < data.length; o++) {
+        messages.add(Message(
+            int.parse(data[o]["id"]),
+            int.parse(data[o]["chat_id"]),
+            int.parse(data[o]["user_id"]),
+            data[o]["text"],
+            data[o]["attachments"],
+            data[o]["deleted_all"],
+            data[o]["deleted_user"],
+            data[o]["edited"],
+            data[o]["service"]));
+        lastSize = messages.length;
+        MessagesSize = ValueNotifier<int>(messages.length);
+      } // print(data[o]);
+    }
 
     print("vnizu messages");
     print(messages);
     print(MessagesSize);
     recieve_chat_msgs(get_message);
-    if(!has) {
     requestChatMsgs(2, id!);
-    has = true;
-    }
 
     Column createMsgs() {
       Column columnOfMessages = Column(children: <Widget>[]);
-      for(int i = 0; i < messages.length; i++) {  
+      for (int i = 0; i < messages.length; i++) {
         print("vnizu MSG");
-        print(messages[i].text);     
-          Container msg = Container(
-      
+        print(messages[i].text);
+        Container msg = Container(
             child: Text(
-              messages[i].text,
-              style: TextStyle(color: Colors.black, fontSize: 30),
-            )
-          );
-          columnOfMessages.children.add(msg);
+          messages[i].text,
+          style: TextStyle(color: Colors.black, fontSize: 30),
+        ));
+        columnOfMessages.children.add(msg);
       }
       return columnOfMessages;
-      }
+    }
+
     Column msgRows = createMsgs();
 
-    return  MaterialApp(
-      home: Scaffold(
-        appBar: AppBar( 
-            backgroundColor: Colors.white, 
-          ),
-        body: Container(        
-          color: Colors.white,
-          alignment: FractionalOffset(0.5, 0.2), 
-          child: Column(   
-            children: <Widget> [msgRows] //[msgRows],      //child: test,
-          )
-        )
-      )
-    );
+    return MaterialApp(
+        home: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+            ),
+            body: Container(
+                color: Colors.white,
+                alignment: FractionalOffset(0.5, 0.2),
+                child: Column(
+                    children: <Widget>[msgRows] //[msgRows],      //child: test,
+                    ))));
   }
+
   ChatViewState(this.id);
 }
