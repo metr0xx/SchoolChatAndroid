@@ -10,44 +10,11 @@ import 'socket_io_manager.dart';
 import 'models.dart';
 import 'dart:math';
 import 'dart:io';
+import 'dateformat.dart';
 // import 'package:hexcolor/hexcolor.dart';
 
 var chatDatas = [];
 var addedNames = [];
-
-// void fillChats2(var incomming) {
-//   var chatinfo = incomming['chat'];
-//   var lastmsg = incomming['last_msg'];
-//   bool noSame = true;
-//   print(chatinfo);
-//   for (int i = 0; i < chatDatas.length; i++) {
-//     if (chatDatas[i].id == chatinfo['id'] ||
-//         chatDatas[i].name == chatinfo['name']) {
-//       noSame = false;
-//       break;
-//     }
-//   }
-//   if (noSame) {
-//     chatDatas.add(Chat(
-//         int.parse(chatinfo['id']),
-//         chatinfo['name'],
-//         chatinfo['users'],
-//         chatinfo['admins'],
-//         int.parse(chatinfo['creator']),
-//         chatinfo['pic'],
-//         lastmsg['text'],
-//         lastmsg['time'],
-//         int.parse(lastmsg['user_id'])));
-//   }
-//   update();
-// }
-
-// void fillChats(var chatinfo) {
-//   print(chatinfo);
-//   for (int o = 0; o < chatinfo.length; o++) {
-//     request_chat_data_for_preview(int.parse(chatinfo[o]));
-//   }
-// }
 
 String textForChatIcon(String text) {
   String result = '';
@@ -368,25 +335,10 @@ class ChatsState extends State<Chats> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => ChatView(chatDatas[i].id)));
-                  // showDialog(
-                  //     context: context,
-                  //     builder: (context) {
                   print(messages);
-                  // Future.delayed(Duration(seconds: 3), () {
-                  //   Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //         builder: (context) => ChatView(chatDatas[i].id),
-                  //       ));
-                  // });
-
-                  //   return AlertDialog(
-                  //     title: Text('Загрузка сообщений...'),
-                  //   );
-                  // });
                 },
                 child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                
                     children: <Widget>[
                       Container(
                         padding: EdgeInsets.only(),
@@ -413,7 +365,6 @@ class ChatsState extends State<Chats> {
                         ),
                       ),
                       (Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Container(
                                 padding: EdgeInsets.only(left: 35),
@@ -442,7 +393,7 @@ class ChatsState extends State<Chats> {
                                 ])),
                             Container(
                                 padding: EdgeInsets.only(bottom: 45, left: 50),
-                                child: Text(chatDatas[i].last_msg_time,
+                                child: Text(formatDate(chatDatas[i].last_msg_time),
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,

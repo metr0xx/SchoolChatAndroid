@@ -8,7 +8,8 @@ class Message {
   bool deleted_user = false;
   bool edited = false;
   bool service = false;
-  Message(this.id, this.chat_id, this.user_id, this.text, this.attachments, this.deleted_all, this.deleted_user, this.edited, this.service);
+  String? updatedAt;
+  Message(this.id, this.chat_id, this.user_id, this.text, this.attachments, this.deleted_all, this.deleted_user, this.edited, this.service, this.updatedAt);
 }
 
 class Chat {
