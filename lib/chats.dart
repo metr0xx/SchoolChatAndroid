@@ -467,7 +467,6 @@ class ChatsState extends State<Chats> {
             body: Container(
                 //color: Color(0xFF1c1a1c),
                 color: Colors.white,
-                // color: Hexcolor("#0EBB64"),
                 alignment: FractionalOffset(0.5, 0.2),
                 child: Column(children: <Widget>[
                   chatRows,
