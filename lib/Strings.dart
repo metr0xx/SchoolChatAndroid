@@ -12,3 +12,6 @@ class Strings {
   static String writeTittle = 'Write the group name:';
   static String createChat = 'Create chat';
 }
+
+
+

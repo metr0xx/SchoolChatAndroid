@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'socket_io_manager.dart';
 import 'models.dart';
-
+import 'dart:io';
 class ChatView extends StatefulWidget {
   @override
   int? id;
@@ -16,17 +16,23 @@ var MessagesSize = ValueNotifier<int>(0);
 
 // List allMsgs = [];
 List messages = [];
-
+bool changed = false;
+Column msgRows = Column();
 class ChatViewState extends State<ChatView> {
   @override
   int? id;
-
+  int updCount = 0;
+  void update() {
+    setState(() {});
+  }
   Widget build(BuildContext context) {
     int lastSize = 0;
     bool has = false;
+
     void get_message(mass) {
+      List oldmsgs = messages;
+      if(oldmsgs == []) {oldmsgs.add(1);}
       messages.clear();
-      // print(mass['data'][0]);
       bool nosame = true;
       var data = mass['data'];
       for (int o = 0; o < data.length; o++) {
@@ -43,6 +49,27 @@ class ChatViewState extends State<ChatView> {
         lastSize = messages.length;
         MessagesSize = ValueNotifier<int>(messages.length);
       } // print(data[o]);
+      Column createMsgs() {
+        Column columnOfMessages = Column(children: <Widget>[]);
+        for (int i = 0; i < messages.length; i++) {
+          print("vnizu MSG");
+          print(messages[i].text);
+          Container msg = Container(
+              child: Text(
+            messages[i].text,
+            style: TextStyle(color: Colors.black, fontSize: 30),
+          ));
+          columnOfMessages.children.add(msg);
+        }
+        return columnOfMessages;
+      }
+      msgRows = createMsgs();
+      changed = true;
+      // if(oldmsgs != messages) {
+      update();  
+        // sleep(Duration(milliseconds: 100));
+        // }
+      
     }
 
     print("vnizu messages");
@@ -51,22 +78,22 @@ class ChatViewState extends State<ChatView> {
     recieve_chat_msgs(get_message);
     requestChatMsgs(2, id!);
 
-    Column createMsgs() {
-      Column columnOfMessages = Column(children: <Widget>[]);
-      for (int i = 0; i < messages.length; i++) {
-        print("vnizu MSG");
-        print(messages[i].text);
-        Container msg = Container(
-            child: Text(
-          messages[i].text,
-          style: TextStyle(color: Colors.black, fontSize: 30),
-        ));
-        columnOfMessages.children.add(msg);
-      }
-      return columnOfMessages;
-    }
+    // Column createMsgs() {
+    //   Column columnOfMessages = Column(children: <Widget>[]);
+    //   for (int i = 0; i < messages.length; i++) {
+    //     print("vnizu MSG");
+    //     print(messages[i].text);
+    //     Container msg = Container(
+    //         child: Text(
+    //       messages[i].text,
+    //       style: TextStyle(color: Colors.black, fontSize: 30),
+    //     ));
+    //     columnOfMessages.children.add(msg);
+    //   }
+    //   return columnOfMessages;
+    // }
 
-    Column msgRows = createMsgs();
+    // Column msgRows = createMsgs();
 
     return MaterialApp(
         home: Scaffold(

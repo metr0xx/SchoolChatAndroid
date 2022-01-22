@@ -54,25 +54,25 @@ class Auth extends StatelessWidget {
             builder: (context) => Chats()
           )
         );
-        showDialog(
-          context: context,     
-          builder: (context) {
-            Future.delayed(          
-              Duration(seconds: 3), () {     
-                print('loaded in AUTH');
-                Navigator.push(
-                  context, 
-                  MaterialPageRoute(
-                    builder: (context) => Chats()
-                  )
-                );                                    
-              }
-            );                        
-            return AlertDialog(
-              title: Text('Загрузка чатов...'),
-            );
-          }
-        );
+        // showDialog(
+        //   context: context,     
+        //   builder: (context) {
+        //     Future.delayed(          
+        //       Duration(seconds: 3), () {     
+        //         // print('loaded in AUTH');
+        //         Navigator.push(
+        //           context, 
+        //           MaterialPageRoute(
+        //             builder: (context) => Chats()
+        //           )
+        //         );                                    
+        //       }
+        //     );                        
+        //     return AlertDialog(
+        //       title: Text('Загрузка чатов...'),
+        //     );
+        //   }
+        // );
       },
       child: Text(
         Strings.signIn, 

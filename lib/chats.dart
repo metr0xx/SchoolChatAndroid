@@ -9,46 +9,45 @@ import 'profile.dart';
 import 'socket_io_manager.dart';
 import 'models.dart';
 import 'dart:math';
+import 'dart:io';
 // import 'package:hexcolor/hexcolor.dart';
 
 var chatDatas = [];
 var addedNames = [];
 
-bool loaded = false;
-void fillChats2(var incomming) {
-  var chatinfo = incomming['chat'];
-  var lastmsg = incomming['last_msg'];
-  bool noSame = true;
-  print(chatinfo);
-  for (int i = 0; i < chatDatas.length; i++) {
-    if (chatDatas[i].id == chatinfo['id'] ||
-        chatDatas[i].name == chatinfo['name']) {
-      noSame = false;
-      break;
-    }
-  }
-  if (noSame) {
-    chatDatas.add(Chat(
-        int.parse(chatinfo['id']),
-        chatinfo['name'],
-        chatinfo['users'],
-        chatinfo['admins'],
-        int.parse(chatinfo['creator']),
-        chatinfo['pic'],
-        lastmsg['text'],
-        lastmsg['time'],
-        int.parse(lastmsg['user_id'])));
-  }
-  loaded = true;
-  print('loaded!');
-}
+// void fillChats2(var incomming) {
+//   var chatinfo = incomming['chat'];
+//   var lastmsg = incomming['last_msg'];
+//   bool noSame = true;
+//   print(chatinfo);
+//   for (int i = 0; i < chatDatas.length; i++) {
+//     if (chatDatas[i].id == chatinfo['id'] ||
+//         chatDatas[i].name == chatinfo['name']) {
+//       noSame = false;
+//       break;
+//     }
+//   }
+//   if (noSame) {
+//     chatDatas.add(Chat(
+//         int.parse(chatinfo['id']),
+//         chatinfo['name'],
+//         chatinfo['users'],
+//         chatinfo['admins'],
+//         int.parse(chatinfo['creator']),
+//         chatinfo['pic'],
+//         lastmsg['text'],
+//         lastmsg['time'],
+//         int.parse(lastmsg['user_id'])));
+//   }
+//   update();
+// }
 
-void fillChats(var chatinfo) {
-  print(chatinfo);
-  for (int o = 0; o < chatinfo.length; o++) {
-    request_chat_data_for_preview(int.parse(chatinfo[o]));
-  }
-}
+// void fillChats(var chatinfo) {
+//   print(chatinfo);
+//   for (int o = 0; o < chatinfo.length; o++) {
+//     request_chat_data_for_preview(int.parse(chatinfo[o]));
+//   }
+// }
 
 String textForChatIcon(String text) {
   String result = '';
@@ -66,8 +65,56 @@ String textForChatIcon(String text) {
   return result;
 }
 
-class Chats extends StatelessWidget {
+class Chats extends StatefulWidget {
   @override
+  Chats();
+  State<StatefulWidget> createState() {
+    return ChatsState();
+  }
+}
+
+class ChatsState extends State<Chats> {
+  @override
+  void update() {
+    setState(() {});
+  }
+
+  void fillChats2(var incomming) {
+    var chatinfo = incomming['chat'];
+    var lastmsg = incomming['last_msg'];
+    bool noSame = true;
+    print(chatinfo);
+    var chatDatasOld = chatDatas;
+    for (int i = 0; i < chatDatas.length; i++) {
+      if (chatDatas[i].id == chatinfo['id'] ||
+          chatDatas[i].name == chatinfo['name']) {
+        noSame = false;
+        break;
+      }
+    }
+    if (noSame) {
+      chatDatas.add(Chat(
+          int.parse(chatinfo['id']),
+          chatinfo['name'],
+          chatinfo['users'],
+          chatinfo['admins'],
+          int.parse(chatinfo['creator']),
+          chatinfo['pic'],
+          lastmsg['text'],
+          lastmsg['time'],
+          int.parse(lastmsg['user_id'])));
+    }
+    update();
+    sleep(Duration(milliseconds: 300));
+  }
+
+  void fillChats(var chatinfo) {
+    print(chatinfo);
+    for (int o = 0; o < chatinfo.length; o++) {
+      request_chat_data_for_preview(int.parse(chatinfo[o]));
+    }
+  }
+
   Text smallclear = Text(
     '',
     style: TextStyle(fontSize: 6),
@@ -316,22 +363,22 @@ class Chats extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => ChatView(chatDatas[i].id)));
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        // print(messages);
-                        Future.delayed(Duration(seconds: 3), () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ChatView(chatDatas[i].id),
-                              ));
-                        });
+                  // showDialog(
+                  //     context: context,
+                  //     builder: (context) {
+                  print(messages);
+                  // Future.delayed(Duration(seconds: 3), () {
+                  //   Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => ChatView(chatDatas[i].id),
+                  //       ));
+                  // });
 
-                        return AlertDialog(
-                          title: Text('Загрузка сообщений...'),
-                        );
-                      });
+                  //   return AlertDialog(
+                  //     title: Text('Загрузка сообщений...'),
+                  //   );
+                  // });
                 },
                 child: Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -348,9 +395,8 @@ class Chats extends StatelessWidget {
                           children: <Widget>[
                             Container(
                                 padding: EdgeInsets.only(top: 17, left: 2),
-
-                                // ignore: todo
                                 child: Text(
+                                  // ignore: todo
                                   //TODO Center(child: Text(..............))
                                   textForChatIcon(chatDatas[i].name),
                                   style: TextStyle(

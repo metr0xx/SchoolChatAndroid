@@ -23,3 +23,18 @@ class Chat {
   String? last_msg_time;
   Chat(this.id, this.name, this.users, this.admins, this.creator, this.picture_url, this.last_msg_text, this.last_msg_time, this.last_msg_user);
 }
+class User{
+  int id = 0;
+  String name = "";
+  String? surname;
+  int? school_id;
+  int? class_id;
+  String? email;
+  String? phone;
+  String? avatar;
+  User(this.id, this.name, this.surname, this.school_id, this.class_id, this.email, this.phone, this.avatar);
+}
+
+var currentuser = User(2, "Konstantin", "Leonov", 4, 4, "aboba@aboba.com", "88005553535", "");
+
+
