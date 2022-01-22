@@ -21,6 +21,7 @@ class ChatViewState extends State<ChatView> {
   @override
   int? id;
   int updCount = 0;
+  var ShouldUpdate = true;
   void update() {
     setState(() {});
   }
@@ -75,7 +76,10 @@ class ChatViewState extends State<ChatView> {
     print(messages);
     print(MessagesSize);
     recieve_chat_msgs(get_message);
-    requestChatMsgs(2, id!);
+    if (ShouldUpdate) {
+      requestChatMsgs(2, id!);
+      ShouldUpdate = false;
+    }
 
     // Column createMsgs() {
     //   Column columnOfMessages = Column(children: <Widget>[]);
