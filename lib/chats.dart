@@ -1,16 +1,13 @@
 // ignore_for_file: prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables, non_constant_identifier_names, prefer_equal_for_default_values
 
-import 'dart:ui';
-import 'auth.dart';
 import 'package:flutter/material.dart';
 import 'Strings.dart';
 import 'chatView.dart';
 import 'profile.dart';
 import 'socket_io_manager.dart';
 import 'models.dart';
-import 'dart:math';
-import 'dart:io';
 import 'dateformat.dart';
+import 'cutLastMsg.dart';
 // import 'package:hexcolor/hexcolor.dart';
 
 var chatDatas = [];
@@ -72,7 +69,7 @@ class ChatsState extends State<Chats> {
           lastmsg['text'],
           lastmsg['time'],
           int.parse(lastmsg['user_id'])));
-          update();
+      update();
     }
   }
 
@@ -315,7 +312,6 @@ class ChatsState extends State<Chats> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[msgs, profile]));
 
-
     if (ShouldUpdate) {
       get_chat_ids(2);
       ShouldUpdate = false;
@@ -337,69 +333,69 @@ class ChatsState extends State<Chats> {
                           builder: (context) => ChatView(chatDatas[i].id)));
                   print(messages);
                 },
-                child: Row(
-                
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(),
-                        height: 70,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Stack(
-                          children: <Widget>[
-                            Container(
-                                padding: EdgeInsets.only(top: 17, left: 2),
-                                child: Text(
-                                  // ignore: todo
-                                  //TODO Center(child: Text(..............))
-                                  textForChatIcon(chatDatas[i].name),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 34,
-                                  ),
-                                ))
-                          ],
-                        ),
-                      ),
-                      (Row(
-                          children: <Widget>[
-                            Container(
-                                padding: EdgeInsets.only(left: 35),
-                                child: Column(children: <Widget>[
-                                  smallclear,
-                                  (Align(
-                                    child: Text(
-                                      chatDatas[i].name,
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    alignment: Alignment.topCenter,
-                                  )),
-                                  Container(
-                                    padding: EdgeInsets.only(top: 23),
-                                    child: Text(
-                                      chatDatas[i].last_msg_text,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  )
-                                ])),
-                            Container(
-                                padding: EdgeInsets.only(bottom: 45, left: 50),
-                                child: Text(formatDate(chatDatas[i].last_msg_time),
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                    )))
-                          ]))
-                    ])));
+                child: Row(children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(),
+                    height: 70,
+                    width: 70,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                            padding: EdgeInsets.only(top: 17, left: 2),
+                            child: Text(
+                              // ignore: todo
+                              //TODO Center(child: Text(..............))
+                              textForChatIcon(chatDatas[i].name),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 34,
+                              ),
+                            ))
+                      ],
+                    ),
+                  ),
+                  (Row(children: <Widget>[
+                    Container(
+                        padding: EdgeInsets.only(left: 35),
+                        child: Column(children: <Widget>[
+                          // smallclear,
+                          (Container(
+                            padding: EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              chatDatas[i].name,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            // alignment: Alignment.centerRight,
+                          )),
+                          Container(
+                            padding: EdgeInsets.only(top: 23),
+                            child: Text(
+                              cutLastMsg(chatDatas[i].last_msg_text),
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                            ),
+                          )
+                        ])),
+                    Container(
+                        padding: EdgeInsets.only(bottom: 45),
+                        child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(formatDate(chatDatas[i].last_msg_time),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                ))))
+                  ]))
+                ])));
         columnOfChats.children.add(chat);
       }
       return columnOfChats;
