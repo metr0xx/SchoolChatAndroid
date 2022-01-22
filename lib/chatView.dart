@@ -14,7 +14,6 @@ class ChatView extends StatefulWidget {
 
 var MessagesSize = ValueNotifier<int>(0);
 
-// List allMsgs = [];
 List messages = [];
 bool changed = false;
 Column msgRows = Column();
