@@ -79,7 +79,7 @@ class ChatsState extends State<Chats> {
     setState(() {});
   }
 
-  var called = false;
+  var ShouldUpdate = true;
 
   void fillChats2(var incomming) {
     var chatinfo = incomming['chat'];
@@ -349,9 +349,9 @@ class ChatsState extends State<Chats> {
             children: <Widget>[msgs, profile]));
 
 
-    if (!called) {
+    if (ShouldUpdate) {
       get_chat_ids(2);
-      called = true;
+      ShouldUpdate = false;
     }
     react_chats(fillChats);
     recieve_chats(fillChats2);
