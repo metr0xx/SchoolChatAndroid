@@ -79,6 +79,8 @@ class ChatsState extends State<Chats> {
     setState(() {});
   }
 
+  var called = false;
+
   void fillChats2(var incomming) {
     var chatinfo = incomming['chat'];
     var lastmsg = incomming['last_msg'];
@@ -103,9 +105,8 @@ class ChatsState extends State<Chats> {
           lastmsg['text'],
           lastmsg['time'],
           int.parse(lastmsg['user_id'])));
+          update();
     }
-    update();
-    sleep(Duration(milliseconds: 300));
   }
 
   void fillChats(var chatinfo) {
@@ -347,7 +348,11 @@ class ChatsState extends State<Chats> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[msgs, profile]));
 
-    get_chat_ids(2);
+
+    if (!called) {
+      get_chat_ids(2);
+      called = true;
+    }
     react_chats(fillChats);
     recieve_chats(fillChats2);
 
