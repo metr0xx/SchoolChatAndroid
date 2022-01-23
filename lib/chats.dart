@@ -40,7 +40,9 @@ class Chats extends StatefulWidget {
 class ChatsState extends State<Chats> {
   @override
   void update() {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   var ShouldUpdate = true;
@@ -331,6 +333,7 @@ class ChatsState extends State<Chats> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => ChatView(chatDatas[i].id)));
+
                   print(chatDatas[i].id);
                 },
                 child: Row(children: <Widget>[

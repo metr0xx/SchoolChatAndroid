@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, file_names, must_be_immutable, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, file_names, must_be_immutable, prefer_const_literals_to_create_immutables, no_logic_in_create_state
 import 'package:flutter/material.dart';
 import 'socket_io_manager.dart';
 import 'models.dart';
@@ -10,6 +10,8 @@ class ChatView extends StatefulWidget {
   int? id;
   ChatView(this.id);
   State<StatefulWidget> createState() {
+    print("ID in chatview");
+    print(id);
     return ChatViewState(id);
   }
 }
@@ -27,15 +29,17 @@ class ChatViewState extends State<ChatView> {
   int updCount = 0;
   var ShouldUpdate = true;
   void update() {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
+  @override
   Widget build(BuildContext context) {
     int lastSize = 0;
     void get_message(mass) {
       messages.clear();
       var data = mass['data'];
-
       for (int o = 0; o < data.length; o++) {
         // if (data[o]["chat_id"] == 2) {
         print("ID:");
@@ -51,9 +55,9 @@ class ChatViewState extends State<ChatView> {
             data[o]["edited"],
             data[o]["service"],
             data[o]["updatedAt"]));
+        update();
         // }
         lastSize = messages.length;
-
         MessagesSize = ValueNotifier<int>(messages.length);
       } // print(data[o]);
       Column createMsgs() {
@@ -61,6 +65,7 @@ class ChatViewState extends State<ChatView> {
         for (int i = 0; i < messages.length; i++) {
           print("vnizu MSG");
           print(messages[i].text);
+          if (messages[i].user_id == currentuser.id) {}
           Container msg = Container(
               child: createMsgView(messages[i].text, messages[i].updatedAt));
           columnOfMessages.children.add(msg);
@@ -94,6 +99,5 @@ class ChatViewState extends State<ChatView> {
                     children: <Widget>[msgRows] //[msgRows],      //child: test,
                     ))));
   }
-
   // ChatViewState(this.id);
 }
