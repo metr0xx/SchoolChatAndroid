@@ -332,7 +332,7 @@ class ChatsState extends State<Chats> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ChatView(chatDatas[i].id)));
+                          builder: (context) => ChatView(chatDatas[i].id, chatDatas[i].name)));
 
                   print(chatDatas[i].id);
                 },

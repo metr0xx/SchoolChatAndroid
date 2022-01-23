@@ -2,10 +2,21 @@
 
 import 'package:flutter/material.dart';
 import 'dateformat.dart';
+import 'chatView.dart';
+
+Color color = Color(0x0fffffff);
 Card createMsgView(msg, time) {
+  if (curruser) {
+    // color = Color(0x0f1c45d6);
+    color = Colors.blue;
+  }
+  else {
+    // color = Color(0x0f656b80);
+    color = Colors.grey;
+  }
   
 Card messageView = Card(
-  color: Colors.greenAccent[400],
+  color: color,
   child: Stack(
     children: <Widget>[
       Padding(
@@ -16,7 +27,7 @@ Card messageView = Card(
           //real message
           TextSpan(
             text: msg + "  ",
-            style: TextStyle(color: Colors.black)
+            style: TextStyle(color: Colors.white)
           ),   
           TextSpan(
               text: formatDate(time),

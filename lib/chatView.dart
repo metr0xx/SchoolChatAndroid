@@ -4,15 +4,17 @@ import 'socket_io_manager.dart';
 import 'models.dart';
 import 'dart:io';
 import 'msg.dart';
+import 'chats.dart';
 
 class ChatView extends StatefulWidget {
   @override
   int? id;
-  ChatView(this.id);
+  String name = "";
+  ChatView(this.id, this.name);
   State<StatefulWidget> createState() {
     print("ID in chatview");
     print(id);
-    return ChatViewState(id);
+    return ChatViewState(id, name);
   }
 }
 
@@ -20,11 +22,16 @@ var MessagesSize = ValueNotifier<int>(0);
 
 List messages = [];
 Column msgRows = Column();
+bool curruser = true;
 
 class ChatViewState extends State<ChatView> {
   @override
   int? id;
-  ChatViewState(this.id);
+  String name = "";
+  double x = 0.0;
+  double y = 0.0;
+  Color color = Color(0x0fffffff);
+  ChatViewState(this.id, this.name);
   // ChatViewState(this.id);
   int updCount = 0;
   var ShouldUpdate = true;
@@ -65,9 +72,26 @@ class ChatViewState extends State<ChatView> {
         for (int i = 0; i < messages.length; i++) {
           print("vnizu MSG");
           print(messages[i].text);
-          if (messages[i].user_id == currentuser.id) {}
-          Container msg = Container(
-              child: createMsgView(messages[i].text, messages[i].updatedAt));
+
+          if (messages[i].user_id == currentuser.id) {
+            x = 1.0;
+            y = -1.0;
+            curruser = true;
+            color = Color(0x0f4d76ff);
+          }
+          else {
+            x = -1.0;
+            y = -1.0;
+            curruser = false;
+            color = Color(0x0f656b80);
+          }
+          
+          Align msg = Align( 
+            alignment: Alignment(x, y),
+            
+            child: Container(
+              color: color,
+              child: createMsgView(messages[i].text, messages[i].updatedAt)));
           columnOfMessages.children.add(msg);
         }
         return columnOfMessages;
@@ -87,17 +111,65 @@ class ChatViewState extends State<ChatView> {
       requestChatMsgs(2, id!);
       ShouldUpdate = false;
     }
+
+    Row chaticon = Row(
+      children: <Widget> [
+        Container(
+        padding: EdgeInsets.only(),
+        height: 48,
+        width: 48,
+        decoration: BoxDecoration(
+          color: Colors.green,
+          shape: BoxShape.circle,
+        ),
+        child: Stack(
+          children: <Widget>[
+            Container(
+                padding: EdgeInsets.only(top: 17, left: 2),
+                child: Text(
+                  textForChatIcon(name),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                  ),
+                ))
+          ],
+        ),
+      ),
+      Text(name, style: TextStyle(fontSize: 18, color: Colors.black))]);
+    TextButton back = TextButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Row(children: <Widget>[
+          (Icon(Icons.arrow_back_rounded, size: 25, color: Colors.blue[400])),
+          (Text(
+            'Назад',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.blue[400],
+            ),
+          ))
+        ]));
+    
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.white,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[back, chaticon],)
             ),
-            body: Container(
+            body: ListView(
+              children: <Widget>[Container(
                 color: Colors.white,
                 alignment: FractionalOffset(0.5, 0.2),
                 child: Column(
                     children: <Widget>[msgRows] //[msgRows],      //child: test,
-                    ))));
-  }
-  // ChatViewState(this.id);
+                    )
+                  )])
+                )
+              );
+  
+}
 }
