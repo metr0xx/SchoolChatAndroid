@@ -18,20 +18,28 @@ var MessagesSize = ValueNotifier<int>(0);
 
 List messages = [];
 Column msgRows = Column();
+
 class ChatViewState extends State<ChatView> {
   @override
   int? id;
+  ChatViewState(this.id);
+  // ChatViewState(this.id);
   int updCount = 0;
   var ShouldUpdate = true;
   void update() {
     setState(() {});
   }
+
   Widget build(BuildContext context) {
     int lastSize = 0;
     void get_message(mass) {
       messages.clear();
       var data = mass['data'];
+
       for (int o = 0; o < data.length; o++) {
+        // if (data[o]["chat_id"] == 2) {
+        print("ID:");
+        print(id);
         messages.add(Message(
             int.parse(data[o]["id"]),
             int.parse(data[o]["chat_id"]),
@@ -43,8 +51,9 @@ class ChatViewState extends State<ChatView> {
             data[o]["edited"],
             data[o]["service"],
             data[o]["updatedAt"]));
+        // }
         lastSize = messages.length;
-        
+
         MessagesSize = ValueNotifier<int>(messages.length);
       } // print(data[o]);
       Column createMsgs() {
@@ -53,14 +62,14 @@ class ChatViewState extends State<ChatView> {
           print("vnizu MSG");
           print(messages[i].text);
           Container msg = Container(
-              child: createMsgView(messages[i].text, messages[i].updatedAt)
-          );
+              child: createMsgView(messages[i].text, messages[i].updatedAt));
           columnOfMessages.children.add(msg);
         }
         return columnOfMessages;
       }
+
       msgRows = createMsgs();
-      update();  
+      update();
       // String tt = messages[0].updatedAt;
       // print(tt);
     }
@@ -85,5 +94,6 @@ class ChatViewState extends State<ChatView> {
                     children: <Widget>[msgRows] //[msgRows],      //child: test,
                     ))));
   }
-  ChatViewState(this.id);
+
+  // ChatViewState(this.id);
 }

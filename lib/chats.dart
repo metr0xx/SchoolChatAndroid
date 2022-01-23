@@ -15,15 +15,15 @@ var addedNames = [];
 
 String textForChatIcon(String text) {
   String result = '';
-  result += text[0];
-  result += text[1];
+  result += text[0].toUpperCase();
+  result += text[1].toUpperCase();
   if (text.length >= 4) {
     if (text[4] != '') {
       result += text[4].toUpperCase();
     }
   } else if (text.length >= 3) {
     if (text[2] != '') {
-      result += text[2];
+      result += text[2].toUpperCase();
     }
   }
   return result;
@@ -331,7 +331,7 @@ class ChatsState extends State<Chats> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => ChatView(chatDatas[i].id)));
-                  print(messages);
+                  print(chatDatas[i].id);
                 },
                 child: Row(children: <Widget>[
                   Container(

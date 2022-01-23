@@ -1,11 +1,16 @@
 String cutLastMsg(String lastmsg) {
   String result = lastmsg;
   if (lastmsg.length >= 20) {
-    result = lastmsg.substring(0, 16) + '...';
-  } else {
-    while (result.length != 20) {
-      result += ' ';
-    }
+    return lastmsg.substring(0, 16) + '...';
   }
-  return result;
+
+  while (result.length != 40) {
+    result += ' ';
+  }
+  print(result.length);
+  return result.substring(0, 16);
+}
+
+String alignChatName(String name) {
+  return '';
 }
