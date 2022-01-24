@@ -50,8 +50,8 @@ class ChatViewState extends State<ChatView> {
       print(mass);
       messages.add(Message(
           int.parse(mass["id"]),
-          int.parse(mass["chat_id"]),
-          int.parse(mass["user_id"]),
+          mass["chat_id"],
+          mass["user_id"],
           mass["text"],
           mass["attachments"],
           mass["deleted_all"],
@@ -59,9 +59,7 @@ class ChatViewState extends State<ChatView> {
           mass["edited"],
           mass["service"],
           mass["updatedAt"]));
-      if (mounted) {
         update();
-      }
     }
 
     void get_message(mass) {
