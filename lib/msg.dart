@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'dateformat.dart';
 import 'chatView.dart';
@@ -14,13 +13,18 @@ Container createMsgView(msg, time) {
     color = Colors.grey;
   }
   Container messageView = Container(
-      // height: ,
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(50))),
       child: Padding(
           padding: EdgeInsets.all(0.0),
           child: ButtonTheme(
               // height: 1,
-              child: TextButton(
-            onPressed: () {},
+              child: GestureDetector(
+            onLongPress: () {
+              print("PRESSED");
+            },
+            // onLongPress: () {},
+            // onPressed: () {},
             child: Card(
                 color: color,
                 child: Stack(

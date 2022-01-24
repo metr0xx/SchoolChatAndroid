@@ -90,7 +90,7 @@ class ChatsState extends State<Chats> {
           lastmsg['text'],
           lastmsg['time'],
           int.parse(lastmsg['user_id'])));
-        update();
+      update();
     }
   }
 
@@ -152,6 +152,7 @@ class ChatsState extends State<Chats> {
         currNames.add(addedNames[i]);
       }
     }
+    ScrollController _scrollController = ScrollController();
     print('ПЕРВЫЙ chatDatas:');
     print(chatDatas);
     print(
@@ -354,6 +355,9 @@ class ChatsState extends State<Chats> {
                       MaterialPageRoute(
                           builder: (context) =>
                               ChatView(chatDatas[i].id, chatDatas[i].name)));
+                  // _scrollController.animateTo(0.0,
+                  //     curve: Curves.easeOut,
+                  //     duration: const Duration(milliseconds: 300));
 
                   print(chatDatas[i].id);
                 },
@@ -439,12 +443,18 @@ class ChatsState extends State<Chats> {
                 backgroundColor: Color(0xFF1c061c),
               ),
             ),
-            body: Container(
+            body: ListView(
                 //color: Color(0xFF1c1a1c),
-                color: Colors.white,
-                alignment: FractionalOffset(0.5, 0.2),
-                child: Column(children: <Widget>[
-                  chatRows,
-                ]))));
+                controller: _scrollController,
+                reverse: true,
+                shrinkWrap: true,
+                children: <Widget>[
+                  Container(
+                      color: Colors.white,
+                      alignment: FractionalOffset(0.5, 0.2),
+                      child: Column(children: <Widget>[
+                        chatRows,
+                      ]))
+                ])));
   }
 }
