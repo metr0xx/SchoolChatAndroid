@@ -67,10 +67,10 @@ class ChatsState extends State<Chats> {
   var ShouldUpdate = true;
 
   void fillChats2(var incomming) {
+    print(incomming);
     var chatinfo = incomming['chat'];
     var lastmsg = incomming['last_msg'];
     bool noSame = true;
-    print(chatinfo);
     var chatDatasOld = chatDatas;
     for (int i = 0; i < chatDatas.length; i++) {
       if (chatDatas[i].id == chatinfo['id'] ||
@@ -90,14 +90,15 @@ class ChatsState extends State<Chats> {
           lastmsg['text'],
           lastmsg['time'],
           int.parse(lastmsg['user_id'])));
-      update();
+        update();
     }
   }
 
   void fillChats(var chatinfo) {
     print(chatinfo);
     for (int o = 0; o < chatinfo.length; o++) {
-      fillChats2(chatinfo[0]);
+      fillChats2(chatinfo[o]);
+      print("proshlo");
     }
   }
 
