@@ -97,7 +97,7 @@ class ChatsState extends State<Chats> {
   void fillChats(var chatinfo) {
     print(chatinfo);
     for (int o = 0; o < chatinfo.length; o++) {
-      request_chat_data_for_preview(int.parse(chatinfo[o]));
+      fillChats2(chatinfo[0]);
     }
   }
 

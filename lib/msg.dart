@@ -5,44 +5,47 @@ import 'dateformat.dart';
 import 'chatView.dart';
 
 Color color = Color(0x0fffffff);
-Card createMsgView(msg, time) {
+Container createMsgView(msg, time) {
   if (curruser) {
     // color = Color(0x0f1c45d6);
     color = Colors.blue;
-  }
-  else {
+  } else {
     // color = Color(0x0f656b80);
     color = Colors.grey;
   }
-  
-Card messageView = Card(
-  color: color,
-  child: Stack(
-    children: <Widget>[
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: RichText(
-          text: TextSpan(style: TextStyle(),
-            children: <TextSpan>[
-          //real message
-          TextSpan(
-            text: msg + "  ",
-            style: TextStyle(color: Colors.white)
-          ),   
-          TextSpan(
-              text: formatDate(time),
-              style: TextStyle(
-                  // color: Color.fromRGBO(255, 255, 255, 1)
-                  color: Colors.black54
-              )
-          ),
-        ],
-      ),
-    ),
-  ),
-
-  ],
-  ),
-  );
+  Container messageView = Container(
+      // height: ,
+      child: Padding(
+          padding: EdgeInsets.all(0.0),
+          child: ButtonTheme(
+              // height: 1,
+              child: TextButton(
+            onPressed: () {},
+            child: Card(
+                color: color,
+                child: Stack(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(11.0),
+                      child: RichText(
+                        text: TextSpan(
+                          style: TextStyle(),
+                          children: <TextSpan>[
+                            //real message
+                            TextSpan(
+                                text: msg + "  ",
+                                style: TextStyle(color: Colors.white)),
+                            TextSpan(
+                                text: formatDate(time),
+                                style: TextStyle(
+                                    // color: Color.fromRGBO(255, 255, 255, 1)
+                                    color: Colors.black54)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+          ))));
   return messageView;
 }
