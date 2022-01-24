@@ -78,20 +78,19 @@ class ChatViewState extends State<ChatView> {
             y = -1.0;
             curruser = true;
             color = Color(0x0f4d76ff);
-          }
-          else {
+          } else {
             x = -1.0;
             y = -1.0;
             curruser = false;
             color = Color(0x0f656b80);
           }
-          
-          Align msg = Align( 
-            alignment: Alignment(x, y),
-            
-            child: Container(
-              color: color,
-              child: createMsgView(messages[i].text, messages[i].updatedAt)));
+
+          Align msg = Align(
+              alignment: Alignment(x, y),
+              child: Container(
+                  color: color,
+                  child:
+                      createMsgView(messages[i].text, messages[i].updatedAt)));
           columnOfMessages.children.add(msg);
         }
         return columnOfMessages;
@@ -112,9 +111,8 @@ class ChatViewState extends State<ChatView> {
       ShouldUpdate = false;
     }
 
-    Row chaticon = Row(
-      children: <Widget> [
-        Container(
+    Row chaticon = Row(children: <Widget>[
+      Container(
         padding: EdgeInsets.only(),
         height: 48,
         width: 48,
@@ -125,18 +123,21 @@ class ChatViewState extends State<ChatView> {
         child: Stack(
           children: <Widget>[
             Container(
-                padding: EdgeInsets.only(top: 17, left: 2),
-                child: Text(
+                // padding: EdgeInsets.only(top: 17, left: 4),
+                padding: EdgeInsets.all(5),
+                child: Center(
+                    child: Text(
                   textForChatIcon(name),
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 22,
+                    fontSize: 25,
                   ),
-                ))
+                )))
           ],
         ),
       ),
-      Text(name, style: TextStyle(fontSize: 18, color: Colors.black))]);
+      Text(name, style: TextStyle(fontSize: 18, color: Colors.black))
+    ]);
     TextButton back = TextButton(
         onPressed: () {
           Navigator.pop(context);
@@ -144,32 +145,62 @@ class ChatViewState extends State<ChatView> {
         child: Row(children: <Widget>[
           (Icon(Icons.arrow_back_rounded, size: 25, color: Colors.blue[400])),
           (Text(
-            'Назад',
+            '  Чаты  ',
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 17,
               color: Colors.blue[400],
             ),
           ))
         ]));
-    
+    TextButton sendmsg = TextButton(
+      onPressed: () {},
+      child: Icon(
+        Icons.send,
+        color: Colors.blue[400],
+        size: 30,
+      ),
+    );
+    Container entermsg = Container(
+        width: 290,
+        child: TextField(
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintStyle: TextStyle(
+              color: Colors.black,
+            ),
+            hintText: 'Сообщение',
+            fillColor: Colors.grey,
+            filled: true,
+          ),
+        ));
+    Align bottom = Align(
+        alignment: Alignment.bottomCenter,
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[entermsg, sendmsg]));
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.white,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[back, chaticon],)
+                backgroundColor: Colors.white,
+                title: Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[back, chaticon],
+                )),
+            bottomSheet: Container(
+              height: kToolbarHeight,
+              child: AppBar(
+                title: bottom,
+                backgroundColor: Colors.white,
+              ),
             ),
-            body: ListView(
-              children: <Widget>[Container(
-                color: Colors.white,
-                alignment: FractionalOffset(0.5, 0.2),
-                child: Column(
-                    children: <Widget>[msgRows] //[msgRows],      //child: test,
-                    )
-                  )])
-                )
-              );
-  
-}
+            body: ListView(children: <Widget>[
+              Container(
+                  color: Colors.white,
+                  alignment: FractionalOffset(0.5, 0.2),
+                  child: Column(children: <Widget>[
+                    msgRows
+                  ] //[msgRows],      //child: test,
+                      ))
+            ])));
+  }
 }

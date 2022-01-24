@@ -15,19 +15,38 @@ var addedNames = [];
 
 String textForChatIcon(String text) {
   String result = '';
-  result += text[0].toUpperCase();
-  result += text[1].toUpperCase();
-  if (text.length >= 4) {
-    if (text[4] != '') {
-      result += text[4].toUpperCase();
+  // result += text[0].toUpperCase();
+  // result += text[1].toUpperCase();
+  // if (text.length >= 4) {
+  //   if (text[4] != '') {
+  //     result += text[4].toUpperCase();
+  //   }
+  // } else if (text.length >= 3) {
+  //   if (text[2] != '') {
+  //     result += text[2].toUpperCase();
+  //   }
+  // }
+
+  if (text.split(" ").length >= 2) {
+    try {
+      result += int.parse(text.split(" ")[0][0]).toString();
+      try {
+        result += int.parse(text.split(" ")[0][1]).toString();
+      } catch (e) {
+        pass();
+      }
+    } catch (e) {
+      result += text.split(" ")[0][0].toUpperCase();
+      result += text.split(" ")[1][0].toUpperCase();
     }
-  } else if (text.length >= 3) {
-    if (text[2] != '') {
-      result += text[2].toUpperCase();
-    }
+  }
+  if (text.split(" ").length == 1) {
+    result += text[0].toUpperCase();
   }
   return result;
 }
+
+void pass() {}
 
 class Chats extends StatefulWidget {
   @override
@@ -332,7 +351,8 @@ class ChatsState extends State<Chats> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ChatView(chatDatas[i].id, chatDatas[i].name)));
+                          builder: (context) =>
+                              ChatView(chatDatas[i].id, chatDatas[i].name)));
 
                   print(chatDatas[i].id);
                 },
@@ -348,16 +368,15 @@ class ChatsState extends State<Chats> {
                     child: Stack(
                       children: <Widget>[
                         Container(
-                            padding: EdgeInsets.only(top: 17, left: 2),
-                            child: Text(
-                              // ignore: todo
-                              //TODO Center(child: Text(..............))
+                            padding: EdgeInsets.all(5),
+                            child: Center(
+                                child: Text(
                               textForChatIcon(chatDatas[i].name),
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 34,
+                                fontSize: 36,
                               ),
-                            ))
+                            )))
                       ],
                     ),
                   ),
