@@ -5,6 +5,7 @@ import 'models.dart';
 import 'dart:io';
 import 'msg.dart';
 import 'chats.dart';
+import 'dart:convert';
 
 class ChatView extends StatefulWidget {
   @override
@@ -46,6 +47,7 @@ class ChatViewState extends State<ChatView> {
     ScrollController _scrollController = ScrollController();
     int lastSize = 0;
     void new_message(mass) {
+      print(mass);
       messages.add(Message(
           int.parse(mass["id"]),
           int.parse(mass["chat_id"]),

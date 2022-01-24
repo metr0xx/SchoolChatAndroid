@@ -37,7 +37,7 @@ void observe_messages(Function callback) {
       "msg",
       (data) => {
             callback(data),
-            // print(data)
+            print(data)
           });
 }
 
