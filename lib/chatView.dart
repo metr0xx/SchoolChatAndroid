@@ -26,15 +26,13 @@ final List<String> popupRoutes = <String>[
   "Favorite Room 2"
 ];
 
-var MessagesSize = ValueNotifier<int>(0);
-
-List messages = [];
 Column msgRows = Column();
 bool curruser = true;
 
 class ChatViewState extends State<ChatView> {
   @override
   int? id;
+  List messages = [];
   String name = "";
   double x = 0.0;
   double y = 0.0;
@@ -156,7 +154,6 @@ class ChatViewState extends State<ChatView> {
     }
 
     ScrollController _scrollController = ScrollController();
-    int lastSize = 0;
     void new_message(mass) {
       print(mass);
       messages.add(Message(
@@ -174,28 +171,32 @@ class ChatViewState extends State<ChatView> {
     }
 
     void get_message(mass) {
-      messages.clear();
+      //messages.clear();
+      // print("id: ");
+      // print(id);
+      // if (id! != last_chat) {
+      //   last_chat = id!;
+      //   messages.clear();
+      // }
       var data = mass['data'];
-      for (int o = 0; o < data.length; o++) {
-        // if (data[o]["chat_id"] == 2) {
-        print("ID:");
-        print(id);
-        messages.add(Message(
-            int.parse(data[o]["id"]),
-            int.parse(data[o]["chat_id"]),
-            int.parse(data[o]["user_id"]),
-            data[o]["text"],
-            data[o]["attachments"],
-            data[o]["deleted_all"],
-            data[o]["deleted_user"],
-            data[o]["edited"],
-            data[o]["service"],
-            data[o]["updatedAt"]));
-        // update();
+      // if (data[o]["chat_id"] == 2) {
+      print("ID:");
+      print(id);
+      var newmsg = Message(
+          int.parse(data["id"]),
+          int.parse(data["chat_id"]),
+          int.parse(data["user_id"]),
+          data["text"],
+          data["attachments"],
+          data["deleted_all"],
+          data["deleted_user"],
+          data["edited"],
+          data["service"],
+          data["updatedAt"]);
+      messages.add(newmsg);
+      // update();
+      print(messages.length);
 
-        lastSize = messages.length;
-        MessagesSize = ValueNotifier<int>(messages.length);
-      } // print(data[o]);
       Column createMsgs() {
         Column columnOfMessages = Column(
           children: <Widget>[],
@@ -204,16 +205,23 @@ class ChatViewState extends State<ChatView> {
           print("vnizu MSG");
           print(messages[i].text);
 
-          if (messages[i].user_id == currentuser.id) {
-            x = 1.0;
-            y = -1.0;
-            curruser = true;
-            color = Color(0x0f4d76ff);
-          } else {
-            x = -1.0;
+          if (messages[i].service) {
+            x = 0.0;
             y = -1.0;
             curruser = false;
-            color = Color(0x0f656b80);
+            color = Color(0x0f2adb71);
+          } else {
+            if (messages[i].user_id == currentuser.id) {
+              x = 1.0;
+              y = -1.0;
+              curruser = true;
+              color = Color(0x0f4d76ff);
+            } else {
+              x = -1.0;
+              y = -1.0;
+              curruser = false;
+              color = Color(0x0f656b80);
+            }
           }
 
           Align msg = Align(
@@ -233,11 +241,11 @@ class ChatViewState extends State<ChatView> {
 
     print("vnizu messages");
     print(messages);
-    print(MessagesSize);
-    recieve_chat_msgs(get_message);
-    observe_messages(new_message);
+
     update();
     if (ShouldUpdate) {
+      recieve_chat_msgs(get_message);
+      observe_messages(new_message);
       requestChatMsgs(2, id!);
       ShouldUpdate = false;
     }
