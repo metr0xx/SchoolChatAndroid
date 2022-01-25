@@ -4,12 +4,20 @@ import 'dateformat.dart';
 import 'chatView.dart';
 
 Color color = Color(0x0fffffff);
-Container createMsgView(msg, time) {
+
+// DropdownButton<String> msgActions = DropdownButton<String>(
+//   items: <String>['A', 'B', 'C', 'D'].map((String value) {
+//     return DropdownMenuItem<String>(
+//       value: value,
+//       child: Text(value),
+//     );
+//   }).toList(),
+//   onChanged: (_) {},
+// );
+createMsgView(msg, time) {
   if (curruser) {
-    // color = Color(0x0f1c45d6);
     color = Colors.blue;
   } else {
-    // color = Color(0x0f656b80);
     color = Colors.grey;
   }
   Container messageView = Container(
@@ -21,10 +29,8 @@ Container createMsgView(msg, time) {
               // height: 1,
               child: GestureDetector(
             onLongPress: () {
-              print("PRESSED");
+              print("pressed");
             },
-            // onLongPress: () {},
-            // onPressed: () {},
             child: Card(
                 color: color,
                 child: Stack(

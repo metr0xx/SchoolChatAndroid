@@ -6,6 +6,7 @@ import 'dart:io';
 import 'msg.dart';
 import 'chats.dart';
 import 'dart:convert';
+import 'chatInfo.dart';
 
 class ChatView extends StatefulWidget {
   @override
@@ -18,6 +19,13 @@ class ChatView extends StatefulWidget {
     return ChatViewState(id, name);
   }
 }
+
+String selectedPopupRoute = "My Home";
+final List<String> popupRoutes = <String>[
+  "My Home",
+  "Favorite Room 1",
+  "Favorite Room 2"
+];
 
 var MessagesSize = ValueNotifier<int>(0);
 
@@ -59,7 +67,7 @@ class ChatViewState extends State<ChatView> {
           mass["edited"],
           mass["service"],
           mass["updatedAt"]));
-        update();
+      update();
     }
 
     void get_message(mass) {
@@ -80,7 +88,7 @@ class ChatViewState extends State<ChatView> {
             data[o]["edited"],
             data[o]["service"],
             data[o]["updatedAt"]));
-        update();
+        // update();
 
         lastSize = messages.length;
         MessagesSize = ValueNotifier<int>(messages.length);
@@ -118,11 +126,6 @@ class ChatViewState extends State<ChatView> {
 
       msgRows = createMsgs();
       update();
-      _scrollController.animateTo(0.0,
-          curve: Curves.easeOut, duration: const Duration(milliseconds: 0));
-
-      // String tt = messages[0].updatedAt;
-      // print(tt);
     }
 
     print("vnizu messages");
@@ -130,11 +133,11 @@ class ChatViewState extends State<ChatView> {
     print(MessagesSize);
     recieve_chat_msgs(get_message);
     observe_messages(new_message);
+    update();
     if (ShouldUpdate) {
       requestChatMsgs(2, id!);
       ShouldUpdate = false;
     }
-
     Row chaticon = Row(children: <Widget>[
       Container(
         padding: EdgeInsets.only(),
@@ -160,11 +163,21 @@ class ChatViewState extends State<ChatView> {
           ],
         ),
       ),
-      Text(name, style: TextStyle(fontSize: 18, color: Colors.black))
+      TextButton(
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ChatInfo(id)));
+          },
+          child: Container(
+              padding: EdgeInsets.only(left: 10),
+              child: Text(name,
+                  style: TextStyle(fontSize: 18, color: Colors.black))))
     ]);
+
     TextButton back = TextButton(
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Chats()));
         },
         child: Row(children: <Widget>[
           (Icon(Icons.arrow_back_rounded, size: 25, color: Colors.blue[400])),
@@ -234,18 +247,20 @@ class ChatViewState extends State<ChatView> {
                 backgroundColor: Colors.grey[350],
               ),
             ),
-            body: ListView(
-                controller: _scrollController,
-                reverse: true,
-                shrinkWrap: true,
-                children: <Widget>[
-                  Container(
-                      color: Colors.white,
-                      alignment: FractionalOffset(0.5, 0.2),
-                      child: Column(children: <Widget>[
-                        msgRows
-                      ] //[msgRows],      //child: test,
-                          ))
-                ])));
+            body: Container(
+                padding: EdgeInsets.only(bottom: 63),
+                child: ListView(
+                    controller: _scrollController,
+                    reverse: true,
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      Container(
+                          color: Colors.white,
+                          alignment: FractionalOffset(0.5, 0.2),
+                          child: Column(children: <Widget>[
+                            msgRows
+                          ] //[msgRows],      //child: test,
+                              ))
+                    ]))));
   }
 }

@@ -51,7 +51,11 @@ String formatDate(String unformatted) {
   Duration difference = today.difference(time);
 
   if (difference.compareTo(oneDay) < 1) {
-    return "Сегодня";
+    // return "Сегодня";
+    if (time.minute.toString().length == 1) {
+      return time.hour.toString() + ":" + "0" + time.minute.toString();
+    }
+    return time.hour.toString() + ":" + time.minute.toString();
   } else if (difference.compareTo(twoDay) < 1) {
     return "Вчера";
   } else if (difference.compareTo(oneWeek) < 1) {
