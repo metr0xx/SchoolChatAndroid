@@ -182,7 +182,7 @@ class ChatViewState extends State<ChatView> {
       // if (data[o]["chat_id"] == 2) {
       print("ID:");
       print(id);
-      messages.add(Message(
+      var newmsg = Message(
           int.parse(data["id"]),
           int.parse(data["chat_id"]),
           int.parse(data["user_id"]),
@@ -192,7 +192,8 @@ class ChatViewState extends State<ChatView> {
           data["deleted_user"],
           data["edited"],
           data["service"],
-          data["updatedAt"]));
+          data["updatedAt"]);
+      messages.add(newmsg);
       // update();
       print(messages.length);
 
