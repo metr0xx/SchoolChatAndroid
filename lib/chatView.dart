@@ -1,12 +1,11 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, file_names, must_be_immutable, prefer_const_literals_to_create_immutables, no_logic_in_create_state
 import 'package:flutter/material.dart';
+import 'dateformat.dart';
 import 'socket_io_manager.dart';
 import 'models.dart';
-import 'dart:io';
-import 'msg.dart';
 import 'chats.dart';
-import 'dart:convert';
 import 'chatInfo.dart';
+// import 'package:contextmenu/context/menu.dart';
 
 class ChatView extends StatefulWidget {
   @override
@@ -52,6 +51,110 @@ class ChatViewState extends State<ChatView> {
 
   @override
   Widget build(BuildContext context) {
+    // ContextMenuArea contextmenu() {
+    //   return ContextMenuArea(
+    //     items: [
+    //       ListTile(
+    //         title: Text('Option 1'),
+    //         onTap: () {
+    //           Navigator.of(context).pop();
+    //           ScaffoldMessenger.of(context).showSnackBar(
+    //             SnackBar(
+    //               content: Text('Whatever'),
+    //             ),
+    //           );
+    //         },
+    //       ),
+    //       ListTile(
+    //         leading: Icon(Icons.model_training),
+    //         title: Text('Option 2'),
+    //         onTap: () {
+    //           Navigator.of(context).pop();
+    //           ScaffoldMessenger.of(context).showSnackBar(
+    //             SnackBar(
+    //               content: Text('Foo!'),
+    //             ),
+    //           );
+    //         },
+    //       )
+    //     ],
+    //     child: Card(
+    //       color: Theme.of(context).primaryColor,
+    //       child: Center(
+    //         child: Text(
+    //           'Press somewhere for context menu.',
+    //           style: TextStyle(
+    //             color: Theme.of(context).colorScheme.onPrimary,
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   );
+    // }
+
+    createMsgView(msg, time) {
+      if (curruser) {
+        color = Colors.blue;
+      } else {
+        color = Colors.grey;
+      }
+      Container messageView = Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(50))),
+          child: Padding(
+              padding: EdgeInsets.all(0.0),
+              child: ButtonTheme(
+                  // height: 1,
+                  child: GestureDetector(
+                onLongPress: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Dialog(
+                            backgroundColor: Color(0xFF1c1a1c),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                              side: BorderSide(width: 2, color: Colors.red),
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height / 9,
+                                )));
+                      });
+                  print("pressed");
+                },
+                child: Card(
+                    color: color,
+                    child: Stack(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(11.0),
+                          child: RichText(
+                            text: TextSpan(
+                              style: TextStyle(),
+                              children: <TextSpan>[
+                                //real message
+                                TextSpan(
+                                    text: msg + "  ",
+                                    style: TextStyle(color: Colors.white)),
+                                TextSpan(
+                                    text: formatDate(time),
+                                    style: TextStyle(
+                                        // color: Color.fromRGBO(255, 255, 255, 1)
+                                        color: Colors.black54)),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+              ))));
+      return messageView;
+    }
+
     ScrollController _scrollController = ScrollController();
     int lastSize = 0;
     void new_message(mass) {
