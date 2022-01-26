@@ -19,13 +19,6 @@ class ChatView extends StatefulWidget {
   }
 }
 
-String selectedPopupRoute = "My Home";
-final List<String> popupRoutes = <String>[
-  "My Home",
-  "Favorite Room 1",
-  "Favorite Room 2"
-];
-
 Column msgRows = Column();
 bool curruser = true;
 
@@ -49,47 +42,8 @@ class ChatViewState extends State<ChatView> {
 
   @override
   Widget build(BuildContext context) {
-    // ContextMenuArea contextmenu() {
-    //   return ContextMenuArea(
-    //     items: [
-    //       ListTile(
-    //         title: Text('Option 1'),
-    //         onTap: () {
-    //           Navigator.of(context).pop();
-    //           ScaffoldMessenger.of(context).showSnackBar(
-    //             SnackBar(
-    //               content: Text('Whatever'),
-    //             ),
-    //           );
-    //         },
-    //       ),
-    //       ListTile(
-    //         leading: Icon(Icons.model_training),
-    //         title: Text('Option 2'),
-    //         onTap: () {
-    //           Navigator.of(context).pop();
-    //           ScaffoldMessenger.of(context).showSnackBar(
-    //             SnackBar(
-    //               content: Text('Foo!'),
-    //             ),
-    //           );
-    //         },
-    //       )
-    //     ],
-    //     child: Card(
-    //       color: Theme.of(context).primaryColor,
-    //       child: Center(
-    //         child: Text(
-    //           'Press somewhere for context menu.',
-    //           style: TextStyle(
-    //             color: Theme.of(context).colorScheme.onPrimary,
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //   );
-    // }
-
+    String? text;
+    String? updatedat;
     createMsgView(msg, time) {
       if (curruser) {
         color = Colors.blue;
@@ -169,6 +123,21 @@ class ChatViewState extends State<ChatView> {
           mass["updatedAt"]));
       update();
     }
+    
+    // Column columnOfMessages = Column(
+    //   children: <Widget>[],
+    // );
+    
+    Align msg = Align(
+        alignment: Alignment(x, y),
+        child: Container(
+            color: color,
+            child:
+          createMsgView(messages[messages.length - 1].text, messages[messages.length - 1].updatedAt)));
+    msgRows.children.add(msg);
+    
+        
+      
 
     void get_message(mass) {
       //messages.clear();
@@ -194,24 +163,13 @@ class ChatViewState extends State<ChatView> {
           data["service"],
           data["updatedAt"]);
       messages.add(newmsg);
-      // update();
-      print(messages.length);
-
-      Column createMsgs() {
-        Column columnOfMessages = Column(
-          children: <Widget>[],
-        );
-        for (int i = 0; i < messages.length; i++) {
-          print("vnizu MSG");
-          print(messages[i].text);
-
-          if (messages[i].service) {
+      if (messages[messages.length - 1].service) {
             x = 0.0;
             y = -1.0;
             curruser = false;
             color = Color(0x0f2adb71);
           } else {
-            if (messages[i].user_id == currentuser.id) {
+            if (messages[messages.length - 1].user_id == currentuser.id) {
               x = 1.0;
               y = -1.0;
               curruser = true;
@@ -223,26 +181,13 @@ class ChatViewState extends State<ChatView> {
               color = Color(0x0f656b80);
             }
           }
-
-          Align msg = Align(
-              alignment: Alignment(x, y),
-              child: Container(
-                  color: color,
-                  child:
-                      createMsgView(messages[i].text, messages[i].updatedAt)));
-          columnOfMessages.children.add(msg);
-        }
-        return columnOfMessages;
-      }
-
-      msgRows = createMsgs();
+      // update();
+      print(messages.length);
       update();
     }
-
     print("vnizu messages");
     print(messages);
 
-    update();
     if (ShouldUpdate) {
       recieve_chat_msgs(get_message);
       observe_messages(new_message);
