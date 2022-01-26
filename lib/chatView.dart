@@ -10,29 +10,21 @@ import 'chatInfo.dart';
 class ChatView extends StatefulWidget {
   @override
   int? id;
-  String name = "";
+  String? name;
   ChatView(this.id, this.name);
   State<StatefulWidget> createState() {
-    print("ID in chatview");
-    print(id);
-    return ChatViewState(id, name);
+    return ChatViewState(id!, name!);
   }
 }
 
 Column msgRows = Column();
-bool curruser = true;
 
 class ChatViewState extends State<ChatView> {
   @override
-  int? id;
+  int id;
   List messages = [];
   String name = "";
-  double x = 0.0;
-  double y = 0.0;
-  Color color = Color(0x0fffffff);
   ChatViewState(this.id, this.name);
-  // ChatViewState(this.id);
-  int updCount = 0;
   var ShouldUpdate = true;
   void update() {
     if (mounted) {
@@ -42,73 +34,7 @@ class ChatViewState extends State<ChatView> {
 
   @override
   Widget build(BuildContext context) {
-    String? text;
-    String? updatedat;
-    createMsgView(msg, time) {
-      if (curruser) {
-        color = Colors.blue;
-      } else {
-        color = Colors.grey;
-      }
-      Container messageView = Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(50))),
-          child: Padding(
-              padding: EdgeInsets.all(0.0),
-              child: ButtonTheme(
-                  // height: 1,
-                  child: GestureDetector(
-                onLongPress: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                            backgroundColor: Color(0xFF1c1a1c),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0)),
-                              side: BorderSide(width: 2, color: Colors.red),
-                            ),
-                            child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height / 9,
-                                )));
-                      });
-                  print("pressed");
-                },
-                child: Card(
-                    color: color,
-                    child: Stack(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(11.0),
-                          child: RichText(
-                            text: TextSpan(
-                              style: TextStyle(),
-                              children: <TextSpan>[
-                                //real message
-                                TextSpan(
-                                    text: msg + "  ",
-                                    style: TextStyle(color: Colors.white)),
-                                TextSpan(
-                                    text: formatDate(time),
-                                    style: TextStyle(
-                                        // color: Color.fromRGBO(255, 255, 255, 1)
-                                        color: Colors.black54)),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    )),
-              ))));
-      return messageView;
-    }
-
-    ScrollController _scrollController = ScrollController();
-    void new_message(mass) {
+    void new_message(dynamic mass) {
       print(mass);
       messages.add(Message(
           int.parse(mass["id"]),
@@ -123,34 +49,10 @@ class ChatViewState extends State<ChatView> {
           mass["updatedAt"]));
       update();
     }
-    
-    // Column columnOfMessages = Column(
-    //   children: <Widget>[],
-    // );
-    
-    Align msg = Align(
-        alignment: Alignment(x, y),
-        child: Container(
-            color: color,
-            child:
-          createMsgView(messages[messages.length - 1].text, messages[messages.length - 1].updatedAt)));
-    msgRows.children.add(msg);
-    
-        
-      
 
-    void get_message(mass) {
-      //messages.clear();
-      // print("id: ");
-      // print(id);
-      // if (id! != last_chat) {
-      //   last_chat = id!;
-      //   messages.clear();
-      // }
+    void get_message(dynamic mass) {
       var data = mass['data'];
-      // if (data[o]["chat_id"] == 2) {
-      print("ID:");
-      print(id);
+      print("new");
       var newmsg = Message(
           int.parse(data["id"]),
           int.parse(data["chat_id"]),
@@ -163,37 +65,23 @@ class ChatViewState extends State<ChatView> {
           data["service"],
           data["updatedAt"]);
       messages.add(newmsg);
-      if (messages[messages.length - 1].service) {
-            x = 0.0;
-            y = -1.0;
-            curruser = false;
-            color = Color(0x0f2adb71);
-          } else {
-            if (messages[messages.length - 1].user_id == currentuser.id) {
-              x = 1.0;
-              y = -1.0;
-              curruser = true;
-              color = Color(0x0f4d76ff);
-            } else {
-              x = -1.0;
-              y = -1.0;
-              curruser = false;
-              color = Color(0x0f656b80);
-            }
-          }
-      // update();
-      print(messages.length);
       update();
     }
-    print("vnizu messages");
-    print(messages);
 
     if (ShouldUpdate) {
       recieve_chat_msgs(get_message);
       observe_messages(new_message);
-      requestChatMsgs(2, id!);
+      requestChatMsgs(2, id);
       ShouldUpdate = false;
     }
+
+    Widget build_msg(Message message) {
+
+      // !!!!!!! ТУТ ОПИСЫВАЕШЬ КАК ВЫГЛЯДИТ ТВОЕ СООБЩЕНИЕ
+
+      return Text(message.text);
+    }
+
     Row chaticon = Row(children: <Widget>[
       Container(
         padding: EdgeInsets.only(),
@@ -303,20 +191,11 @@ class ChatViewState extends State<ChatView> {
                 backgroundColor: Colors.grey[350],
               ),
             ),
-            body: Container(
+            body: SingleChildScrollView(
                 padding: EdgeInsets.only(bottom: 63),
-                child: ListView(
-                    controller: _scrollController,
-                    reverse: true,
-                    shrinkWrap: true,
-                    children: <Widget>[
-                      Container(
-                          color: Colors.white,
-                          alignment: FractionalOffset(0.5, 0.2),
-                          child: Column(children: <Widget>[
-                            msgRows
-                          ] //[msgRows],      //child: test,
-                              ))
-                    ]))));
+                child: Column(
+                    children: messages.map<Widget>((msg) {
+                      return build_msg(msg);
+                    }).toList()))));
   }
 }
