@@ -24,6 +24,7 @@ class ChatViewState extends State<ChatView> {
   String name = "";
   ChatViewState(this.id, this.name);
   var ShouldUpdate = true;
+  ScrollController _controller = ScrollController();
 
   void update() {
     if (mounted) {
@@ -64,7 +65,7 @@ class ChatViewState extends State<ChatView> {
           data["service"],
           data["updatedAt"]);
       messages.add(newmsg);
-      messages.sort((a,b) => a.id.compareTo(b.id));
+      messages.sort((a, b) => a.id.compareTo(b.id));
       update();
     }
 

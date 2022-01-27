@@ -322,17 +322,28 @@ class ChatsState extends State<Chats> {
           ))
         ]));
 
-    Text chats = Text(Strings.chats,
-        style: TextStyle(fontSize: 20, color: Colors.black));
+    Text chats =
+        Text('Чаты', style: TextStyle(fontSize: 26, color: Colors.white));
 
     Row topBar = Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[edit, chats, plus]);
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          // Container(
+          //     child: chats,
+          //     padding: EdgeInsets.only(
+          //       left: 40,
+          //     )),
+          Spacer(),
+          chats,
+          Spacer(),
+          Container(child: plus, padding: EdgeInsets.only() //left: 130),
+              )
+        ]);
     Align navigation = Align(
         alignment: Alignment.bottomCenter,
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[msgs, profile]));
+            children: <Widget>[msgs]));
 
     if (ShouldUpdate) {
       get_chat_ids(2);
@@ -431,17 +442,18 @@ class ChatsState extends State<Chats> {
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
+              backgroundColor: Colors.green[200],
               title: topBar,
-              backgroundColor: Colors.white,
               centerTitle: true,
             ),
-            bottomSheet: Container(
-              height: kToolbarHeight,
-              child: AppBar(
-                title: navigation,
-                backgroundColor: Color(0xFF1c061c),
-              ),
-            ),
+            // bottomSheet: Container(
+            //   height: kToolbarHeight,
+            //   child: AppBar(
+            //     title: navigation,
+            //     backgroundColor: Color(0xFF1c061c),
+            //   ),
+            // ),
+            drawer: Drawer(),
             body: ListView(
                 //color: Color(0xFF1c1a1c),
                 controller: _scrollController,
