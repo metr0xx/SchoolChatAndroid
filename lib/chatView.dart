@@ -30,6 +30,8 @@ class ChatViewState extends State<ChatView> {
     if (mounted) {
       setState(() {});
     }
+    _controller.animateTo(_controller.position.maxScrollExtent,
+        duration: Duration(milliseconds: 1), curve: Curves.ease);
   }
 
   @override
@@ -263,6 +265,7 @@ class ChatViewState extends State<ChatView> {
               ),
             ),
             body: SingleChildScrollView(
+                controller: _controller,
                 padding: EdgeInsets.only(bottom: 63),
                 child: Column(
                     children: messages.map<Widget>((msg) {

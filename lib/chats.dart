@@ -63,6 +63,8 @@ class ChatsState extends State<Chats> {
     }
   }
 
+  ScrollController _controller = ScrollController();
+
   var ShouldUpdate = true;
 
   void fillChats2(var incomming) {
