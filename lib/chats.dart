@@ -10,9 +10,6 @@ import 'dateformat.dart';
 import 'cutLastMsg.dart';
 // import 'package:hexcolor/hexcolor.dart';
 
-var chatDatas = [];
-var addedNames = [];
-
 String textForChatIcon(String text) {
   String result = '';
   // result += text[0].toUpperCase();
@@ -58,6 +55,8 @@ class Chats extends StatefulWidget {
 
 class ChatsState extends State<Chats> {
   @override
+  var chatDatas = [];
+  var addedNames = [];
   void update() {
     if (mounted) {
       setState(() {});
