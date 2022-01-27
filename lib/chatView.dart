@@ -17,8 +17,6 @@ class ChatView extends StatefulWidget {
   }
 }
 
-Column msgRows = Column();
-
 class ChatViewState extends State<ChatView> {
   @override
   int id;
@@ -26,6 +24,9 @@ class ChatViewState extends State<ChatView> {
   String name = "";
   ChatViewState(this.id, this.name);
   var ShouldUpdate = true;
+  double x = 0.0;
+  double y = 0.0;
+  Color? color;
   void update() {
     if (mounted) {
       setState(() {});
@@ -76,10 +77,77 @@ class ChatViewState extends State<ChatView> {
     }
 
     Widget build_msg(Message message) {
-
-      // !!!!!!! ТУТ ОПИСЫВАЕШЬ КАК ВЫГЛЯДИТ ТВОЕ СООБЩЕНИЕ
-
-      return Text(message.text);
+      if (message.service) {
+        color = Colors.green;
+        x = 0.0;
+        y = -1.0;
+      } else {
+        if (message.user_id == currentuser.id) {
+          color = Colors.blue;
+          x = 1.0;
+          y = -1.0;
+        } else {
+          color = Colors.grey;
+          x = -1.0;
+          y = -1.0;
+        }
+      }
+      Container messageView = Container(
+          alignment: Alignment(x, y),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(50))),
+          child: Padding(
+              padding: EdgeInsets.all(0.0),
+              child: ButtonTheme(
+                  // height: 1,
+                  child: GestureDetector(
+                onLongPress: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Dialog(
+                            backgroundColor: Color(0xFF1c1a1c),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                              side: BorderSide(width: 2, color: Colors.red),
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height / 9,
+                                )));
+                      });
+                  print("pressed");
+                },
+                child: Card(
+                    color: color,
+                    child: Stack(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(11.0),
+                          child: RichText(
+                            text: TextSpan(
+                              style: TextStyle(),
+                              children: <TextSpan>[
+                                //real message
+                                TextSpan(
+                                    text: message.text + "  ",
+                                    style: TextStyle(color: Colors.white)),
+                                TextSpan(
+                                    text: formatDate(message.updatedAt),
+                                    style: TextStyle(
+                                        // color: Color.fromRGBO(255, 255, 255, 1)
+                                        color: Colors.black54)),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+              ))));
+      return messageView;
     }
 
     Row chaticon = Row(children: <Widget>[
@@ -195,7 +263,7 @@ class ChatViewState extends State<ChatView> {
                 padding: EdgeInsets.only(bottom: 63),
                 child: Column(
                     children: messages.map<Widget>((msg) {
-                      return build_msg(msg);
-                    }).toList()))));
+                  return build_msg(msg);
+                }).toList()))));
   }
 }

@@ -8,8 +8,18 @@ class Message {
   bool deleted_user = false;
   bool edited = false;
   bool service = false;
-  String? updatedAt;
-  Message(this.id, this.chat_id, this.user_id, this.text, this.attachments, this.deleted_all, this.deleted_user, this.edited, this.service, this.updatedAt);
+  String updatedAt;
+  Message(
+      this.id,
+      this.chat_id,
+      this.user_id,
+      this.text,
+      this.attachments,
+      this.deleted_all,
+      this.deleted_user,
+      this.edited,
+      this.service,
+      this.updatedAt);
 }
 
 class Chat {
@@ -22,9 +32,19 @@ class Chat {
   String? last_msg_text;
   int? last_msg_user;
   String? last_msg_time;
-  Chat(this.id, this.name, this.users, this.admins, this.creator, this.picture_url, this.last_msg_text, this.last_msg_time, this.last_msg_user);
+  Chat(
+      this.id,
+      this.name,
+      this.users,
+      this.admins,
+      this.creator,
+      this.picture_url,
+      this.last_msg_text,
+      this.last_msg_time,
+      this.last_msg_user);
 }
-class User{
+
+class User {
   int id = 0;
   String name = "";
   String? surname;
@@ -33,9 +53,9 @@ class User{
   String? email;
   String? phone;
   String? avatar;
-  User(this.id, this.name, this.surname, this.school_id, this.class_id, this.email, this.phone, this.avatar);
+  User(this.id, this.name, this.surname, this.school_id, this.class_id,
+      this.email, this.phone, this.avatar);
 }
 
-var currentuser = User(2, "Konstantin", "Leonov", 4, 4, "aboba@aboba.com", "88005553535", "");
-
-
+var currentuser =
+    User(2, "Konstantin", "Leonov", 4, 4, "aboba@aboba.com", "88005553535", "");
