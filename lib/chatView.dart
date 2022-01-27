@@ -24,9 +24,7 @@ class ChatViewState extends State<ChatView> {
   String name = "";
   ChatViewState(this.id, this.name);
   var ShouldUpdate = true;
-  double x = 0.0;
-  double y = 0.0;
-  Color? color;
+
   void update() {
     if (mounted) {
       setState(() {});
@@ -66,6 +64,7 @@ class ChatViewState extends State<ChatView> {
           data["service"],
           data["updatedAt"]);
       messages.add(newmsg);
+      messages.sort((a,b) => a.id.compareTo(b.id));
       update();
     }
 
@@ -77,6 +76,9 @@ class ChatViewState extends State<ChatView> {
     }
 
     Widget build_msg(Message message) {
+      double x = 0.0;
+      double y = 0.0;
+      Color? color;
       if (message.service) {
         color = Colors.green;
         x = 0.0;
