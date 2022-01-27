@@ -218,9 +218,10 @@ class ChatViewState extends State<ChatView> {
         ));
     Container entermsg = Container(
         width: 250,
-        height: 34,
+        height: 39,
         child: TextField(
           decoration: InputDecoration(
+            contentPadding: EdgeInsets.all(10),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(35.0)),
             hintStyle: TextStyle(
