@@ -286,6 +286,7 @@ class ChatsState extends State<Chats> {
         child: Icon(
           Icons.add,
           size: 30,
+          color: Colors.white,
         ));
     TextButton edit = TextButton(
         onPressed: () {},
@@ -306,22 +307,6 @@ class ChatsState extends State<Chats> {
                 fontSize: 14,
                 color: Color(0xFFa40dd6),
               )))
-        ]));
-
-    TextButton profile = TextButton(
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Profile()));
-        },
-        child: Column(children: const <Widget>[
-          (Icon(Icons.contact_mail, size: 25, color: Color(0xFF948e94))),
-          (Text(
-            'Profile',
-            style: TextStyle(
-              fontSize: 14,
-              color: Color(0xFF948e94),
-            ),
-          ))
         ]));
 
     Text chats =
@@ -374,6 +359,7 @@ class ChatsState extends State<Chats> {
                   print(chatDatas[i].id);
                 },
                 child: Row(children: <Widget>[
+                  Spacer(),
                   Container(
                     padding: EdgeInsets.only(),
                     height: 70,
@@ -384,56 +370,56 @@ class ChatsState extends State<Chats> {
                     ),
                     child: Stack(
                       children: <Widget>[
-                        Container(
-                            padding: EdgeInsets.all(5),
-                            child: Center(
-                                child: Text(
-                              textForChatIcon(chatDatas[i].name),
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 36,
-                              ),
-                            )))
+                        // Spacer(),
+
+                        // padding: EdgeInsets.all(5),
+                        Center(
+                            child: Text(
+                          textForChatIcon(chatDatas[i].name),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 36,
+                          ),
+                        ))
                       ],
                     ),
                   ),
-                  (Row(children: <Widget>[
+
+                  Spacer(),
+                  // padding: EdgeInsets.only(left: 35),
+                  Column(children: <Widget>[
+                    // smallclear,
+                    (Container(
+                      padding: EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        chatDatas[i].name,
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      // alignment: Alignment.centerRight,
+                    )),
                     Container(
-                        padding: EdgeInsets.only(left: 35),
-                        child: Column(children: <Widget>[
-                          // smallclear,
-                          (Container(
-                            padding: EdgeInsets.only(top: 8.0),
-                            child: Text(
-                              chatDatas[i].name,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            // alignment: Alignment.centerRight,
-                          )),
-                          Container(
-                            padding: EdgeInsets.only(top: 23),
-                            child: Text(
-                              cutLastMsg(chatDatas[i].last_msg_text),
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                            ),
-                          )
-                        ])),
-                    Container(
-                        padding: EdgeInsets.only(bottom: 45),
-                        child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(formatDate(chatDatas[i].last_msg_time),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                ))))
-                  ]))
+                      padding: EdgeInsets.only(top: 23),
+                      child: Text(
+                        correctLastMsg(chatDatas[i].last_msg_text),
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                      ),
+                    )
+                  ]),
+                  Spacer(flex: 1),
+
+                  // padding: EdgeInsets.only(bottom: 45),
+                  Align(
+                      child: Text(formatDate(chatDatas[i].last_msg_time),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                          )))
                 ])));
         columnOfChats.children.add(chat);
       }

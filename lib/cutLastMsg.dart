@@ -1,4 +1,4 @@
-String cutLastMsg(String lastmsg) {
+String correctLastMsg(String lastmsg) {
   String result = lastmsg;
   if (lastmsg.length >= 20) {
     return lastmsg.substring(0, 16) + '...';
