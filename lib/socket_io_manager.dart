@@ -45,10 +45,7 @@ void get_chat_ids(int user_id) {
 }
 
 void request_chat_data_for_preview(int chat_id) {
-  socket.emit("get-info", {
-    "flag": "chat-for-preview",
-    "data": {"chat_id": chat_id, "user_id": currentuser.id}
-  });
+  socket.emit("chat-for-preview", {"chat_id": chat_id, "user_id": currentuser.id});
 }
 
 void send(Message message) {

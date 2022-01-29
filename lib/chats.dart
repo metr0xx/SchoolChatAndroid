@@ -57,6 +57,7 @@ class ChatsState extends State<Chats> {
   @override
   var chatDatas = [];
   var addedNames = [];
+  var SearchText = "";
   void update() {
     if (mounted) {
       setState(() {});
@@ -101,6 +102,10 @@ class ChatsState extends State<Chats> {
       fillChats2(chatinfo[o]);
       print("proshlo");
     }
+  }
+
+  List GetSortedFilteredChats() {
+    return chatDatas.where((element) => element.name.toLowerCase().contains(SearchText.toLowerCase())).toList();
   }
 
   Text smallclear = Text(
@@ -341,6 +346,11 @@ class ChatsState extends State<Chats> {
         fillColor: Colors.grey[200],
         filled: true,
       ),
+      onChanged: (text) {
+          print(text);
+          SearchText = text;
+          update();
+        }
     );
 
     if (ShouldUpdate) {
@@ -352,7 +362,8 @@ class ChatsState extends State<Chats> {
 
     Column createChats() {
       Column columnOfChats = Column(children: <Widget>[findChat]);
-      for (int i = 0; i < chatDatas.length; i++) {
+      var filtered = GetSortedFilteredChats();
+      for (int i = 0; i < filtered.length; i++) {
         Container chat = Container(
             width: MediaQuery.of(context).size.width,
             height: 86.0,
@@ -362,12 +373,12 @@ class ChatsState extends State<Chats> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              ChatView(chatDatas[i].id, chatDatas[i].name)));
+                              ChatView(filtered[i].id, filtered[i].name)));
                   // _scrollController.animateTo(0.0,
                   //     curve: Curves.easeOut,
                   //     duration: const Duration(milliseconds: 300));
 
-                  print(chatDatas[i].id);
+                  print(filtered[i].id);
                 },
                 child: Row(children: <Widget>[
                   // Spacer(),
@@ -386,7 +397,7 @@ class ChatsState extends State<Chats> {
                         // padding: EdgeInsets.all(5),
                         Center(
                             child: Text(
-                          textForChatIcon(chatDatas[i].name),
+                          textForChatIcon(filtered[i].name),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 36,
@@ -403,7 +414,7 @@ class ChatsState extends State<Chats> {
                     (Container(
                       padding: EdgeInsets.only(top: 8.0),
                       child: Text(
-                        correctLastMsg(chatDatas[i].name),
+                        correctLastMsg(filtered[i].name),
                         style: TextStyle(
                             fontSize: 16,
                             color: Colors.black,
@@ -414,7 +425,7 @@ class ChatsState extends State<Chats> {
                     Container(
                       padding: EdgeInsets.only(top: 23),
                       child: Text(
-                        correctLastMsg(chatDatas[i].last_msg_text),
+                        correctLastMsg(filtered[i].last_msg_text),
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,
@@ -426,7 +437,7 @@ class ChatsState extends State<Chats> {
                   // padding: EdgeInsets.only(bottom: 45),
                   Align(
                       child: Text(
-                          correctDate(formatDate(chatDatas[i].last_msg_time)),
+                          correctDate(formatDate(filtered[i].last_msg_time)),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,
