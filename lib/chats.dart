@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables, non_constant_identifier_names, prefer_equal_for_default_values
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/auth.dart';
+import 'package:flutter_application_1/editprofile.dart';
 import 'Strings.dart';
 import 'chatView.dart';
 import 'profile.dart';
@@ -12,18 +14,6 @@ import 'cutLastMsg.dart';
 
 String textForChatIcon(String text) {
   String result = '';
-  // result += text[0].toUpperCase();
-  // result += text[1].toUpperCase();
-  // if (text.length >= 4) {
-  //   if (text[4] != '') {
-  //     result += text[4].toUpperCase();
-  //   }
-  // } else if (text.length >= 3) {
-  //   if (text[2] != '') {
-  //     result += text[2].toUpperCase();
-  //   }
-  // }
-
   if (text.split(" ").length >= 2) {
     try {
       result += int.parse(text.split(" ")[0][0]).toString();
@@ -57,7 +47,6 @@ class ChatsState extends State<Chats> {
   @override
   var chatDatas = [];
   var addedNames = [];
-  var SearchText = "";
   void update() {
     if (mounted) {
       setState(() {});
@@ -82,6 +71,7 @@ class ChatsState extends State<Chats> {
       }
     }
     if (noSame) {
+      // chatDatas.clear();
       chatDatas.add(Chat(
           int.parse(chatinfo['id']),
           chatinfo['name'],
@@ -102,10 +92,6 @@ class ChatsState extends State<Chats> {
       fillChats2(chatinfo[o]);
       print("proshlo");
     }
-  }
-
-  List GetSortedFilteredChats() {
-    return chatDatas.where((element) => element.name.toLowerCase().contains(SearchText.toLowerCase())).toList();
   }
 
   Text smallclear = Text(
@@ -346,11 +332,6 @@ class ChatsState extends State<Chats> {
         fillColor: Colors.grey[200],
         filled: true,
       ),
-      onChanged: (text) {
-          print(text);
-          SearchText = text;
-          update();
-        }
     );
 
     if (ShouldUpdate) {
@@ -362,8 +343,7 @@ class ChatsState extends State<Chats> {
 
     Column createChats() {
       Column columnOfChats = Column(children: <Widget>[findChat]);
-      var filtered = GetSortedFilteredChats();
-      for (int i = 0; i < filtered.length; i++) {
+      for (int i = 0; i < chatDatas.length; i++) {
         Container chat = Container(
             width: MediaQuery.of(context).size.width,
             height: 86.0,
@@ -373,12 +353,12 @@ class ChatsState extends State<Chats> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              ChatView(filtered[i].id, filtered[i].name)));
+                              ChatView(chatDatas[i].id, chatDatas[i].name)));
                   // _scrollController.animateTo(0.0,
                   //     curve: Curves.easeOut,
                   //     duration: const Duration(milliseconds: 300));
 
-                  print(filtered[i].id);
+                  print(chatDatas[i].id);
                 },
                 child: Row(children: <Widget>[
                   // Spacer(),
@@ -397,7 +377,7 @@ class ChatsState extends State<Chats> {
                         // padding: EdgeInsets.all(5),
                         Center(
                             child: Text(
-                          textForChatIcon(filtered[i].name),
+                          textForChatIcon(chatDatas[i].name),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 36,
@@ -414,7 +394,7 @@ class ChatsState extends State<Chats> {
                     (Container(
                       padding: EdgeInsets.only(top: 8.0),
                       child: Text(
-                        correctLastMsg(filtered[i].name),
+                        correctLastMsg(chatDatas[i].name),
                         style: TextStyle(
                             fontSize: 16,
                             color: Colors.black,
@@ -425,7 +405,7 @@ class ChatsState extends State<Chats> {
                     Container(
                       padding: EdgeInsets.only(top: 23),
                       child: Text(
-                        correctLastMsg(filtered[i].last_msg_text),
+                        correctLastMsg(chatDatas[i].last_msg_text),
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,
@@ -434,10 +414,9 @@ class ChatsState extends State<Chats> {
                     )
                   ]),
                   Spacer(),
-                  // padding: EdgeInsets.only(bottom: 45),
                   Align(
                       child: Text(
-                          correctDate(formatDate(filtered[i].last_msg_time)),
+                          correctDate(formatDate(chatDatas[i].last_msg_time)),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,
@@ -449,40 +428,87 @@ class ChatsState extends State<Chats> {
     }
 
     Column chatRows = createChats();
-    Container userinfo = Container(
-        padding: EdgeInsets.only(top: 65),
-        decoration:
-            BoxDecoration(shape: BoxShape.rectangle, color: Colors.green[200]),
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Text(
-                  currentuser.avatar,
-                  style: TextStyle(color: Colors.black),
-                ),
-                // Spacer(),
-                Text(
-                  currentuser.name + ' ',
-                  style: TextStyle(color: Colors.black, fontSize: 25),
-                ),
-                Text(
-                  currentuser.surname,
-                  style: TextStyle(color: Colors.black, fontSize: 25),
-                )
-              ],
-            ),
-            Text(
-              "Телефон: " + currentuser.phone,
-              style: TextStyle(color: Colors.black, fontSize: 20),
-            ),
-            // Spacer(),
-            Text(
-              'E-mail: ' + currentuser.email,
-              style: TextStyle(color: Colors.black, fontSize: 20),
-            ),
-          ],
-        ));
+    ElevatedButton changeinfo = ElevatedButton(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.grey[350])),
+      onPressed: () => Navigator.push(
+          context, MaterialPageRoute(builder: (context) => EditProfile())),
+      child: Row(
+        children: <Widget>[
+          Spacer(),
+          Icon(
+            Icons.create_outlined,
+            color: Colors.amber[700],
+          ),
+          Spacer(),
+          Text(
+            'Редактировать',
+            style: TextStyle(fontSize: 23, color: Colors.black),
+          ),
+          Spacer()
+        ],
+      ),
+    );
+
+    Column userinfo = Column(children: <Widget>[
+      Container(
+          width: 300,
+          height: 200,
+          color: Colors.white,
+          padding: EdgeInsets.only(top: 65),
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Spacer(),
+                  Container(
+                    padding: EdgeInsets.only(),
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Stack(
+                      children: <Widget>[
+                        // Spacer(),
+
+                        // padding: EdgeInsets.all(5),
+                        Center(
+                            child: Text(
+                          textForChatIcon(
+                              currentuser.name + ' ' + currentuser.surname),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 34,
+                          ),
+                        ))
+                      ],
+                    ),
+                  ),
+                  // Spacer(),
+                  Text(
+                    '  ' + currentuser.name + ' ' + currentuser.surname,
+                    style: TextStyle(color: Colors.black, fontSize: 25),
+                  ),
+                  Spacer()
+                ],
+              ),
+              Spacer(),
+              Text(
+                "Телефон: " + currentuser.phone,
+                style: TextStyle(color: Colors.black, fontSize: 20),
+              ),
+              // Spacer(),
+              Text(
+                'E-mail: ' + currentuser.email,
+                style: TextStyle(color: Colors.black, fontSize: 20),
+              ),
+              Spacer()
+            ],
+          )),
+      changeinfo
+    ]);
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
@@ -498,6 +524,7 @@ class ChatsState extends State<Chats> {
             //   ),
             // ),
             drawer: Drawer(
+              backgroundColor: Colors.grey[300],
               child: Column(
                 children: <Widget>[userinfo],
               ),

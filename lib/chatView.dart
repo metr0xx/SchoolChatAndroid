@@ -245,9 +245,13 @@ class ChatViewState extends State<ChatView> {
     Align bottom = Align(
         alignment: Alignment.bottomCenter,
         child: Row(children: <Widget>[
-          Container(child: loadfile),
-          Container(padding: EdgeInsets.only(left: 6), child: entermsg),
-          Container(padding: EdgeInsets.only(left: 10), child: sendmsg)
+          Spacer(),
+          loadfile,
+          Spacer(),
+          entermsg,
+          Spacer(),
+          sendmsg,
+          Spacer(),
         ])); //)
     //  ScrollController _controller = ScrollController();
     return MaterialApp(
