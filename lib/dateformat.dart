@@ -61,19 +61,19 @@ String formatDate(String unformatted) {
   } else if (difference.compareTo(oneWeek) < 1) {
     switch (time.weekday) {
       case 1:
-        return "понедельник";
+        return "пн";
       case 2:
-        return "вторник";
+        return "вт";
       case 3:
-        return "среда";
+        return "ср";
       case 4:
-        return "четверг";
+        return "чт";
       case 5:
-        return "пятница";
+        return "пт";
       case 6:
-        return "суббота";
+        return "сб";
       case 7:
-        return "воскресенье";
+        return "вc";
     }
   } else if (time.year == today.year) {
     return '${time.day} $month';

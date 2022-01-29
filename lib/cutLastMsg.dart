@@ -11,6 +11,9 @@ String correctLastMsg(String lastmsg) {
   return result.substring(0, 16);
 }
 
-String alignChatName(String name) {
-  return '';
+String correctDate(String date) {
+  if (!date.contains(':')) {
+    // return '           ' + date;
+  }
+  return date;
 }

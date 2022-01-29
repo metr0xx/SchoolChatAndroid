@@ -331,6 +331,17 @@ class ChatsState extends State<Chats> {
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[msgs]));
+    TextField findChat = TextField(
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(10),
+        hintStyle: TextStyle(
+          color: Colors.black,
+        ),
+        hintText: 'поиск по чатам...',
+        fillColor: Colors.grey[200],
+        filled: true,
+      ),
+    );
 
     if (ShouldUpdate) {
       get_chat_ids(2);
@@ -340,11 +351,11 @@ class ChatsState extends State<Chats> {
     recieve_chats(fillChats2);
 
     Column createChats() {
-      Column columnOfChats = Column(children: <Widget>[]);
+      Column columnOfChats = Column(children: <Widget>[findChat]);
       for (int i = 0; i < chatDatas.length; i++) {
         Container chat = Container(
             width: MediaQuery.of(context).size.width,
-            height: 83.0,
+            height: 86.0,
             child: OutlinedButton(
                 onPressed: () {
                   Navigator.push(
@@ -359,7 +370,7 @@ class ChatsState extends State<Chats> {
                   print(chatDatas[i].id);
                 },
                 child: Row(children: <Widget>[
-                  Spacer(),
+                  // Spacer(),
                   Container(
                     padding: EdgeInsets.only(),
                     height: 70,
@@ -392,7 +403,7 @@ class ChatsState extends State<Chats> {
                     (Container(
                       padding: EdgeInsets.only(top: 8.0),
                       child: Text(
-                        chatDatas[i].name,
+                        correctLastMsg(chatDatas[i].name),
                         style: TextStyle(
                             fontSize: 16,
                             color: Colors.black,
@@ -411,11 +422,11 @@ class ChatsState extends State<Chats> {
                       ),
                     )
                   ]),
-                  Spacer(flex: 1),
-
+                  Spacer(),
                   // padding: EdgeInsets.only(bottom: 45),
                   Align(
-                      child: Text(formatDate(chatDatas[i].last_msg_time),
+                      child: Text(
+                          correctDate(formatDate(chatDatas[i].last_msg_time)),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,
@@ -427,6 +438,38 @@ class ChatsState extends State<Chats> {
     }
 
     Column chatRows = createChats();
+    Container userinfo = Container(
+        padding: EdgeInsets.only(top: 65),
+        child: Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Text(
+                  currentuser.avatar,
+                  style: TextStyle(color: Colors.black),
+                ),
+                // Spacer(),
+                Text(
+                  currentuser.name + ' ',
+                  style: TextStyle(color: Colors.black, fontSize: 25),
+                ),
+                Text(
+                  currentuser.surname,
+                  style: TextStyle(color: Colors.black, fontSize: 25),
+                )
+              ],
+            ),
+            Text(
+              "Телефон: " + currentuser.phone,
+              style: TextStyle(color: Colors.black, fontSize: 20),
+            ),
+            // Spacer(),
+            Text(
+              'E-mail: ' + currentuser.email,
+              style: TextStyle(color: Colors.black, fontSize: 20),
+            )
+          ],
+        ));
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
@@ -441,7 +484,11 @@ class ChatsState extends State<Chats> {
             //     backgroundColor: Color(0xFF1c061c),
             //   ),
             // ),
-            drawer: Drawer(),
+            drawer: Drawer(
+              child: Column(
+                children: <Widget>[userinfo],
+              ),
+            ),
             body: ListView(
                 //color: Color(0xFF1c1a1c),
                 controller: _scrollController,
