@@ -440,6 +440,8 @@ class ChatsState extends State<Chats> {
     Column chatRows = createChats();
     Container userinfo = Container(
         padding: EdgeInsets.only(top: 65),
+        decoration:
+            BoxDecoration(shape: BoxShape.rectangle, color: Colors.green[200]),
         child: Column(
           children: <Widget>[
             Row(
@@ -467,7 +469,7 @@ class ChatsState extends State<Chats> {
             Text(
               'E-mail: ' + currentuser.email,
               style: TextStyle(color: Colors.black, fontSize: 20),
-            )
+            ),
           ],
         ));
     return MaterialApp(
