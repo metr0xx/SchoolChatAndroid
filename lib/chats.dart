@@ -1,11 +1,9 @@
 // ignore_for_file: prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables, non_constant_identifier_names, prefer_equal_for_default_values
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/auth.dart';
-import 'package:flutter_application_1/editprofile.dart';
+import 'editprofile.dart';
 import 'Strings.dart';
 import 'chatView.dart';
-import 'profile.dart';
 import 'socket_io_manager.dart';
 import 'models.dart';
 import 'dateformat.dart';
@@ -279,12 +277,6 @@ class ChatsState extends State<Chats> {
           size: 30,
           color: Colors.white,
         ));
-    TextButton edit = TextButton(
-        onPressed: () {},
-        child: Icon(
-          Icons.toc_rounded,
-          size: 30,
-        ));
     TextButton msgs = TextButton(
         onPressed: () {},
         child: Column(children: const <Widget>[
@@ -306,11 +298,6 @@ class ChatsState extends State<Chats> {
     Row topBar = Row(
         // mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          // Container(
-          //     child: chats,
-          //     padding: EdgeInsets.only(
-          //       left: 40,
-          //     )),
           Spacer(),
           chats,
           Spacer(),
@@ -357,8 +344,6 @@ class ChatsState extends State<Chats> {
                   // _scrollController.animateTo(0.0,
                   //     curve: Curves.easeOut,
                   //     duration: const Duration(milliseconds: 300));
-
-                  print(chatDatas[i].id);
                 },
                 child: Row(children: <Widget>[
                   // Spacer(),
@@ -372,9 +357,6 @@ class ChatsState extends State<Chats> {
                     ),
                     child: Stack(
                       children: <Widget>[
-                        // Spacer(),
-
-                        // padding: EdgeInsets.all(5),
                         Center(
                             child: Text(
                           textForChatIcon(chatDatas[i].name),
@@ -386,11 +368,8 @@ class ChatsState extends State<Chats> {
                       ],
                     ),
                   ),
-
                   Spacer(),
-                  // padding: EdgeInsets.only(left: 35),
                   Column(children: <Widget>[
-                    // smallclear,
                     (Container(
                       padding: EdgeInsets.only(top: 8.0),
                       child: Text(
@@ -400,7 +379,6 @@ class ChatsState extends State<Chats> {
                             color: Colors.black,
                             fontWeight: FontWeight.bold),
                       ),
-                      // alignment: Alignment.centerRight,
                     )),
                     Container(
                       padding: EdgeInsets.only(top: 23),
@@ -429,25 +407,35 @@ class ChatsState extends State<Chats> {
 
     Column chatRows = createChats();
     ElevatedButton changeinfo = ElevatedButton(
-      style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.grey[350])),
+      style: ElevatedButton.styleFrom(
+        onPrimary: Colors.black87,
+        primary: Colors.green[600],
+        minimumSize: Size(88, 36),
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+        ),
+      ),
       onPressed: () => Navigator.push(
           context, MaterialPageRoute(builder: (context) => EditProfile())),
-      child: Row(
-        children: <Widget>[
-          Spacer(),
-          Icon(
-            Icons.create_outlined,
-            color: Colors.amber[700],
-          ),
-          Spacer(),
-          Text(
-            'Редактировать',
-            style: TextStyle(fontSize: 23, color: Colors.black),
-          ),
-          Spacer()
-        ],
-      ),
+      child: Container(
+          height: 40,
+          width: 230,
+          child: Row(
+            children: <Widget>[
+              Spacer(),
+              Icon(
+                Icons.create_outlined,
+                color: Colors.amber[700],
+              ),
+              Spacer(),
+              Text(
+                'Редактировать',
+                style: TextStyle(fontSize: 23, color: Colors.white),
+              ),
+              Spacer()
+            ],
+          )),
     );
 
     Column userinfo = Column(children: <Widget>[
@@ -471,9 +459,6 @@ class ChatsState extends State<Chats> {
                     ),
                     child: Stack(
                       children: <Widget>[
-                        // Spacer(),
-
-                        // padding: EdgeInsets.all(5),
                         Center(
                             child: Text(
                           textForChatIcon(

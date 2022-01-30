@@ -182,8 +182,8 @@ class ChatViewState extends State<ChatView> {
       ),
       TextButton(
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ChatInfo(id)));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ChatInfo(id, name)));
           },
           child: Container(
               padding: EdgeInsets.only(left: 10),
