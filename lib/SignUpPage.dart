@@ -1,41 +1,150 @@
-
-// ignore_for_file: prefer_const_constructors, duplicate_ignore, file_names
 import 'package:flutter/material.dart';
-import 'Strings.dart';
-import 'profile.dart';
-class SignUpPage extends StatelessWidget {
+import 'strings.dart';
+
+class SignUpPage extends StatefulWidget {
+  @override
+  _SignUpStageState createState() => _SignUpStageState();
+}
+
+class _SignUpStageState extends State {
   @override
   Widget build(BuildContext context) {
-    TextButton plus = TextButton(onPressed: () {}, child: Icon(Icons.add, size: 30,));
-    TextButton edit = TextButton(onPressed: () {}, child: Icon(Icons.toc_rounded, size: 30,));
-    TextButton msgs = TextButton(onPressed: () {}, child: Column(children: const <Widget>[(Icon(Icons.message_rounded, size: 25, color: Color(0xFFa40dd6),)), (Text('Messages', style: TextStyle(fontSize: 14, color: Color(0xFFa40dd6), )))]));
-    TextButton profile = TextButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));}, child: Column(children: const <Widget>[(Icon(Icons.contact_mail, size: 25, color: Color(0xFF948e94))), (Text('Profile', style: TextStyle(fontSize: 14, color: Color(0xFF948e94),),))]));
-
-    Text chats = Text(Strings.chats, style: TextStyle(fontSize: 25));
-
-    Row topBar = Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[edit, chats, plus]);
-    Align navigation = Align(alignment: Alignment.bottomCenter, child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[msgs, profile]));
-   
     return MaterialApp(
-    home: Scaffold(
-      appBar: AppBar(title: topBar, backgroundColor: Color(0xFA350752), centerTitle: true,),
-      bottomSheet: Container(
-        height: kToolbarHeight,
-        // ignore: duplicate_ignore
-        child: AppBar(
-          // ignore: prefer_const_constructors
-          title: navigation, backgroundColor: Color(0xFF1c061c),
+      home: Scaffold(
+        body: CustomPaint(
+          // painter: BackgroundSignUp(),
+          child: Stack(
+            children: <Widget>[
+              GestureDetector(
+                  child: Container(
+                      padding: const EdgeInsets.only(left: 25, top: 35.0),
+                      child: Container(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(Icons.arrow_back_ios,
+                              color: Colors.white),
+                        ),
+                        height: 33.0,
+                        width: 45.0,
+                      ))),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 35),
+                child: Column(
+                  children: <Widget>[
+                    _getHeader(),
+                    _getInputs(),
+                    _getSignUp(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      body: Container(
-        color: Color(0xFF1c1a1c),
-        alignment: FractionalOffset(0.5, 0.2), 
-        child: Column(   
-        // ignore: prefer_const_literals_to_create_immutables
-        children: <Widget>[]           
-     )
-    )
-   )
+    );
+  }
+}
+
+_getHeader() {
+  return Expanded(
+    flex: 3,
+    child: Container(
+      alignment: Alignment.bottomCenter,
+      child: const Text('Регистрация аккаунта',
+          style: TextStyle(color: Colors.white, fontSize: 25)),
+    ),
   );
- }
+}
+
+_getInputs() {
+  return Expanded(
+      flex: 4,
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: const <Widget>[
+            TextField(
+                decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black)),
+                    labelText: 'Введите e-mail',
+                    labelStyle: TextStyle(color: Colors.black))),
+            SizedBox(height: 5),
+            TextField(
+                decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black)),
+                    labelText: 'Придумайте пароль',
+                    labelStyle: TextStyle(color: Colors.black))),
+            SizedBox(height: 5),
+            TextField(
+              decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+                  labelText: 'Подтвердите пароль',
+                  labelStyle: TextStyle(color: Colors.black)),
+            )
+          ]));
+}
+
+_getSignUp() {
+  return Expanded(
+      flex: 2,
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            const Text(
+              'Регистрация',
+              style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
+            ),
+            CircleAvatar(
+              backgroundColor: Colors.grey.shade300,
+              radius: 30,
+              child: const Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.black,
+              ),
+            )
+          ]));
+}
+
+class BackgroundSignUp extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var sw = size.width;
+    var sh = size.height;
+    var paint = Paint();
+
+    Path mainBackground = Path();
+    mainBackground.addRect(Rect.fromLTRB(0, 0, sw, sh));
+    paint.color = Colors.orange.shade100;
+    canvas.drawPath(mainBackground, paint);
+
+    Path blueWave = Path();
+    blueWave.lineTo(sw, 0);
+    blueWave.lineTo(sw, sh * 0.65);
+    blueWave.cubicTo(sw * 0.8, sh * 0.8, sw * 0.1, sh * 0.35, sw * 0, sh);
+    blueWave.lineTo(0, sh);
+    blueWave.close();
+    paint.color = Colors.grey.shade300;
+    canvas.drawPath(blueWave, paint);
+
+    Path secWave = Path();
+    secWave.lineTo(sw, 0);
+    secWave.lineTo(sw, sh * 0.65);
+    secWave.cubicTo(sw * 0.75, sh * 0.15, sw * 0.27, sh * 0.6, 0, sh * 0.37);
+    secWave.lineTo(0, sh);
+    secWave.close();
+    paint.color = Colors.purple.shade400;
+    canvas.drawPath(secWave, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return oldDelegate != this;
+  }
 }
