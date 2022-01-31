@@ -339,8 +339,8 @@ class ChatsState extends State<Chats> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              ChatView(chatDatas[i].id, chatDatas[i].name)));
+                          builder: (context) => ChatView(chatDatas[i].id,
+                              chatDatas[i].name, chatDatas[i].users)));
                   // _scrollController.animateTo(0.0,
                   //     curve: Curves.easeOut,
                   //     duration: const Duration(milliseconds: 300));

@@ -11,9 +11,10 @@ class ChatView extends StatefulWidget {
   @override
   int? id;
   String? name;
-  ChatView(this.id, this.name);
+  var users;
+  ChatView(this.id, this.name, this.users);
   State<StatefulWidget> createState() {
-    return ChatViewState(id!, name!);
+    return ChatViewState(id!, name!, users);
   }
 }
 
@@ -21,8 +22,10 @@ class ChatViewState extends State<ChatView> {
   @override
   int id;
   List messages = [];
+  List chatUsers = [];
   String name = "";
-  ChatViewState(this.id, this.name);
+  var users;
+  ChatViewState(this.id, this.name, this.users);
   var ShouldUpdate = true;
   ScrollController _controller = ScrollController();
 
@@ -71,10 +74,33 @@ class ChatViewState extends State<ChatView> {
       update();
     }
 
+    void get_users(dynamic mass) {
+      var data = mass["data"];
+      print('MASS');
+      print(data.length);
+      print(data);
+      for (int i = 0; i < data.length; i++) {
+        chatUsers.add(User(
+            int.parse(data[i]["id"]),
+            data[i]["name"],
+            data[i]["surname"],
+            int.parse(data[i]["school_id"]),
+            int.parse(data[i]["class_id"]),
+            data[i]["email"],
+            data[i]["phone"],
+            data[i]["avatar"]));
+      }
+      print('chatUsers:');
+      print(chatUsers);
+      update();
+    }
+
     if (ShouldUpdate) {
       recieve_chat_msgs(get_message);
       observe_messages(new_message);
+      recieve_chat_users(get_users);
       requestChatMsgs(2, id);
+      request_chat_users(id);
       ShouldUpdate = false;
     }
 
@@ -104,26 +130,8 @@ class ChatViewState extends State<ChatView> {
           child: Padding(
               padding: EdgeInsets.all(0.0),
               child: ButtonTheme(
-                  // height: 1,
                   child: GestureDetector(
                 onLongPress: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                            backgroundColor: Color(0xFF1c1a1c),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0)),
-                              side: BorderSide(width: 2, color: Colors.red),
-                            ),
-                            child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height / 9,
-                                )));
-                      });
                   print("pressed");
                 },
                 child: Card(
@@ -136,15 +144,14 @@ class ChatViewState extends State<ChatView> {
                             text: TextSpan(
                               style: TextStyle(),
                               children: <TextSpan>[
-                                //real message
                                 TextSpan(
                                     text: message.text + "  ",
-                                    style: TextStyle(color: Colors.white)),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    )),
                                 TextSpan(
                                     text: formatDate(message.updatedAt),
-                                    style: TextStyle(
-                                        // color: Color.fromRGBO(255, 255, 255, 1)
-                                        color: Colors.black54)),
+                                    style: TextStyle(color: Colors.black54)),
                               ],
                             ),
                           ),
@@ -182,8 +189,10 @@ class ChatViewState extends State<ChatView> {
       ),
       TextButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ChatInfo(id, name)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChatInfo(id, name, users)));
           },
           child: Container(
               padding: EdgeInsets.only(left: 10),

@@ -5,23 +5,25 @@ import 'chats.dart';
 class ChatInfo extends StatefulWidget {
   int? id;
   String? name;
-  ChatInfo(this.id, this.name);
+  var users;
+  ChatInfo(this.id, this.name, this.users);
   State<StatefulWidget> createState() {
-    return ChatInfoState(id!, name!);
+    return ChatInfoState(id!, name!, users);
   }
 }
 
 class ChatInfoState extends State<ChatInfo> {
   @override
-  ChatInfoState(this.id, this.name);
+  ChatInfoState(this.id, this.name, this.users);
   int? id;
   String name = "";
+  var users;
   @override
   Widget build(BuildContext context) {
     TextButton back = TextButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Chats()));
+          print(users);
+          Navigator.pop(context);
         },
         child: Container(
             padding: const EdgeInsets.only(top: 60),
@@ -49,7 +51,6 @@ class ChatInfoState extends State<ChatInfo> {
         child: Stack(
           children: <Widget>[
             Container(
-                // padding: EdgeInsets.only(top: 17, left: 4),
                 padding: const EdgeInsets.all(5),
                 child: Center(
                     child: Text(
@@ -78,9 +79,19 @@ class ChatInfoState extends State<ChatInfo> {
           Text(name, style: const TextStyle(color: Colors.black, fontSize: 30)),
           const Spacer()
         ]));
+    Column createUsers() {
+      Column columnOfUsers = Column(children: <Widget>[]);
+      columnOfUsers.children.add(Text(
+        users,
+        style: const TextStyle(color: Colors.black, fontSize: 50),
+      ));
+      return columnOfUsers;
+    }
+
+    Column test = createUsers();
     return MaterialApp(
         home: Scaffold(
-      body: upper,
+      body: Column(children: <Widget>[upper, test]),
       backgroundColor: Colors.grey[350],
     ));
   }

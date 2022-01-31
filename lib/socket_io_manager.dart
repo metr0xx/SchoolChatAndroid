@@ -45,7 +45,8 @@ void get_chat_ids(int user_id) {
 }
 
 void request_chat_data_for_preview(int chat_id) {
-  socket.emit("chat-for-preview", {"chat_id": chat_id, "user_id": currentuser.id});
+  socket.emit(
+      "chat-for-preview", {"chat_id": chat_id, "user_id": currentuser.id});
 }
 
 void send(Message message) {
@@ -68,6 +69,18 @@ void requestChatMsgs(int user_id, int chat_id) {
 void recieve_chat_msgs(Function callback) {
   socket.on(
       "chat-message-recieve",
+      (data) => {
+            callback(data),
+          });
+}
+
+void request_chat_users(int chatId) {
+  socket.emit("chat-users", {'chat_id': chatId});
+}
+
+void recieve_chat_users(Function callback) {
+  socket.on(
+      "recieve-chat-users",
       (data) => {
             callback(data),
           });
