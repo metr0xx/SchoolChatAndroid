@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 String correctLastMsg(String lastmsg) {
   String result = lastmsg;
   if (lastmsg.length >= 20) {

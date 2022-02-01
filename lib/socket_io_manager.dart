@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, library_prefixes
+
 import 'models.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -40,13 +42,13 @@ void observe_messages(Function callback) {
           });
 }
 
-void get_chat_ids(int user_id) {
-  socket.emit("chats", {"user_id": user_id});
+void get_chat_ids(int userId) {
+  socket.emit("chats", {"user_id": userId});
 }
 
-void request_chat_data_for_preview(int chat_id) {
-  socket.emit(
-      "chat-for-preview", {"chat_id": chat_id, "user_id": currentuser.id});
+void request_chat_data_for_preview(int chatId) {
+  socket
+      .emit("chat-for-preview", {"chat_id": chatId, "user_id": currentuser.id});
 }
 
 void send(Message message) {
@@ -62,8 +64,8 @@ void send(Message message) {
   });
 }
 
-void requestChatMsgs(int user_id, int chat_id) {
-  socket.emit("get-msgs", {"user_id": user_id, "chat_id": chat_id});
+void requestChatMsgs(int userId, int chatId) {
+  socket.emit("get-msgs", {"user_id": userId, "chat_id": chatId});
 }
 
 void recieve_chat_msgs(Function callback) {

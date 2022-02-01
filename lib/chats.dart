@@ -1,14 +1,12 @@
-// ignore_for_file: prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables, non_constant_identifier_names, prefer_equal_for_default_values
+// ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
 import 'editprofile.dart';
-import 'Strings.dart';
-import 'chatView.dart';
+import 'chat_view.dart';
 import 'socket_io_manager.dart';
 import 'models.dart';
-import 'dateformat.dart';
-import 'cutLastMsg.dart';
-// import 'package:hexcolor/hexcolor.dart';
+import 'date_format.dart';
+import 'cut_last_msg.dart';
 
 String textForChatIcon(String text) {
   String result = '';
@@ -34,15 +32,14 @@ String textForChatIcon(String text) {
 void pass() {}
 
 class Chats extends StatefulWidget {
+  const Chats({Key? key}) : super(key: key);
   @override
-  Chats();
   State<StatefulWidget> createState() {
     return ChatsState();
   }
 }
 
 class ChatsState extends State<Chats> {
-  @override
   var chatDatas = [];
   var addedNames = [];
   void update() {
@@ -51,16 +48,15 @@ class ChatsState extends State<Chats> {
     }
   }
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
-  var ShouldUpdate = true;
+  var shouldUpdate = true;
 
   void fillChats2(var incomming) {
     print(incomming);
     var chatinfo = incomming['chat'];
     var lastmsg = incomming['last_msg'];
     bool noSame = true;
-    var chatDatasOld = chatDatas;
     for (int i = 0; i < chatDatas.length; i++) {
       if (chatDatas[i].id == chatinfo['id'] ||
           chatDatas[i].name == chatinfo['name']) {
@@ -69,7 +65,6 @@ class ChatsState extends State<Chats> {
       }
     }
     if (noSame) {
-      // chatDatas.clear();
       chatDatas.add(Chat(
           int.parse(chatinfo['id']),
           chatinfo['name'],
@@ -92,15 +87,6 @@ class ChatsState extends State<Chats> {
     }
   }
 
-  Text smallclear = Text(
-    '',
-    style: TextStyle(fontSize: 6),
-  );
-  Text midclear = Text('', style: TextStyle(fontSize: 11));
-  Text bigclear = Text(
-    '',
-    style: TextStyle(fontSize: 40),
-  );
   String name = '';
 
   bool checker(name) {
@@ -110,7 +96,7 @@ class ChatsState extends State<Chats> {
     return true;
   }
 
-  List remove_same(List mass) {
+  List removeSame(List mass) {
     for (int i = 0; i < mass.length; i++) {
       for (int j = i + 1; j < mass.length; j++) {
         if (mass.length > 1) {
@@ -123,7 +109,7 @@ class ChatsState extends State<Chats> {
     return mass;
   }
 
-  List fill_all_names(List chatDatas) {
+  List fillAllNames(List chatDatas) {
     List allNames = [];
     for (int i = 0; i < chatDatas.length; i++) {
       allNames.add(chatDatas[i].name);
@@ -135,18 +121,18 @@ class ChatsState extends State<Chats> {
     return Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
   }
 
+  @override
   Widget build(BuildContext context) {
-    List currNames = fill_all_names(chatDatas);
+    List currNames = fillAllNames(chatDatas);
     for (int i = 0; i < addedNames.length; i++) {
       if (currNames.contains(addedNames[i]) == false) {
         currNames.add(addedNames[i]);
       }
     }
     ScrollController _scrollController = ScrollController();
-    print('ПЕРВЫЙ chatDatas:');
+    print('chatDatas:');
     print(chatDatas);
-    print(
-        currNames); // Имена чатов, взятые из chatDatas, + введенные через плюсик
+    print(currNames);
 
     TextButton plus = TextButton(
         onPressed: () {
@@ -154,14 +140,14 @@ class ChatsState extends State<Chats> {
             context: context,
             builder: (context) {
               return Dialog(
-                  backgroundColor: Color(0xFF1c1a1c),
+                  backgroundColor: const Color(0xFF1c1a1c),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     side: BorderSide(width: 2, color: Color(0xFFa40dd6)),
                   ),
                   child: Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Container(
+                      child: SizedBox(
                           height: MediaQuery.of(context).size.height / 6,
                           child: Column(
                             children: <Widget>[
@@ -169,36 +155,35 @@ class ChatsState extends State<Chats> {
                                 onChanged: (text) {
                                   name = text;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: Strings.writeTittle,
+                                  hintText: "Название чата",
                                   fillColor: Color(0xFFbfbfbf),
                                   filled: true,
-                                  hintStyle:
-                                      TextStyle(color: Color(0xFFa40dd6)),
+                                  hintStyle: TextStyle(
+                                      color: Color(0xFFa40dd6),
+                                      fontFamily: "Helvetica"),
                                   hintMaxLines: 1,
                                 ),
                               )),
-                              midclear,
                               (ElevatedButton(
                                   onPressed: () {
                                     if (checker(name)) {
                                       addedNames.add(name);
                                       name = '';
-                                      print('ВТОРОЙ chatDatas:');
-                                      print(chatDatas);
                                       //Navigator.pop(context);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => Chats()));
+                                              builder: (context) =>
+                                                  const Chats()));
                                     } else {
                                       showDialog(
                                           context: context,
                                           builder: (context) {
                                             return Dialog(
                                                 backgroundColor:
-                                                    Color(0xFF1c1a1c),
+                                                    const Color(0xFF1c1a1c),
                                                 shape:
                                                     const RoundedRectangleBorder(
                                                   borderRadius:
@@ -213,7 +198,7 @@ class ChatsState extends State<Chats> {
                                                     padding:
                                                         const EdgeInsets.all(
                                                             16.0),
-                                                    child: Container(
+                                                    child: SizedBox(
                                                       height:
                                                           MediaQuery.of(context)
                                                                   .size
@@ -221,35 +206,38 @@ class ChatsState extends State<Chats> {
                                                               9,
                                                       child: Column(
                                                           children: <Widget>[
-                                                            (Text(
+                                                            (const Text(
                                                               'Неправильно, попробуй еще раз!',
                                                               style: TextStyle(
                                                                   fontSize: 17,
                                                                   color: Colors
-                                                                      .white),
+                                                                      .white,
+                                                                  fontFamily:
+                                                                      "Helvetica"),
                                                             )),
-                                                            smallclear,
                                                             Container(
-                                                                padding: EdgeInsets
-                                                                    .only(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
                                                                         top:
                                                                             10),
-                                                                child: Container(
+                                                                child: SizedBox(
                                                                     height: 35,
                                                                     child: ElevatedButton(
                                                                         onPressed: () {
                                                                           Navigator.pop(
                                                                               context);
                                                                         },
-                                                                        child: Text(
+                                                                        child: const Text(
                                                                           'Ok',
                                                                           style: TextStyle(
                                                                               fontSize: 17,
-                                                                              color: Colors.red),
+                                                                              color: Colors.red,
+                                                                              fontFamily: "Helvetica"),
                                                                         ),
                                                                         style: ButtonStyle(
                                                                             backgroundColor: MaterialStateProperty.all(
-                                                                          Color(
+                                                                          const Color(
                                                                               0xFF2b2e2d),
                                                                         )))))
                                                           ]),
@@ -257,73 +245,53 @@ class ChatsState extends State<Chats> {
                                           });
                                     }
                                   },
-                                  child: Text(
-                                    Strings.createChat,
+                                  child: const Text(
+                                    "Создать чат",
                                     style: TextStyle(
-                                        fontSize: 17, color: Color(0xFFa40dd6)),
+                                        fontSize: 17,
+                                        color: Color(0xFFa40dd6),
+                                        fontFamily: "Helvetica"),
                                   ),
                                   style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all(
-                                    Color(0xFF2b2e2d),
+                                    const Color(0xFF2b2e2d),
                                   ))))
                             ],
                           ))));
             },
           );
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
           size: 30,
           color: Colors.white,
         ));
-    TextButton msgs = TextButton(
-        onPressed: () {},
-        child: Column(children: const <Widget>[
-          (Icon(
-            Icons.message_rounded,
-            size: 25,
-            color: Color(0xFFa40dd6),
-          )),
-          (Text('Messages',
-              style: TextStyle(
-                fontSize: 14,
-                color: Color(0xFFa40dd6),
-              )))
-        ]));
 
-    Text chats =
-        Text('Чаты', style: TextStyle(fontSize: 26, color: Colors.white));
+    Text chats = const Text('Чаты',
+        style: TextStyle(
+            fontSize: 26, color: Colors.white, fontFamily: "Helvetica"));
 
-    Row topBar = Row(
-        // mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Spacer(),
-          chats,
-          Spacer(),
-          Container(child: plus, padding: EdgeInsets.only() //left: 130),
-              )
-        ]);
-    Align navigation = Align(
-        alignment: Alignment.bottomCenter,
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[msgs]));
+    Row topBar = Row(children: <Widget>[
+      const Spacer(),
+      chats,
+      const Spacer(),
+      Container(child: plus, padding: const EdgeInsets.only())
+    ]);
     TextField findChat = TextField(
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.all(10),
-        hintStyle: TextStyle(
-          color: Colors.black,
-        ),
-        hintText: 'поиск по чатам...',
+        contentPadding: const EdgeInsets.all(10),
+        hintStyle:
+            const TextStyle(color: Colors.black, fontFamily: "Helvetica"),
+        hintText: 'Поиск по чатам...',
         fillColor: Colors.grey[200],
         filled: true,
       ),
     );
 
-    if (ShouldUpdate) {
+    if (shouldUpdate) {
       get_chat_ids(2);
-      ShouldUpdate = false;
+      shouldUpdate = false;
     }
     react_chats(fillChats);
     recieve_chats(fillChats2);
@@ -331,7 +299,7 @@ class ChatsState extends State<Chats> {
     Column createChats() {
       Column columnOfChats = Column(children: <Widget>[findChat]);
       for (int i = 0; i < chatDatas.length; i++) {
-        Container chat = Container(
+        SizedBox chat = SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 86.0,
             child: OutlinedButton(
@@ -346,12 +314,11 @@ class ChatsState extends State<Chats> {
                   //     duration: const Duration(milliseconds: 300));
                 },
                 child: Row(children: <Widget>[
-                  // Spacer(),
                   Container(
-                    padding: EdgeInsets.only(),
+                    padding: const EdgeInsets.only(),
                     height: 70,
                     width: 70,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.green,
                       shape: BoxShape.circle,
                     ),
@@ -360,7 +327,7 @@ class ChatsState extends State<Chats> {
                         Center(
                             child: Text(
                           textForChatIcon(chatDatas[i].name),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 36,
                           ),
@@ -368,37 +335,37 @@ class ChatsState extends State<Chats> {
                       ],
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Column(children: <Widget>[
                     (Container(
-                      padding: EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
                         correctLastMsg(chatDatas[i].name),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16,
                             color: Colors.black,
                             fontWeight: FontWeight.bold),
                       ),
                     )),
                     Container(
-                      padding: EdgeInsets.only(top: 23),
+                      padding: const EdgeInsets.only(top: 23),
                       child: Text(
                         correctLastMsg(chatDatas[i].last_msg_text),
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
+                        style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontFamily: "Helvetica"),
                       ),
                     )
                   ]),
-                  Spacer(),
+                  const Spacer(),
                   Align(
                       child: Text(
                           correctDate(formatDate(chatDatas[i].last_msg_time)),
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          )))
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontFamily: "Helvetica")))
                 ])));
         columnOfChats.children.add(chat);
       }
@@ -410,30 +377,31 @@ class ChatsState extends State<Chats> {
       style: ElevatedButton.styleFrom(
         onPrimary: Colors.black87,
         primary: Colors.green[600],
-        minimumSize: Size(88, 36),
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        minimumSize: const Size(88, 36),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
       ),
       onPressed: () => Navigator.push(
           context, MaterialPageRoute(builder: (context) => EditProfile())),
-      child: Container(
+      child: SizedBox(
           height: 40,
           width: 230,
           child: Row(
             children: <Widget>[
-              Spacer(),
+              const Spacer(),
               Icon(
                 Icons.create_outlined,
                 color: Colors.amber[700],
               ),
-              Spacer(),
-              Text(
+              const Spacer(),
+              const Text(
                 'Редактировать',
-                style: TextStyle(fontSize: 23, color: Colors.white),
+                style: TextStyle(
+                    fontSize: 23, color: Colors.white, fontFamily: "Helvetica"),
               ),
-              Spacer()
+              const Spacer()
             ],
           )),
     );
@@ -443,17 +411,17 @@ class ChatsState extends State<Chats> {
           width: 300,
           height: 200,
           color: Colors.white,
-          padding: EdgeInsets.only(top: 65),
+          padding: const EdgeInsets.only(top: 65),
           child: Column(
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Spacer(),
+                  const Spacer(),
                   Container(
-                    padding: EdgeInsets.only(),
+                    padding: const EdgeInsets.only(),
                     height: 60,
                     width: 60,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.green,
                       shape: BoxShape.circle,
                     ),
@@ -463,10 +431,10 @@ class ChatsState extends State<Chats> {
                             child: Text(
                           textForChatIcon(
                               currentuser.name + ' ' + currentuser.surname),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 34,
-                          ),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 34,
+                              fontFamily: "Helvetica"),
                         ))
                       ],
                     ),
@@ -474,22 +442,27 @@ class ChatsState extends State<Chats> {
                   // Spacer(),
                   Text(
                     '  ' + currentuser.name + ' ' + currentuser.surname,
-                    style: TextStyle(color: Colors.black, fontSize: 25),
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 25,
+                        fontFamily: "Helvetica"),
                   ),
-                  Spacer()
+                  const Spacer()
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Text(
                 "Телефон: " + currentuser.phone,
-                style: TextStyle(color: Colors.black, fontSize: 20),
+                style: const TextStyle(
+                    color: Colors.black, fontSize: 20, fontFamily: "Helvetica"),
               ),
               // Spacer(),
               Text(
                 'E-mail: ' + currentuser.email,
-                style: TextStyle(color: Colors.black, fontSize: 20),
+                style: const TextStyle(
+                    color: Colors.black, fontSize: 20, fontFamily: "Helvetica"),
               ),
-              Spacer()
+              const Spacer()
             ],
           )),
       changeinfo
@@ -501,13 +474,6 @@ class ChatsState extends State<Chats> {
               title: topBar,
               centerTitle: true,
             ),
-            // bottomSheet: Container(
-            //   height: kToolbarHeight,
-            //   child: AppBar(
-            //     title: navigation,
-            //     backgroundColor: Color(0xFF1c061c),
-            //   ),
-            // ),
             drawer: Drawer(
               backgroundColor: Colors.grey[300],
               child: Column(
@@ -515,14 +481,13 @@ class ChatsState extends State<Chats> {
               ),
             ),
             body: ListView(
-                //color: Color(0xFF1c1a1c),
                 controller: _scrollController,
                 reverse: true,
                 shrinkWrap: true,
                 children: <Widget>[
                   Container(
                       color: Colors.white,
-                      alignment: FractionalOffset(0.5, 0.2),
+                      alignment: const FractionalOffset(0.5, 0.2),
                       child: Column(children: <Widget>[
                         chatRows,
                       ]))

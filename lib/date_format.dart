@@ -1,14 +1,9 @@
-import 'package:intl/intl.dart';
-
 String formatDate(String unformatted) {
   DateTime time = DateTime.parse(unformatted);
-  List ydm = [];
-  String year = "";
-  String day = "";
   DateTime today = DateTime.now();
-  Duration oneDay = Duration(days: 1);
-  Duration twoDay = Duration(days: 2);
-  Duration oneWeek = Duration(days: 7);
+  Duration oneDay = const Duration(days: 1);
+  Duration twoDay = const Duration(days: 2);
+  Duration oneWeek = const Duration(days: 7);
   String month = "";
   switch (time.month) {
     case 1:
@@ -51,7 +46,6 @@ String formatDate(String unformatted) {
   Duration difference = today.difference(time);
 
   if (difference.compareTo(oneDay) < 1) {
-    // return "Сегодня";
     if (time.minute.toString().length == 1) {
       return time.hour.toString() + ":" + "0" + time.minute.toString();
     }

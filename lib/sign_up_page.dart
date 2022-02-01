@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'auth.dart';
-import 'strings.dart';
 
 class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key}) : super(key: key);
+
   @override
   _SignUpStageState createState() => _SignUpStageState();
 }
@@ -30,13 +31,13 @@ class _SignUpStageState extends State<SignUpPage> {
             )));
     Container surname = Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(35.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(35.0)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.08),
               spreadRadius: 5,
               blurRadius: 5,
-              offset: Offset(0, 0), // changes position of shadow
+              offset: const Offset(0, 0), // changes position of shadow
             ),
           ],
         ),
@@ -57,13 +58,13 @@ class _SignUpStageState extends State<SignUpPage> {
                 filled: true)));
     Container name = Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(35.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(35.0)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.08),
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(0, 0), // changes position of shadow
+              offset: const Offset(0, 0), // changes position of shadow
             ),
           ],
         ),
@@ -84,13 +85,13 @@ class _SignUpStageState extends State<SignUpPage> {
                 filled: true)));
     Container email = Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(35.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(35.0)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.08),
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(0, 0), // changes position of shadow
+              offset: const Offset(0, 0), // changes position of shadow
             ),
           ],
         ),
@@ -111,13 +112,13 @@ class _SignUpStageState extends State<SignUpPage> {
                 filled: true)));
     Container phone = Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(35.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(35.0)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.08),
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(0, 0), // changes position of shadow
+              offset: const Offset(0, 0), // changes position of shadow
             ),
           ],
         ),
@@ -138,13 +139,13 @@ class _SignUpStageState extends State<SignUpPage> {
                 filled: true)));
     Container password = Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(35.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(35.0)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.08),
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(0, 0), // changes position of shadow
+              offset: const Offset(0, 0), // changes position of shadow
             ),
           ],
         ),
@@ -165,13 +166,13 @@ class _SignUpStageState extends State<SignUpPage> {
                 filled: true)));
     Container confirmpassword = Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(35.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(35.0)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.08),
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(0, 0), // changes position of shadow
+              offset: const Offset(0, 0), // changes position of shadow
             ),
           ],
         ),
@@ -192,13 +193,13 @@ class _SignUpStageState extends State<SignUpPage> {
                 filled: true)));
     Container invitecode = Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(35.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(35.0)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.08),
               spreadRadius: 5,
               blurRadius: 5,
-              offset: Offset(0, 0), // changes position of shadow
+              offset: const Offset(0, 0), // changes position of shadow
             ),
           ],
         ),
@@ -219,20 +220,20 @@ class _SignUpStageState extends State<SignUpPage> {
                 filled: true)));
     Container signUp = Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(35.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(35.0)),
           boxShadow: [
             BoxShadow(
               color: Colors.purple.shade700.withOpacity(0.5),
               spreadRadius: 0.01,
               blurRadius: 29,
-              offset: Offset(0, 24.4), // changes position of shadow
+              offset: const Offset(0, 24.4), // changes position of shadow
             ),
           ],
         ),
         padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 24),
         child: ElevatedButton(
           onPressed: () {},
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width / 2,
             height: MediaQuery.of(context).size.height / 16,
             child: const Center(
@@ -255,9 +256,9 @@ class _SignUpStageState extends State<SignUpPage> {
     TextButton authbtn = TextButton(
       onPressed: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Auth()));
+            context, MaterialPageRoute(builder: (context) => const Auth()));
       },
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width / 3.4,
         height: MediaQuery.of(context).size.height / 16,
         child: Center(
@@ -272,7 +273,7 @@ class _SignUpStageState extends State<SignUpPage> {
         ),
       ),
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
@@ -282,13 +283,13 @@ class _SignUpStageState extends State<SignUpPage> {
       onPressed: () {},
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(35.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(35.0)),
           boxShadow: [
             BoxShadow(
               color: Colors.purple.shade700.withOpacity(0.6),
               spreadRadius: 5,
               blurRadius: 10,
-              offset: Offset(0, 5), // changes position of shadow
+              offset: const Offset(0, 5), // changes position of shadow
             ),
           ],
         ),
@@ -304,7 +305,7 @@ class _SignUpStageState extends State<SignUpPage> {
       ),
       style: ElevatedButton.styleFrom(
         primary: Colors.purple[700],
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
@@ -341,7 +342,7 @@ class _SignUpStageState extends State<SignUpPage> {
                   password,
                   invitecode,
                   signUp,
-                  Spacer(),
+                  const Spacer(),
                   authreg
                 ]))));
   }

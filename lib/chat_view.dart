@@ -1,18 +1,18 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, file_names, must_be_immutable, prefer_const_literals_to_create_immutables, no_logic_in_create_state
+// ignore_for_file: avoid_print, no_logic_in_create_state, non_constant_identifier_names
+
 import 'package:flutter/material.dart';
-import 'dateformat.dart';
+import 'date_format.dart';
 import 'socket_io_manager.dart';
 import 'models.dart';
 import 'chats.dart';
-import 'chatInfo.dart';
-// import 'package:contextmenu/context/menu.dart';
+import 'chat_info.dart';
 
 class ChatView extends StatefulWidget {
-  @override
   int? id;
   String? name;
   var users;
-  ChatView(this.id, this.name, this.users);
+  ChatView(this.id, this.name, this.users, {Key? key}) : super(key: key);
+  @override
   State<StatefulWidget> createState() {
     return ChatViewState(id!, name!, users);
   }
@@ -26,15 +26,15 @@ class ChatViewState extends State<ChatView> {
   String name = "";
   var users;
   ChatViewState(this.id, this.name, this.users);
-  var ShouldUpdate = true;
-  ScrollController _controller = ScrollController();
+  var shouldUpdate = true;
+  final ScrollController _controller = ScrollController();
 
   void update() {
     if (mounted) {
       setState(() {});
     }
     _controller.animateTo(_controller.position.maxScrollExtent,
-        duration: Duration(milliseconds: 1), curve: Curves.ease);
+        duration: const Duration(milliseconds: 1), curve: Curves.ease);
   }
 
   @override
@@ -95,13 +95,13 @@ class ChatViewState extends State<ChatView> {
       update();
     }
 
-    if (ShouldUpdate) {
+    if (shouldUpdate) {
       recieve_chat_msgs(get_message);
       observe_messages(new_message);
       recieve_chat_users(get_users);
       requestChatMsgs(2, id);
       request_chat_users(id);
-      ShouldUpdate = false;
+      shouldUpdate = false;
     }
 
     Widget build_msg(Message message) {
@@ -125,10 +125,10 @@ class ChatViewState extends State<ChatView> {
       }
       Container messageView = Container(
           alignment: Alignment(x, y),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(50))),
           child: Padding(
-              padding: EdgeInsets.all(0.0),
+              padding: const EdgeInsets.all(0.0),
               child: ButtonTheme(
                   child: GestureDetector(
                 onLongPress: () {
@@ -142,16 +142,17 @@ class ChatViewState extends State<ChatView> {
                           padding: const EdgeInsets.all(11.0),
                           child: RichText(
                             text: TextSpan(
-                              style: TextStyle(),
+                              style: const TextStyle(),
                               children: <TextSpan>[
                                 TextSpan(
                                     text: message.text + "  ",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                     )),
                                 TextSpan(
                                     text: formatDate(message.updatedAt),
-                                    style: TextStyle(color: Colors.black54)),
+                                    style:
+                                        const TextStyle(color: Colors.black54)),
                               ],
                             ),
                           ),
@@ -164,10 +165,10 @@ class ChatViewState extends State<ChatView> {
 
     Row chaticon = Row(children: <Widget>[
       Container(
-        padding: EdgeInsets.only(),
+        padding: const EdgeInsets.only(),
         height: 48,
         width: 48,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.green,
           shape: BoxShape.circle,
         ),
@@ -175,11 +176,11 @@ class ChatViewState extends State<ChatView> {
           children: <Widget>[
             Container(
                 // padding: EdgeInsets.only(top: 17, left: 4),
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 child: Center(
                     child: Text(
                   textForChatIcon(name),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 25,
                   ),
@@ -195,15 +196,15 @@ class ChatViewState extends State<ChatView> {
                     builder: (context) => ChatInfo(id, name, users)));
           },
           child: Container(
-              padding: EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 10),
               child: Text(name,
-                  style: TextStyle(fontSize: 18, color: Colors.black))))
+                  style: const TextStyle(fontSize: 18, color: Colors.black))))
     ]);
 
     TextButton back = TextButton(
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Chats()));
+              context, MaterialPageRoute(builder: (context) => const Chats()));
         },
         child: Row(children: <Widget>[
           (Icon(Icons.arrow_back_rounded, size: 25, color: Colors.blue[400])),
@@ -215,7 +216,7 @@ class ChatViewState extends State<ChatView> {
             ),
           ))
         ]));
-    Container sendmsg = Container(
+    SizedBox sendmsg = SizedBox(
         width: 40,
         child: TextButton(
           onPressed: () {},
@@ -225,15 +226,15 @@ class ChatViewState extends State<ChatView> {
             size: 30,
           ),
         ));
-    Container entermsg = Container(
+    SizedBox entermsg = SizedBox(
         width: 250,
         height: 39,
         child: TextField(
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(10),
+            contentPadding: const EdgeInsets.all(10),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(35.0)),
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               color: Colors.black,
             ),
             hintText: 'Сообщение...',
@@ -241,7 +242,7 @@ class ChatViewState extends State<ChatView> {
             filled: true,
           ),
         ));
-    Container loadfile = Container(
+    SizedBox loadfile = SizedBox(
         width: 40,
         child: TextButton(
           onPressed: () {},
@@ -254,13 +255,13 @@ class ChatViewState extends State<ChatView> {
     Align bottom = Align(
         alignment: Alignment.bottomCenter,
         child: Row(children: <Widget>[
-          Spacer(),
+          const Spacer(),
           loadfile,
-          Spacer(),
+          const Spacer(),
           entermsg,
-          Spacer(),
+          const Spacer(),
           sendmsg,
-          Spacer(),
+          const Spacer(),
         ])); //)
     //  ScrollController _controller = ScrollController();
     return MaterialApp(
@@ -271,7 +272,7 @@ class ChatViewState extends State<ChatView> {
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[back, chaticon],
                 )),
-            bottomSheet: Container(
+            bottomSheet: SizedBox(
               height: kToolbarHeight,
               child: AppBar(
                 title: bottom,
@@ -280,7 +281,7 @@ class ChatViewState extends State<ChatView> {
             ),
             body: SingleChildScrollView(
                 controller: _controller,
-                padding: EdgeInsets.only(bottom: 63),
+                padding: const EdgeInsets.only(bottom: 63),
                 child: Column(
                     children: messages.map<Widget>((msg) {
                   return build_msg(msg);

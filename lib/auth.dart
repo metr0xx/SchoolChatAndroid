@@ -1,9 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/profile.dart';
-import 'Strings.dart';
 import 'chats.dart';
-import 'SignUpPage.dart';
+import 'sign_up_page.dart';
 import 'socket_io_manager.dart';
 
 class Auth extends StatelessWidget {

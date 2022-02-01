@@ -1,4 +1,5 @@
-// ignore_for_file: use_key_in_widget_constructors, no_logic_in_create_state, file_names
+// ignore_for_file: no_logic_in_create_state, avoid_print
+
 import 'package:flutter/material.dart';
 import 'chats.dart';
 
@@ -6,7 +7,7 @@ class ChatInfo extends StatefulWidget {
   int? id;
   String? name;
   var users;
-  ChatInfo(this.id, this.name, this.users);
+  ChatInfo(this.id, this.name, this.users, {Key? key}) : super(key: key);
   State<StatefulWidget> createState() {
     return ChatInfoState(id!, name!, users);
   }
@@ -80,7 +81,7 @@ class ChatInfoState extends State<ChatInfo> {
           const Spacer()
         ]));
     Column createUsers() {
-      Column columnOfUsers = Column(children: <Widget>[]);
+      Column columnOfUsers = Column(children: const <Widget>[]);
       columnOfUsers.children.add(Text(
         users,
         style: const TextStyle(color: Colors.black, fontSize: 50),
