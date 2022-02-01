@@ -16,12 +16,30 @@ class Auth extends StatelessWidget {
     Text auth = Text("Авторизация",
         textDirection: TextDirection.ltr,
         style: TextStyle(
-            fontSize: 35,
-            color: Colors.purple[800],
-            fontWeight: FontWeight.bold,
-            fontFamily: "OpenSans"));
+          fontSize: 35,
+          color: Colors.purple[800],
+          fontWeight: FontWeight.bold,
+          fontFamily: "Helvetica",
+          shadows: const <Shadow>[
+            Shadow(
+                offset: Offset(1.0, 1.0),
+                blurRadius: 5.0,
+                color: Colors.purple),
+          ],
+        ));
 
     Container login = Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(35.0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 0), // changes position of shadow
+            ),
+          ],
+        ),
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 11.5,
         // padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 50),
@@ -29,7 +47,7 @@ class Auth extends StatelessWidget {
             decoration: InputDecoration(
                 hintText: "Эл. почта или телефон",
                 hintStyle: TextStyle(
-                    color: Colors.purple[900], fontFamily: "OpenSans"),
+                    color: Colors.purple[900], fontFamily: "Helvetica"),
                 prefixIcon: Icon(
                   Icons.account_circle_outlined,
                   color: Colors.purple[900],
@@ -40,6 +58,17 @@ class Auth extends StatelessWidget {
                 filled: true)));
 
     Container password = Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(35.0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 0), // changes position of shadow
+            ),
+          ],
+        ),
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 11.5,
         // padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 50),
@@ -51,7 +80,7 @@ class Auth extends StatelessWidget {
                   color: Colors.purple[900],
                 ),
                 hintStyle: TextStyle(
-                    color: Colors.purple[900], fontFamily: "OpenSans"),
+                    color: Colors.purple[900], fontFamily: "Helvetica"),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(35.0)),
                 fillColor: Colors.white,
@@ -65,13 +94,24 @@ class Auth extends StatelessWidget {
                 context, MaterialPageRoute(builder: (context) => Chats()));
           },
           child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(35.0)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.purple.shade700.withOpacity(0.6),
+                  spreadRadius: 8,
+                  blurRadius: 30,
+                  offset: Offset(0, 10), // changes position of shadow
+                ),
+              ],
+            ),
             width: MediaQuery.of(context).size.width / 4,
             height: MediaQuery.of(context).size.height / 16,
             child: Center(
               child: Text(
                 'Войти',
                 style: TextStyle(
-                    color: Colors.white, fontFamily: "OpenSans", fontSize: 18),
+                    color: Colors.white, fontFamily: "Helvetica", fontSize: 18),
               ),
             ),
           ),
@@ -88,13 +128,24 @@ class Auth extends StatelessWidget {
     ElevatedButton authbtn = ElevatedButton(
       onPressed: () {},
       child: Container(
-        width: MediaQuery.of(context).size.width / 3.7,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(35.0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.purple.shade700.withOpacity(0.6),
+              spreadRadius: 5,
+              blurRadius: 10,
+              offset: Offset(0, 5), // changes position of shadow
+            ),
+          ],
+        ),
+        width: MediaQuery.of(context).size.width / 3.4,
         height: MediaQuery.of(context).size.height / 16,
         child: Center(
           child: Text(
             'Авторизация',
             style: TextStyle(
-                color: Colors.white, fontFamily: "OpenSans", fontSize: 18),
+                color: Colors.white, fontFamily: "Helvetica", fontSize: 18),
           ),
         ),
       ),
@@ -116,14 +167,14 @@ class Auth extends StatelessWidget {
             context, MaterialPageRoute(builder: (context) => SignUpPage()));
       },
       child: Container(
-        width: MediaQuery.of(context).size.width / 3.7,
+        width: MediaQuery.of(context).size.width / 3.4,
         height: MediaQuery.of(context).size.height / 16,
         child: Center(
           child: Text(
             'Регистрация',
             style: TextStyle(
                 color: Colors.purple[800],
-                fontFamily: "OpenSans",
+                fontFamily: "Helvetica",
                 fontSize: 19),
           ),
         ),
@@ -148,16 +199,27 @@ class Auth extends StatelessWidget {
         home: Scaffold(
             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.purple[100],
-            body: Column(children: <Widget>[
-              Spacer(),
-              auth,
-              Spacer(),
-              login,
-              password,
-              signIn,
-              Spacer(),
-              inup,
-            ] //child: test,
-                )));
+            body: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Colors.white,
+                    Colors.purple.shade200,
+                    Colors.yellow.shade300,
+                  ],
+                )),
+                child: Column(children: <Widget>[
+                  Spacer(),
+                  auth,
+                  Spacer(),
+                  login,
+                  password,
+                  signIn,
+                  Spacer(),
+                  inup,
+                ] //child: test,
+                    ))));
   }
 }

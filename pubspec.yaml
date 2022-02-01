@@ -62,6 +62,9 @@ flutter:
     - family: OpenSans
       fonts:
         - asset: assets/fonts/OpenSans_SemiCondensed-Medium.ttf
+    - family: Helvetica-Font
+    - fonts:
+        - asset: assets/fonts/Helvetica.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
