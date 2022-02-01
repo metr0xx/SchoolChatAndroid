@@ -140,125 +140,134 @@ class ChatsState extends State<Chats> {
             context: context,
             builder: (context) {
               return Dialog(
-                  backgroundColor: const Color(0xFF1c1a1c),
+                  backgroundColor: Colors.grey,
                   shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    side: BorderSide(width: 2, color: Color(0xFFa40dd6)),
+                    borderRadius: BorderRadius.all(Radius.circular(24.0)),
+                    side: BorderSide(width: 2, color: Colors.green),
                   ),
-                  child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: SizedBox(
-                          height: MediaQuery.of(context).size.height / 6,
-                          child: Column(
-                            children: <Widget>[
-                              (TextField(
-                                onChanged: (text) {
-                                  name = text;
-                                },
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Название чата",
-                                  fillColor: Color(0xFFbfbfbf),
-                                  filled: true,
-                                  hintStyle: TextStyle(
-                                      color: Color(0xFFa40dd6),
-                                      fontFamily: "Helvetica"),
-                                  hintMaxLines: 1,
-                                ),
-                              )),
-                              (ElevatedButton(
-                                  onPressed: () {
-                                    if (checker(name)) {
-                                      addedNames.add(name);
-                                      name = '';
-                                      //Navigator.pop(context);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Chats()));
-                                    } else {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return Dialog(
-                                                backgroundColor:
-                                                    const Color(0xFF1c1a1c),
-                                                shape:
-                                                    const RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(
-                                                              15.0)),
-                                                  side: BorderSide(
-                                                      width: 2,
-                                                      color: Colors.red),
-                                                ),
-                                                child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            16.0),
-                                                    child: SizedBox(
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height /
-                                                              9,
-                                                      child: Column(
-                                                          children: <Widget>[
-                                                            (const Text(
-                                                              'Неправильно, попробуй еще раз!',
-                                                              style: TextStyle(
-                                                                  fontSize: 17,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontFamily:
-                                                                      "Helvetica"),
-                                                            )),
-                                                            Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        top:
-                                                                            10),
-                                                                child: SizedBox(
-                                                                    height: 35,
-                                                                    child: ElevatedButton(
-                                                                        onPressed: () {
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        child: const Text(
-                                                                          'Ok',
-                                                                          style: TextStyle(
-                                                                              fontSize: 17,
-                                                                              color: Colors.red,
-                                                                              fontFamily: "Helvetica"),
-                                                                        ),
-                                                                        style: ButtonStyle(
-                                                                            backgroundColor: MaterialStateProperty.all(
-                                                                          const Color(
-                                                                              0xFF2b2e2d),
-                                                                        )))))
-                                                          ]),
-                                                    )));
-                                          });
-                                    }
-                                  },
-                                  child: const Text(
-                                    "Создать чат",
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        color: Color(0xFFa40dd6),
-                                        fontFamily: "Helvetica"),
-                                  ),
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                    const Color(0xFF2b2e2d),
-                                  ))))
-                            ],
-                          ))));
+
+                  // padding: const EdgeInsets.all(16.0),
+                  child: SizedBox(
+                      height: MediaQuery.of(context).size.height / 5,
+                      child: Column(
+                        children: <Widget>[
+                          (TextField(
+                            onChanged: (text) {
+                              name = text;
+                            },
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: "Название чата",
+                              fillColor: Colors.white,
+                              filled: true,
+                              hintStyle: TextStyle(
+                                  color: Color(0xFFa40dd6),
+                                  fontFamily: "Helvetica"),
+                              hintMaxLines: 1,
+                            ),
+                          )),
+                          (ElevatedButton(
+                              onPressed: () {
+                                if (checker(name)) {
+                                  addedNames.add(name);
+                                  name = '';
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const Chats()));
+                                } else {
+                                  final snackBar = SnackBar(
+                                    content: const Text(
+                                        'Некорректное название чата'),
+                                    action: SnackBarAction(
+                                      label: 'Ок',
+                                      onPressed: () {
+                                        // Some code to undo the change.
+                                      },
+                                    ),
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                  // showDialog(
+                                  //     context: context,
+                                  //     builder: (context) {
+                                  //       return Dialog(
+                                  //           backgroundColor:
+                                  //               Colors.grey,
+                                  //           shape:
+                                  //               const RoundedRectangleBorder(
+                                  //             borderRadius:
+                                  //                 BorderRadius.all(
+                                  //                     Radius.circular(
+                                  //                         15.0)),
+                                  //             side: BorderSide(
+                                  //                 width: 2,
+                                  //                 color: Colors.red),
+                                  //           ),
+                                  //           child: Padding(
+                                  //               padding:
+                                  //                   const EdgeInsets.all(
+                                  //                       16.0),
+                                  //               child: SizedBox(
+                                  //                 height:
+                                  //                     MediaQuery.of(context)
+                                  //                             .size
+                                  //                             .height /
+                                  //                         9,
+                                  //                 child: Column(
+                                  //                     children: <Widget>[
+                                  //                       (const Text(
+                                  //                         'Некорректное название чата',
+                                  //                         style: TextStyle(
+                                  //                             fontSize: 17,
+                                  //                             color: Colors
+                                  //                                 .white,
+                                  //                             fontFamily:
+                                  //                                 "Helvetica"),
+                                  //                       )),
+                                  //                       Container(
+                                  //                           padding:
+                                  //                               const EdgeInsets
+                                  //                                       .only(
+                                  //                                   top:
+                                  //                                       10),
+                                  //                           child: SizedBox(
+                                  //                               height: 35,
+                                  //                               child: ElevatedButton(
+                                  //                                   onPressed: () {
+                                  //                                     Navigator.pop(
+                                  //                                         context);
+                                  //                                   },
+                                  //                                   child: const Text(
+                                  //                                     'Ok',
+                                  //                                     style: TextStyle(
+                                  //                                         fontSize: 17,
+                                  //                                         color: Colors.red,
+                                  //                                         fontFamily: "Helvetica"),
+                                  //                                   ),
+                                  //                                   style: ButtonStyle(
+                                  //                                       backgroundColor: MaterialStateProperty.all(
+                                  //                                     const Color(
+                                  //                                         0xFF2b2e2d),
+                                  //                                   )))))
+                                  //                     ]),
+                                  //               )));
+                                  //     });
+                                }
+                              },
+                              child: const Text(
+                                "Создать чат",
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    color: Color(0xFFa40dd6),
+                                    fontFamily: "Helvetica"),
+                              ),
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                const Color(0xFF2b2e2d),
+                              ))))
+                        ],
+                      )));
             },
           );
         },
