@@ -13,87 +13,151 @@ class Auth extends StatelessWidget {
   Widget build(BuildContext context) {
     String _email;
     String _password;
-    Text auth = Text(Strings.auth,
+    Text auth = Text("Авторизация",
         textDirection: TextDirection.ltr,
         style: TextStyle(
             fontSize: 35,
-            color: Color(0xFF75d9c8),
-            fontWeight: FontWeight.bold));
-    Text bigclear = Text('', style: TextStyle(fontSize: 60));
-    Text midclear = Text('', style: TextStyle(fontSize: 45));
+            color: Colors.purple[800],
+            fontWeight: FontWeight.bold,
+            fontFamily: "OpenSans"));
 
-    TextField login = TextField(
-        decoration: InputDecoration(
-      border: InputBorder.none,
-      hintText: Strings.email,
-      hintStyle: TextStyle(color: Color(0xFFa40dd6)),
-      fillColor: Color(0xFFbfbfbf),
-      filled: true,
-    ));
+    Container login = Container(
+        width: MediaQuery.of(context).size.width / 1.2,
+        height: MediaQuery.of(context).size.height / 11.5,
+        // padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 50),
+        child: TextField(
+            decoration: InputDecoration(
+                hintText: "Эл. почта или телефон",
+                hintStyle: TextStyle(
+                    color: Colors.purple[900], fontFamily: "OpenSans"),
+                prefixIcon: Icon(
+                  Icons.account_circle_outlined,
+                  color: Colors.purple[900],
+                ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(35.0)),
+                fillColor: Colors.white,
+                filled: true)));
 
-    TextField password = TextField(
-      decoration: InputDecoration(
-        border: InputBorder.none,
-        hintStyle: TextStyle(
-          color: Color(0xFFa40dd6),
+    Container password = Container(
+        width: MediaQuery.of(context).size.width / 1.2,
+        height: MediaQuery.of(context).size.height / 11.5,
+        // padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 50),
+        child: TextField(
+            decoration: InputDecoration(
+                hintText: "Пароль",
+                prefixIcon: Icon(
+                  Icons.lock_outline,
+                  color: Colors.purple[900],
+                ),
+                hintStyle: TextStyle(
+                    color: Colors.purple[900], fontFamily: "OpenSans"),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(35.0)),
+                fillColor: Colors.white,
+                filled: true)));
+    Container signIn = Container(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 24),
+        child: ElevatedButton(
+          onPressed: () {
+            start_connection();
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Chats()));
+          },
+          child: Container(
+            width: MediaQuery.of(context).size.width / 4,
+            height: MediaQuery.of(context).size.height / 16,
+            child: Center(
+              child: Text(
+                'Войти',
+                style: TextStyle(
+                    color: Colors.white, fontFamily: "OpenSans", fontSize: 18),
+              ),
+            ),
+          ),
+          style: ElevatedButton.styleFrom(
+            onPrimary: Colors.black87,
+            primary: Colors.purple[700],
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+            ),
+          ),
+        ));
+
+    ElevatedButton authbtn = ElevatedButton(
+      onPressed: () {},
+      child: Container(
+        width: MediaQuery.of(context).size.width / 3.7,
+        height: MediaQuery.of(context).size.height / 16,
+        child: Center(
+          child: Text(
+            'Авторизация',
+            style: TextStyle(
+                color: Colors.white, fontFamily: "OpenSans", fontSize: 18),
+          ),
         ),
-        hintText: Strings.password,
-        fillColor: Color(0xFFbfbfbf),
-        filled: true,
+      ),
+      style: ElevatedButton.styleFrom(
+        onPrimary: Colors.black87,
+        primary: Colors.purple[700],
+        // minimumSize: Size(, 36),
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+        ),
       ),
     );
 
-    ElevatedButton signIn = ElevatedButton(
-        onPressed: () {
-          start_connection();
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Chats()));
-        },
-        child: Text(Strings.signIn,
-            style: TextStyle(color: Color(0xFFa40dd6), fontSize: 25)),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Color(0xFF1c1a1c)),
-        ));
-
-    ElevatedButton signUp = ElevatedButton(
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SignUpPage()));
-        },
-        child: Text(
-          Strings.signUp,
-          style: TextStyle(color: Color(0xFFa40dd6), fontSize: 25),
+    TextButton regbtn = TextButton(
+      onPressed: () {
+        start_connection();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SignUpPage()));
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width / 3.7,
+        height: MediaQuery.of(context).size.height / 16,
+        child: Center(
+          child: Text(
+            'Регистрация',
+            style: TextStyle(
+                color: Colors.purple[800],
+                fontFamily: "OpenSans",
+                fontSize: 19),
+          ),
         ),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Color(0xFF1c1a1c)),
-        ));
+      ),
+      style: ElevatedButton.styleFrom(
+        // minimumSize: Size(, 36),
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+        ),
+      ),
+    );
 
-    Row inup = Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[signIn, signUp]);
+    Container inup = Container(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 40),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[authbtn, regbtn]));
 
     return MaterialApp(
         home: Scaffold(
-            appBar: AppBar(
-              title: Text(Strings.homeTittle,
-                  textScaleFactor: 1, style: TextStyle(fontSize: 25)),
-              backgroundColor: Color(0xFF350752),
-              centerTitle: false,
-            ),
-            body: Container(
-                color: Color(0xFF140513),
-                // color: Colors.white,
-                alignment: FractionalOffset(0.5, 0.2),
-                child: Column(children: <Widget>[
-                  bigclear,
-                  auth,
-                  bigclear,
-                  login,
-                  midclear,
-                  password,
-                  bigclear,
-                  Center(child: inup)
-                ] //child: test,
-                    ))));
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Colors.purple[100],
+            body: Column(children: <Widget>[
+              Spacer(),
+              auth,
+              Spacer(),
+              login,
+              password,
+              signIn,
+              Spacer(),
+              inup,
+            ] //child: test,
+                )));
   }
 }
