@@ -165,7 +165,7 @@ class Auth extends StatelessWidget {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => SignUpPage()));
       },
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width / 3.4,
         height: MediaQuery.of(context).size.height / 16,
         child: Center(
