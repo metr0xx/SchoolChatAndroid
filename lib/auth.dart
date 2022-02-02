@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'chats.dart';
 import 'sign_up_page.dart';
 import 'socket_io_manager.dart';
+import 'package:dbcrypt/dbcrypt.dart';
 
 class Auth extends StatelessWidget {
   const Auth({Key? key}) : super(key: key);
