@@ -39,7 +39,8 @@ class ChatViewState extends State<ChatView> {
 
   @override
   Widget build(BuildContext context) {
-    void new_message(dynamic mass) {
+    void new_message(dynamic arr) {
+      var mass = arr["data"];
       print(mass);
       messages.add(Message(
           int.parse(mass["id"]),

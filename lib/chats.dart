@@ -52,7 +52,8 @@ class ChatsState extends State<Chats> {
 
   var shouldUpdate = true;
 
-  void fillChats2(var incomming) {
+  void fillChats2(var inc) {
+    var incomming = inc["data"];
     print(incomming);
     var chatinfo = incomming['chat'];
     var lastmsg = incomming['last_msg'];
