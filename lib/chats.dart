@@ -488,6 +488,7 @@ class ChatsState extends State<Chats> {
     ]);
     return MaterialApp(
         home: Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               backgroundColor: Colors.green[200],
               title: topBar,

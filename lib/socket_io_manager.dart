@@ -3,19 +3,19 @@
 import 'models.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-IO.Socket socket = IO.io(
-    'https://school-chat-server-ws.herokuapp.com/',
-    IO.OptionBuilder()
-        .setTransports(['websocket']) // for Flutter or Dart VM
-        .disableAutoConnect() // disable auto-connection
-        .build());
-
 // IO.Socket socket = IO.io(
-//     'http://localhost:3000/',
+//     'https://school-chat-server-ws.herokuapp.com/',
 //     IO.OptionBuilder()
 //         .setTransports(['websocket']) // for Flutter or Dart VM
 //         .disableAutoConnect() // disable auto-connection
 //         .build());
+
+IO.Socket socket = IO.io(
+    'http://localhost:3000/',
+    IO.OptionBuilder()
+        .setTransports(['websocket']) // for Flutter or Dart VM
+        .disableAutoConnect() // disable auto-connection
+        .build());
 
 void start_connection() {
   socket.connect();
@@ -115,4 +115,13 @@ void recieve_chat_users(Function callback) {
 void send_auth_data(data) {
   print("emitted");
   socket.emit("auth-data", {"data": data});
+}
+
+void send_registration_data(data) {
+  print('aboba');
+  socket.emit("register", data);
+}
+
+void react_register(Function callback) {
+  socket.on("register_ans", (data) => {callback(data)});
 }

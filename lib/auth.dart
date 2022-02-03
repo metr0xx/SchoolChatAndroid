@@ -45,7 +45,7 @@ class AuthState extends State<Auth> {
           int.parse(dat["class_id"]),
           dat["email"],
           dat["phone"],
-          dat["picture_url"] != null ? dat["picture_url"] : "");
+          dat["picture_url"] ?? "");
       update();
     } else {
       requested = false;
@@ -236,7 +236,6 @@ class AuthState extends State<Auth> {
 
     TextButton regbtn = TextButton(
       onPressed: () {
-        start_connection();
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => SignUpPage()));
       },

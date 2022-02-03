@@ -1,16 +1,37 @@
+import 'package:dbcrypt/dbcrypt.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/socket_io_manager.dart';
 import 'auth.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  // const SignUpPage({Key? key}) : super(key: key);
 
   @override
   _SignUpStageState createState() => _SignUpStageState();
 }
 
 class _SignUpStageState extends State<SignUpPage> {
+  String surnameVal = "";
+  String nameVal = "";
+  String emailVal = "";
+  String phoneVal = "";
+  String passwordVal = "";
+  String confirmPasswordVal = "";
+  String inviteCodeVal = "";
+  void update() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void get_auth(mass) {
+    print(mass);
+  }
+
   @override
   Widget build(BuildContext context) {
+    react_register(get_auth);
+
     Container registr = Container(
         padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).size.height / 20,
@@ -44,6 +65,9 @@ class _SignUpStageState extends State<SignUpPage> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 12,
         child: TextField(
+            onChanged: (text) {
+              surnameVal = text;
+            },
             decoration: InputDecoration(
                 hintText: "Фамилия",
                 hintStyle: TextStyle(
@@ -73,6 +97,9 @@ class _SignUpStageState extends State<SignUpPage> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 11.5,
         child: TextField(
+            onChanged: (text) {
+              nameVal = text;
+            },
             decoration: InputDecoration(
                 hintText: "Имя",
                 hintStyle: TextStyle(
@@ -102,6 +129,9 @@ class _SignUpStageState extends State<SignUpPage> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 11.5,
         child: TextField(
+            onChanged: (text) {
+              emailVal = text;
+            },
             decoration: InputDecoration(
                 hintText: "Эл. почта",
                 hintStyle: TextStyle(
@@ -131,6 +161,9 @@ class _SignUpStageState extends State<SignUpPage> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 11.5,
         child: TextField(
+            onChanged: (text) {
+              phoneVal = text;
+            },
             decoration: InputDecoration(
                 hintText: "Номер телефона",
                 hintStyle: TextStyle(
@@ -145,6 +178,49 @@ class _SignUpStageState extends State<SignUpPage> {
                     borderRadius: BorderRadius.circular(35.0)),
                 fillColor: Colors.white,
                 filled: true)));
+    Opacity ifPasswordIsClear = Opacity(opacity: 0.0);
+    Opacity confirmpassword = Opacity(
+        opacity: 1,
+        child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(35.0)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.08),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: const Offset(0, 0), // changes position of shadow
+                ),
+              ],
+            ),
+            width: MediaQuery.of(context).size.width / 1.2,
+            height: MediaQuery.of(context).size.height / 11.5,
+            child: TextField(
+                onChanged: (text) {
+                  confirmPasswordVal = text;
+                },
+                decoration: InputDecoration(
+                    hintText: "Подтверждение пароля",
+                    hintStyle: TextStyle(
+                        color: Colors.purple[900],
+                        fontFamily: "Helvetica",
+                        fontSize: 17),
+                    prefixIcon: const Icon(
+                      Icons.lock_rounded,
+                      color: Colors.red,
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(35.0)),
+                    fillColor: Colors.white,
+                    filled: true))));
+    Opacity showConfirmation() {
+      if (passwordVal == "") {
+        return ifPasswordIsClear;
+      } else {
+        return confirmpassword;
+      }
+    }
+
     Container password = Container(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(35.0)),
@@ -160,6 +236,11 @@ class _SignUpStageState extends State<SignUpPage> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 11.5,
         child: TextField(
+            onChanged: (text) {
+              passwordVal = text;
+              showConfirmation();
+              update();
+            },
             decoration: InputDecoration(
                 hintText: "Пароль",
                 hintStyle: TextStyle(
@@ -171,36 +252,8 @@ class _SignUpStageState extends State<SignUpPage> {
                   color: Colors.purple[900],
                 ),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(35.0)),
-                fillColor: Colors.white,
-                filled: true)));
-    Container confirmpassword = Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(35.0)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 0), // changes position of shadow
-            ),
-          ],
-        ),
-        width: MediaQuery.of(context).size.width / 1.2,
-        height: MediaQuery.of(context).size.height / 11.5,
-        child: TextField(
-            decoration: InputDecoration(
-                hintText: "Подтверждение пароля",
-                hintStyle: TextStyle(
-                    color: Colors.purple[900],
-                    fontFamily: "Helvetica",
-                    fontSize: 17),
-                prefixIcon: Icon(
-                  Icons.contact_mail_outlined,
-                  color: Colors.purple[900],
+                  borderRadius: BorderRadius.circular(35.0),
                 ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(35.0)),
                 fillColor: Colors.white,
                 filled: true)));
     Container invitecode = Container(
@@ -218,6 +271,9 @@ class _SignUpStageState extends State<SignUpPage> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 11.5,
         child: TextField(
+            onChanged: (text) {
+              inviteCodeVal = text;
+            },
             decoration: InputDecoration(
                 hintText: "Код приглашения",
                 hintStyle: TextStyle(
@@ -246,7 +302,28 @@ class _SignUpStageState extends State<SignUpPage> {
         ),
         padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 24),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            start_connection();
+            if (surnameVal == "" ||
+                nameVal == "" ||
+                emailVal == "" ||
+                phoneVal == "" ||
+                passwordVal == "" ||
+                confirmPasswordVal == "" ||
+                inviteCodeVal == "") {
+              print("Бистро ввел все!");
+            } else {
+              send_registration_data({
+                "name": nameVal,
+                "surname": surnameVal,
+                "email": emailVal,
+                "phone": phoneVal,
+                "invite_code": inviteCodeVal,
+                "password": DBCrypt()
+                    .hashpw(passwordVal, DBCrypt().gensaltWithRounds(10))
+              });
+            }
+          },
           child: SizedBox(
             width: MediaQuery.of(context).size.width / 2,
             height: MediaQuery.of(context).size.height / 16,
@@ -354,6 +431,7 @@ class _SignUpStageState extends State<SignUpPage> {
                   email,
                   phone,
                   password,
+                  showConfirmation(),
                   invitecode,
                   signUp,
                   const Spacer(),
