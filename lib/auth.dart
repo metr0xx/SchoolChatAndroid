@@ -94,7 +94,9 @@ class AuthState extends State<Auth> {
             decoration: InputDecoration(
                 hintText: "Эл. почта или телефон",
                 hintStyle: TextStyle(
-                    color: Colors.purple[900], fontFamily: "Helvetica"),
+                    color: Colors.purple[900],
+                    fontFamily: "Helvetica",
+                    fontSize: 17),
                 prefixIcon: Icon(
                   Icons.account_circle_outlined,
                   color: Colors.purple[900],
@@ -120,6 +122,7 @@ class AuthState extends State<Auth> {
         height: MediaQuery.of(context).size.height / 11.5,
         // padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 50),
         child: TextField(
+            obscureText: true,
             onChanged: (text) {
               password = text;
             },
@@ -130,7 +133,9 @@ class AuthState extends State<Auth> {
                   color: Colors.purple[900],
                 ),
                 hintStyle: TextStyle(
-                    color: Colors.purple[900], fontFamily: "Helvetica"),
+                    color: Colors.purple[900],
+                    fontFamily: "Helvetica",
+                    fontSize: 17),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(35.0)),
                 fillColor: Colors.white,

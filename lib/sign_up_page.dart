@@ -47,7 +47,9 @@ class _SignUpStageState extends State<SignUpPage> {
             decoration: InputDecoration(
                 hintText: "Фамилия",
                 hintStyle: TextStyle(
-                    color: Colors.purple[900], fontFamily: "Helvetica"),
+                    color: Colors.purple[900],
+                    fontFamily: "Helvetica",
+                    fontSize: 17),
                 prefixIcon: Icon(
                   Icons.account_circle_outlined,
                   color: Colors.purple[900],
@@ -74,7 +76,9 @@ class _SignUpStageState extends State<SignUpPage> {
             decoration: InputDecoration(
                 hintText: "Имя",
                 hintStyle: TextStyle(
-                    color: Colors.purple[900], fontFamily: "Helvetica"),
+                    color: Colors.purple[900],
+                    fontFamily: "Helvetica",
+                    fontSize: 17),
                 prefixIcon: Icon(
                   Icons.account_circle_outlined,
                   color: Colors.purple[900],
@@ -101,7 +105,9 @@ class _SignUpStageState extends State<SignUpPage> {
             decoration: InputDecoration(
                 hintText: "Эл. почта",
                 hintStyle: TextStyle(
-                    color: Colors.purple[900], fontFamily: "Helvetica"),
+                    color: Colors.purple[900],
+                    fontFamily: "Helvetica",
+                    fontSize: 17),
                 prefixIcon: Icon(
                   Icons.email_outlined,
                   color: Colors.purple[900],
@@ -128,7 +134,9 @@ class _SignUpStageState extends State<SignUpPage> {
             decoration: InputDecoration(
                 hintText: "Номер телефона",
                 hintStyle: TextStyle(
-                    color: Colors.purple[900], fontFamily: "Helvetica"),
+                    color: Colors.purple[900],
+                    fontFamily: "Helvetica",
+                    fontSize: 17),
                 prefixIcon: Icon(
                   Icons.phone_outlined,
                   color: Colors.purple[900],
@@ -155,7 +163,9 @@ class _SignUpStageState extends State<SignUpPage> {
             decoration: InputDecoration(
                 hintText: "Пароль",
                 hintStyle: TextStyle(
-                    color: Colors.purple[900], fontFamily: "Helvetica"),
+                    color: Colors.purple[900],
+                    fontFamily: "Helvetica",
+                    fontSize: 17),
                 prefixIcon: Icon(
                   Icons.lock_outline,
                   color: Colors.purple[900],
@@ -182,7 +192,9 @@ class _SignUpStageState extends State<SignUpPage> {
             decoration: InputDecoration(
                 hintText: "Подтверждение пароля",
                 hintStyle: TextStyle(
-                    color: Colors.purple[900], fontFamily: "Helvetica"),
+                    color: Colors.purple[900],
+                    fontFamily: "Helvetica",
+                    fontSize: 17),
                 prefixIcon: Icon(
                   Icons.contact_mail_outlined,
                   color: Colors.purple[900],
@@ -209,7 +221,9 @@ class _SignUpStageState extends State<SignUpPage> {
             decoration: InputDecoration(
                 hintText: "Код приглашения",
                 hintStyle: TextStyle(
-                    color: Colors.purple[900], fontFamily: "Helvetica"),
+                    color: Colors.purple[900],
+                    fontFamily: "Helvetica",
+                    fontSize: 17),
                 prefixIcon: Icon(
                   Icons.quick_contacts_mail_outlined,
                   color: Colors.purple[900],

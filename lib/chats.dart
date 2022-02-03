@@ -154,7 +154,6 @@ class ChatsState extends State<Chats> {
                     borderRadius: BorderRadius.all(Radius.circular(24.0)),
                     side: BorderSide(width: 2, color: Colors.purple),
                   ),
-
                   // padding: const EdgeInsets.all(16.0),
                   child: SizedBox(
                       height: MediaQuery.of(context).size.height / 5,

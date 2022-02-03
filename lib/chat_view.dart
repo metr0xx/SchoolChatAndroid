@@ -20,7 +20,7 @@ class ChatView extends StatefulWidget {
 
 class ChatViewState extends State<ChatView> {
   @override
-  int id;
+  int id = 0;
   List messages = [];
   List chatUsers = [];
   String name = "";

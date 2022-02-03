@@ -49,12 +49,12 @@ class Chat {
 class User {
   int id = 0;
   String name = "";
-  String surname;
-  int school_id;
-  int class_id;
-  String email;
-  String phone;
-  String avatar;
+  String surname = "";
+  int school_id = 0;
+  int class_id = 0;
+  String email = "";
+  String phone = "";
+  String avatar = "";
   User(this.id, this.name, this.surname, this.school_id, this.class_id,
       this.email, this.phone, this.avatar);
 }
