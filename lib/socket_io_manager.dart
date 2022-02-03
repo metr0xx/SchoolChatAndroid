@@ -3,19 +3,19 @@
 import 'models.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-// IO.Socket socket = IO.io(
-//     'https://school-chat-server-ws.herokuapp.com/',
-//     IO.OptionBuilder()
-//         .setTransports(['websocket']) // for Flutter or Dart VM
-//         .disableAutoConnect() // disable auto-connection
-//         .build());
-
 IO.Socket socket = IO.io(
-    'http://localhost:3000/',
+    'https://school-chat-server-ws.herokuapp.com/',
     IO.OptionBuilder()
         .setTransports(['websocket']) // for Flutter or Dart VM
         .disableAutoConnect() // disable auto-connection
         .build());
+
+// IO.Socket socket = IO.io(
+//     'http://localhost:3000/',
+//     IO.OptionBuilder()
+//         .setTransports(['websocket']) // for Flutter or Dart VM
+//         .disableAutoConnect() // disable auto-connection
+//         .build());
 
 void start_connection() {
   socket.connect();

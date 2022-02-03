@@ -2,28 +2,42 @@
 
 import 'package:flutter/material.dart';
 import 'chats.dart';
+import 'chat_view.dart';
 
 class ChatInfo extends StatefulWidget {
   int? id;
   String? name;
-  var users;
-  ChatInfo(this.id, this.name, this.users, {Key? key}) : super(key: key);
+  List? chatUsers;
+  bool? loaded;
+  ChatInfo(this.id, this.name, this.chatUsers, this.loaded, {Key? key})
+      : super(key: key);
+  @override
   State<StatefulWidget> createState() {
-    return ChatInfoState(id!, name!, users);
+    return ChatInfoState(id!, name!, chatUsers!, loaded!);
   }
 }
 
 class ChatInfoState extends State<ChatInfo> {
+  void update() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   @override
-  ChatInfoState(this.id, this.name, this.users);
+  ChatInfoState(this.id, this.name, this.chatUsers, this.loaded);
   int? id;
   String name = "";
-  var users;
+  List chatUsers;
+  bool loaded = false;
   @override
   Widget build(BuildContext context) {
+    if (!loaded) {
+      update();
+    }
     TextButton back = TextButton(
         onPressed: () {
-          print(users);
+          print(chatUsers);
           Navigator.pop(context);
         },
         child: Container(
@@ -81,11 +95,18 @@ class ChatInfoState extends State<ChatInfo> {
           const Spacer()
         ]));
     Column createUsers() {
-      Column columnOfUsers = Column(children: const <Widget>[]);
-      columnOfUsers.children.add(Text(
-        users,
-        style: const TextStyle(color: Colors.black, fontSize: 50),
-      ));
+      Column columnOfUsers = Column(children: <Widget>[]);
+      for (int i = 0; i < chatUsers.length; i++) {
+        columnOfUsers.children.add(Container(
+            color: Colors.white,
+            padding:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height / 6),
+            child: Center(
+                child: Text(
+              chatUsers[i].name + " " + chatUsers[i].surname,
+              style: const TextStyle(color: Colors.black, fontSize: 20),
+            ))));
+      }
       return columnOfUsers;
     }
 

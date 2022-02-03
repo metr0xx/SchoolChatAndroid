@@ -308,7 +308,7 @@ class ChatsState extends State<Chats> {
         ));
 
     if (shouldUpdate) {
-      get_chat_ids(2);
+      get_chat_ids(currentuser!.id);
       shouldUpdate = false;
     }
     react_chats(fillChats);
@@ -326,8 +326,8 @@ class ChatsState extends State<Chats> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ChatView(chatDatas[i].id,
-                              filtered[i].name, filtered[i].users)));
+                          builder: (context) =>
+                              ChatView(chatDatas[i].id, filtered[i].name)));
                   // _scrollController.animateTo(0.0,
                   //     curve: Curves.easeOut,
                   //     duration: const Duration(milliseconds: 300));

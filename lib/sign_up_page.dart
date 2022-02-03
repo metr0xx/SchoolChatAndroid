@@ -1,7 +1,9 @@
 import 'package:dbcrypt/dbcrypt.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models.dart';
 import 'package:flutter_application_1/socket_io_manager.dart';
 import 'auth.dart';
+import 'chats.dart';
 
 class SignUpPage extends StatefulWidget {
   // const SignUpPage({Key? key}) : super(key: key);
@@ -18,14 +20,36 @@ class _SignUpStageState extends State<SignUpPage> {
   String passwordVal = "";
   String confirmPasswordVal = "";
   String inviteCodeVal = "";
+  bool requested = false;
   void update() {
     if (mounted) {
       setState(() {});
     }
   }
 
+  bool authStat = false;
   void get_auth(mass) {
     print(mass);
+    if (mass["stat"] == "CODE") {
+      print("incorrect code");
+      return;
+    }
+    if (mass["stat"] != "OK") {
+      return;
+    }
+    var data = mass["data"];
+    authStat = true;
+    currentuser = User(
+        int.parse(data["id"]),
+        data["name"],
+        data["surname"],
+        int.parse(data["school_id"]),
+        int.parse(data["class_id"]),
+        data["email"],
+        data["phone"],
+        data["picture_url"] ?? "");
+    update();
+    requested = true;
   }
 
   @override
@@ -408,6 +432,10 @@ class _SignUpStageState extends State<SignUpPage> {
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[authbtn, regbtn]));
+
+    if (authStat) {
+      return const Chats();
+    }
 
     return MaterialApp(
         home: Scaffold(

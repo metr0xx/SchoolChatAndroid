@@ -10,11 +10,10 @@ import 'chat_info.dart';
 class ChatView extends StatefulWidget {
   int? id;
   String? name;
-  var users;
-  ChatView(this.id, this.name, this.users, {Key? key}) : super(key: key);
+  ChatView(this.id, this.name, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return ChatViewState(id!, name!, users);
+    return ChatViewState(id!, name!);
   }
 }
 
@@ -24,8 +23,8 @@ class ChatViewState extends State<ChatView> {
   List messages = [];
   List chatUsers = [];
   String name = "";
-  var users;
-  ChatViewState(this.id, this.name, this.users);
+  bool loaded = false;
+  ChatViewState(this.id, this.name);
   var shouldUpdate = true;
   final ScrollController _controller = ScrollController();
 
@@ -77,23 +76,28 @@ class ChatViewState extends State<ChatView> {
 
     void get_users(dynamic mass) {
       var data = mass["data"];
+      print(data);
+      print(data[0][0]["name"]);
       print('MASS');
       print(data.length);
-      print(data);
+      // print(data);
       for (int i = 0; i < data.length; i++) {
+        if (data[i].length == 0) {
+          continue;
+        }
         chatUsers.add(User(
-            int.parse(data[i]["id"]),
-            data[i]["name"],
-            data[i]["surname"],
-            int.parse(data[i]["school_id"]),
-            int.parse(data[i]["class_id"]),
-            data[i]["email"],
-            data[i]["phone"],
-            data[i]["avatar"]));
+            int.parse(data[i][0]["id"]),
+            data[i][0]["name"],
+            data[i][0]["surname"],
+            int.parse(data[i][0]["school_id"]),
+            int.parse(data[i][0]["class_id"]),
+            data[i][0]["email"],
+            data[i][0]["phone"],
+            data[i][0]["picture_url"] ?? ""));
       }
       print('chatUsers:');
       print(chatUsers);
-      update();
+      loaded = true;
     }
 
     if (shouldUpdate) {
@@ -194,7 +198,8 @@ class ChatViewState extends State<ChatView> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ChatInfo(id, name, users)));
+                    builder: (context) =>
+                        ChatInfo(id, name, chatUsers, loaded)));
           },
           child: Container(
               padding: const EdgeInsets.only(left: 10),
