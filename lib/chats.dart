@@ -42,6 +42,7 @@ class Chats extends StatefulWidget {
 class ChatsState extends State<Chats> {
   var chatDatas = [];
   var addedNames = [];
+  var searchText = "";
   void update() {
     if (mounted) {
       setState(() {});
@@ -86,6 +87,13 @@ class ChatsState extends State<Chats> {
       fillChats2(chatinfo[o]);
       print("proshlo");
     }
+  }
+
+  List getSortedFilteredChats() {
+    return chatDatas
+        .where((element) =>
+            element.name.toLowerCase().contains(searchText.toLowerCase()))
+        .toList();
   }
 
   String name = '';
@@ -284,6 +292,11 @@ class ChatsState extends State<Chats> {
         width: MediaQuery.of(context).size.width / 1.1,
         height: MediaQuery.of(context).size.height / 12,
         child: TextField(
+          onChanged: (text) {
+            print(text);
+            searchText = text;
+            update();
+          },
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
             contentPadding: const EdgeInsets.all(10),
@@ -304,7 +317,8 @@ class ChatsState extends State<Chats> {
 
     Column createChats() {
       Column columnOfChats = Column(children: <Widget>[findChat]);
-      for (int i = 0; i < chatDatas.length; i++) {
+      var filtered = getSortedFilteredChats();
+      for (int i = 0; i < filtered.length; i++) {
         SizedBox chat = SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 86.0,
@@ -314,7 +328,7 @@ class ChatsState extends State<Chats> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => ChatView(chatDatas[i].id,
-                              chatDatas[i].name, chatDatas[i].users)));
+                              filtered[i].name, filtered[i].users)));
                   // _scrollController.animateTo(0.0,
                   //     curve: Curves.easeOut,
                   //     duration: const Duration(milliseconds: 300));
@@ -332,7 +346,7 @@ class ChatsState extends State<Chats> {
                       children: <Widget>[
                         Center(
                             child: Text(
-                          textForChatIcon(chatDatas[i].name),
+                          textForChatIcon(filtered[i].name),
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 36,
@@ -346,7 +360,7 @@ class ChatsState extends State<Chats> {
                     (Container(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        correctLastMsg(chatDatas[i].name),
+                        correctLastMsg(filtered[i].name),
                         style: const TextStyle(
                             fontSize: 16,
                             color: Colors.black,
@@ -356,7 +370,7 @@ class ChatsState extends State<Chats> {
                     Container(
                       padding: const EdgeInsets.only(top: 23),
                       child: Text(
-                        correctLastMsg(chatDatas[i].last_msg_text),
+                        correctLastMsg(filtered[i].last_msg_text),
                         style: const TextStyle(
                             fontSize: 16,
                             color: Colors.black,
@@ -367,7 +381,7 @@ class ChatsState extends State<Chats> {
                   const Spacer(),
                   Align(
                       child: Text(
-                          correctDate(formatDate(chatDatas[i].last_msg_time)),
+                          correctDate(formatDate(filtered[i].last_msg_time)),
                           style: const TextStyle(
                               color: Colors.black,
                               fontSize: 16,
@@ -436,7 +450,7 @@ class ChatsState extends State<Chats> {
                         Center(
                             child: Text(
                           textForChatIcon(
-                              currentuser.name + ' ' + currentuser.surname),
+                              currentuser!.name + ' ' + currentuser!.surname),
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 34,
@@ -447,7 +461,7 @@ class ChatsState extends State<Chats> {
                   ),
                   // Spacer(),
                   Text(
-                    '  ' + currentuser.name + ' ' + currentuser.surname,
+                    '  ' + currentuser!.name + ' ' + currentuser!.surname,
                     style: const TextStyle(
                         color: Colors.black,
                         fontSize: 25,
@@ -458,13 +472,13 @@ class ChatsState extends State<Chats> {
               ),
               const Spacer(),
               Text(
-                "Телефон: " + currentuser.phone,
+                "Телефон: " + currentuser!.phone,
                 style: const TextStyle(
                     color: Colors.black, fontSize: 20, fontFamily: "Helvetica"),
               ),
               // Spacer(),
               Text(
-                'E-mail: ' + currentuser.email,
+                'E-mail: ' + currentuser!.email,
                 style: const TextStyle(
                     color: Colors.black, fontSize: 20, fontFamily: "Helvetica"),
               ),

@@ -114,7 +114,7 @@ class ChatViewState extends State<ChatView> {
         x = 0.0;
         y = -1.0;
       } else {
-        if (message.user_id == currentuser.id) {
+        if (message.user_id == currentuser!.id) {
           color = Colors.blue;
           x = 1.0;
           y = -1.0;

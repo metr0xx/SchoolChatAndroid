@@ -59,5 +59,4 @@ class User {
       this.email, this.phone, this.avatar);
 }
 
-var currentuser =
-    User(2, "Konstantin", "Leonov", 4, 4, "aboba@aboba.com", "88005553535", "");
+User? currentuser;

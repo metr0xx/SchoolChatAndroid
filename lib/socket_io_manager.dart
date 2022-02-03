@@ -25,6 +25,22 @@ void close_connection() {
   socket.disconnect();
 }
 
+void react_ans(Function callback) {
+  socket.on(
+      "register_ans",
+      (data) => {
+            callback(data),
+          });
+}
+
+void auth_recieve(Function callback) {
+  socket.on(
+      "auth-recieve",
+      (data) => {
+            callback(data),
+          });
+}
+
 void react_chats(Function callback) {
   socket.on(
       "recieve-chats",
@@ -54,8 +70,8 @@ void get_chat_ids(int userId) {
 }
 
 void request_chat_data_for_preview(int chatId) {
-  socket
-      .emit("chat-for-preview", {"chat_id": chatId, "user_id": currentuser.id});
+  socket.emit(
+      "chat-for-preview", {"chat_id": chatId, "user_id": currentuser!.id});
 }
 
 void send(Message message) {
@@ -91,6 +107,12 @@ void recieve_chat_users(Function callback) {
   socket.on(
       "recieve-chat-users",
       (data) => {
+            print("recieve"),
             callback(data),
           });
+}
+
+void send_auth_data(data) {
+  print("emitted");
+  socket.emit("auth-data", {"data": data});
 }

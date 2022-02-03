@@ -256,7 +256,7 @@ class _SignUpStageState extends State<SignUpPage> {
     TextButton authbtn = TextButton(
       onPressed: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const Auth()));
+            context, MaterialPageRoute(builder: (context) => Auth()));
       },
       child: SizedBox(
         width: MediaQuery.of(context).size.width / 3.4,

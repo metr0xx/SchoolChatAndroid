@@ -1,17 +1,62 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models.dart';
 import 'chats.dart';
 import 'sign_up_page.dart';
 import 'socket_io_manager.dart';
 import 'package:dbcrypt/dbcrypt.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class Auth extends StatelessWidget {
+class Auth extends StatefulWidget {
   const Auth({Key? key}) : super(key: key);
+  @override
+  State<StatefulWidget> createState() {
+    return AuthState();
+  }
+}
+
+class AuthState extends State<Auth> {
+  String login = "";
+  String password = "";
+  bool authStat = false;
+  bool requested = false;
+
+  void update() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void authDataHandler(dynamic data) {
+    print(data);
+    if (data["stat"] != "OK") {
+      return;
+    }
+    var stat = DBCrypt().checkpw(password, data["data"]["password"]);
+    if (stat) {
+      print(stat);
+      authStat = true;
+      var dat = data["data"];
+      currentuser = User(
+          int.parse(dat["id"]),
+          dat["name"],
+          dat["surname"],
+          int.parse(dat["school_id"]),
+          int.parse(dat["class_id"]),
+          dat["email"],
+          dat["phone"],
+          dat["picture_url"] != null ? dat["picture_url"] : "");
+      update();
+    } else {
+      requested = false;
+      print("FALSE EBAT'");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    String _email;
-    String _password;
+    auth_recieve(authDataHandler);
+
     Text auth = Text("Авторизация",
         textDirection: TextDirection.ltr,
         style: TextStyle(
@@ -27,7 +72,7 @@ class Auth extends StatelessWidget {
           ],
         ));
 
-    Container login = Container(
+    Container enterlogin = Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(35.0)),
           boxShadow: [
@@ -43,6 +88,9 @@ class Auth extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 11.5,
         // padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 50),
         child: TextField(
+            onChanged: (text) {
+              login = text;
+            },
             decoration: InputDecoration(
                 hintText: "Эл. почта или телефон",
                 hintStyle: TextStyle(
@@ -56,7 +104,7 @@ class Auth extends StatelessWidget {
                 fillColor: Colors.white,
                 filled: true)));
 
-    Container password = Container(
+    Container enterpassword = Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(35.0)),
           boxShadow: [
@@ -72,6 +120,9 @@ class Auth extends StatelessWidget {
         height: MediaQuery.of(context).size.height / 11.5,
         // padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 50),
         child: TextField(
+            onChanged: (text) {
+              password = text;
+            },
             decoration: InputDecoration(
                 hintText: "Пароль",
                 prefixIcon: Icon(
@@ -89,8 +140,15 @@ class Auth extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             start_connection();
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Chats()));
+            if (!requested) {
+              print(login);
+              if (login == "" || password == "") {
+                print("Еблан введи все");
+              } else {
+                send_auth_data(login.toLowerCase());
+              }
+              requested = true;
+            }
           },
           child: Container(
             decoration: BoxDecoration(
@@ -125,7 +183,19 @@ class Auth extends StatelessWidget {
         ));
 
     ElevatedButton authbtn = ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        // Fluttertoast.showToast(
+        //     msg: "This is Center Short Toast",
+        //     toastLength: Toast.LENGTH_SHORT,
+        //     gravity: ToastGravity.CENTER,
+        //     timeInSecForIosWeb: 1,
+        //     backgroundColor: Colors.red,
+        //     textColor: Colors.white,
+        //     fontSize: 16.0);
+        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //   content: Text("Sending Message"),
+        // ));
+      },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(35.0)),
@@ -194,6 +264,10 @@ class Auth extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[authbtn, regbtn]));
 
+    if (authStat) {
+      return Chats();
+    }
+
     return MaterialApp(
         home: Scaffold(
             resizeToAvoidBottomInset: false,
@@ -213,8 +287,8 @@ class Auth extends StatelessWidget {
                   Spacer(),
                   auth,
                   Spacer(),
-                  login,
-                  password,
+                  enterlogin,
+                  enterpassword,
                   signIn,
                   Spacer(),
                   inup,
