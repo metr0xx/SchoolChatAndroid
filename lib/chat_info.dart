@@ -32,9 +32,9 @@ class ChatInfoState extends State<ChatInfo> {
   bool loaded = false;
   @override
   Widget build(BuildContext context) {
-    if (!loaded) {
-      update();
-    }
+    // if (!loaded) {
+    //   update();
+    // }
     TextButton back = TextButton(
         onPressed: () {
           print(chatUsers);
@@ -81,6 +81,8 @@ class ChatInfoState extends State<ChatInfo> {
     ]);
 
     Container upper = Container(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 15),
         color: Colors.white,
         height: 300,
         width: MediaQuery.of(context).size.width,
@@ -94,27 +96,66 @@ class ChatInfoState extends State<ChatInfo> {
           Text(name, style: const TextStyle(color: Colors.black, fontSize: 30)),
           const Spacer()
         ]));
+
     Column createUsers() {
-      Column columnOfUsers = Column(children: <Widget>[]);
+      Column infopage = Column(
+        children: <Widget>[
+          upper,
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 35,
+          )
+        ],
+      );
       for (int i = 0; i < chatUsers.length; i++) {
-        columnOfUsers.children.add(Container(
+        infopage.children.add(Container(
+            width: MediaQuery.of(context).size.width / 1.1,
+            height: MediaQuery.of(context).size.height / 13,
             color: Colors.white,
-            padding:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height / 6),
-            child: Center(
-                child: Text(
-              chatUsers[i].name + " " + chatUsers[i].surname,
-              style: const TextStyle(color: Colors.black, fontSize: 20),
-            ))));
+            child: Row(children: <Widget>[
+              Spacer(),
+              Container(
+                // padding: EdgeInsets.only(
+                //     left: MediaQuery.of(context).size.width / 5),
+                height: 40,
+                width: 40,
+                decoration: const BoxDecoration(
+                  color: Colors.green,
+                  shape: BoxShape.circle,
+                ),
+                child: Stack(
+                  children: <Widget>[
+                    Center(
+                        child: Text(
+                      textForChatIcon(
+                          chatUsers[i].name + " " + chatUsers[i].surname),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 23,
+                          fontFamily: "Helvetica"),
+                    ))
+                  ],
+                ),
+              ),
+              Text(
+                "  " + chatUsers[i].name + " " + chatUsers[i].surname,
+                style: const TextStyle(color: Colors.black, fontSize: 20),
+              ),
+              Spacer()
+            ])));
       }
-      return columnOfUsers;
+      return infopage;
     }
 
-    Column test = createUsers();
     return MaterialApp(
         home: Scaffold(
-      body: Column(children: <Widget>[upper, test]),
-      backgroundColor: Colors.grey[350],
+      body: ListView(children: <Widget>[createUsers()]),
+
+      // Container(
+      //     height: MediaQuery.of(context).size.height / 1.8,
+      //     child: ListView(children: <Widget>[test])),
+
+      backgroundColor: Colors.grey[300],
     ));
   }
 }
