@@ -74,16 +74,17 @@ void request_chat_data_for_preview(int chatId) {
       "chat-for-preview", {"chat_id": chatId, "user_id": currentuser!.id});
 }
 
-void send(Message message) {
+// ignore: use_function_type_syntax_for_parameters
+void send(int user_id, int chat_id, String text, attachments) {
   socket.emit("newMessage", {
-    "user_id": message.user_id,
-    "id": message.id,
-    "chat_id": message.chat_id,
-    "text": message.text,
-    "attachments": message.attachments,
-    "deleted_all": message.deleted_all,
-    "deleted_user": message.deleted_user,
-    "edited": message.edited
+    "user_id": user_id,
+    // "id": message.id,
+    "chat_id": chat_id,
+    "text": text,
+    "attachments": attachments,
+    // "deleted_all": message.deleted_all,
+    // "deleted_user": message.deleted_user,
+    // "edited": message.edited
   });
 }
 

@@ -301,6 +301,7 @@ class ChatsState extends State<Chats> {
             contentPadding: const EdgeInsets.all(10),
             hintStyle:
                 const TextStyle(color: Colors.black, fontFamily: "Helvetica"),
+            prefixIcon: const Icon(Icons.search_rounded),
             hintText: 'Поиск',
             fillColor: Colors.grey[200],
             filled: true,

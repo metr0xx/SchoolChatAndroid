@@ -8,7 +8,7 @@ import 'chats.dart';
 import 'chat_info.dart';
 
 class ChatView extends StatefulWidget {
-  int? id;
+  int id = 0;
   String? name;
   ChatView(this.id, this.name, {Key? key}) : super(key: key);
   @override
@@ -18,12 +18,12 @@ class ChatView extends StatefulWidget {
 }
 
 class ChatViewState extends State<ChatView> {
-  @override
   int id = 0;
   List messages = [];
   List chatUsers = [];
   String name = "";
   bool loaded = false;
+  String msg = "";
   ChatViewState(this.id, this.name);
   var shouldUpdate = true;
   final ScrollController _controller = ScrollController();
@@ -40,11 +40,12 @@ class ChatViewState extends State<ChatView> {
   Widget build(BuildContext context) {
     void new_message(dynamic arr) {
       var mass = arr["data"];
+      print("NEW_MESSAGE");
       print(mass);
       messages.add(Message(
           int.parse(mass["id"]),
-          mass["chat_id"],
-          mass["user_id"],
+          int.parse(mass["chat_id"]),
+          int.parse(mass["user_id"]),
           mass["text"],
           mass["attachments"],
           mass["deleted_all"],
@@ -57,6 +58,8 @@ class ChatViewState extends State<ChatView> {
 
     void get_message(dynamic mass) {
       var data = mass['data'];
+      print("GET_MESSAGE");
+      print(data);
       print("new");
       var newmsg = Message(
           int.parse(data["id"]),
@@ -76,11 +79,6 @@ class ChatViewState extends State<ChatView> {
 
     void get_users(dynamic mass) {
       var data = mass["data"];
-      print(data);
-      print(data[0][0]["name"]);
-      print('MASS');
-      print(data.length);
-      // print(data);
       for (int i = 0; i < data.length; i++) {
         if (data[i].length == 0) {
           continue;
@@ -222,20 +220,15 @@ class ChatViewState extends State<ChatView> {
             ),
           ))
         ]));
-    SizedBox sendmsg = SizedBox(
-        width: 40,
-        child: TextButton(
-          onPressed: () {},
-          child: Icon(
-            Icons.send,
-            color: Colors.blue[400],
-            size: 30,
-          ),
-        ));
+    final myController = TextEditingController();
     SizedBox entermsg = SizedBox(
         width: 250,
         height: 39,
         child: TextField(
+          controller: myController,
+          onChanged: (text) {
+            msg = text;
+          },
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(10),
             border:
@@ -243,9 +236,24 @@ class ChatViewState extends State<ChatView> {
             hintStyle: const TextStyle(
               color: Colors.black,
             ),
-            hintText: 'Сообщение...',
+            hintText: 'Сообщение',
             fillColor: Colors.grey,
             filled: true,
+          ),
+        ));
+    SizedBox sendmsg = SizedBox(
+        width: 40,
+        child: TextButton(
+          onPressed: () {
+            if (msg == "") {
+            } else {
+              send(currentuser!.id, id, msg, {});
+            }
+          },
+          child: Icon(
+            Icons.send,
+            color: Colors.blue[400],
+            size: 30,
           ),
         ));
     SizedBox loadfile = SizedBox(
