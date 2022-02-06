@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, empty_catches
 
 import 'package:flutter/material.dart';
 import 'editprofile.dart';
@@ -15,9 +15,7 @@ String textForChatIcon(String text) {
       result += int.parse(text.split(" ")[0][0]).toString();
       try {
         result += int.parse(text.split(" ")[0][1]).toString();
-      } catch (e) {
-        pass();
-      }
+      } catch (e) {}
     } catch (e) {
       result += text.split(" ")[0][0].toUpperCase();
       result += text.split(" ")[1][0].toUpperCase();
@@ -28,8 +26,6 @@ String textForChatIcon(String text) {
   }
   return result;
 }
-
-void pass() {}
 
 class Chats extends StatefulWidget {
   const Chats({Key? key}) : super(key: key);

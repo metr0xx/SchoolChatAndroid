@@ -113,7 +113,6 @@ class ChatInfoState extends State<ChatInfo> {
             height: MediaQuery.of(context).size.height / 13,
             color: Colors.white,
             child: Row(children: <Widget>[
-              Spacer(),
               Container(
                 // padding: EdgeInsets.only(
                 //     left: MediaQuery.of(context).size.width / 5),
@@ -141,7 +140,6 @@ class ChatInfoState extends State<ChatInfo> {
                 "  " + chatUsers[i].name + " " + chatUsers[i].surname,
                 style: const TextStyle(color: Colors.black, fontSize: 20),
               ),
-              Spacer()
             ])));
       }
       return infopage;

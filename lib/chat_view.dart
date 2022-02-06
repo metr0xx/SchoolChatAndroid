@@ -9,11 +9,11 @@ import 'chat_info.dart';
 
 class ChatView extends StatefulWidget {
   int id = 0;
-  String? name;
+  String name = "";
   ChatView(this.id, this.name, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return ChatViewState(id!, name!);
+    return ChatViewState(id, name);
   }
 }
 
@@ -108,6 +108,8 @@ class ChatViewState extends State<ChatView> {
     }
 
     Widget build_msg(Message message) {
+      double pos1 = 0.0;
+      double pos2 = 0.0;
       double x = 0.0;
       double y = 0.0;
       Color? color;
@@ -120,16 +122,20 @@ class ChatViewState extends State<ChatView> {
           color = Colors.blue;
           x = 1.0;
           y = -1.0;
+          pos1 = MediaQuery.of(context).size.width / 19;
         } else {
           color = Colors.grey;
           x = -1.0;
           y = -1.0;
+          pos2 = MediaQuery.of(context).size.width / 19;
         }
       }
       Container messageView = Container(
+          padding: EdgeInsets.only(left: pos1, right: pos2),
           alignment: Alignment(x, y),
           decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(50))),
+            borderRadius: BorderRadius.all(Radius.circular(35.0)),
+          ),
           child: Padding(
               padding: const EdgeInsets.all(0.0),
               child: ButtonTheme(
@@ -142,20 +148,24 @@ class ChatViewState extends State<ChatView> {
                     child: Stack(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.all(11.0),
+                          padding: EdgeInsets.all(
+                              MediaQuery.of(context).size.width / 40),
                           child: RichText(
                             text: TextSpan(
                               style: const TextStyle(),
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: message.text + "  ",
+                                    text: message.text + " ",
                                     style: const TextStyle(
-                                      color: Colors.white,
-                                    )),
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontFamily: "Helvetica")),
                                 TextSpan(
                                     text: formatDate(message.updatedAt),
-                                    style:
-                                        const TextStyle(color: Colors.black54)),
+                                    style: TextStyle(
+                                        color: Colors.grey.shade300,
+                                        fontSize: 12,
+                                        fontFamily: "Helvetica")),
                               ],
                             ),
                           ),
