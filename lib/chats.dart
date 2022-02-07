@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth.dart';
-import 'package:flutter_application_1/sign_up_page.dart';
 import 'editprofile.dart';
 import 'chat_view.dart';
 import 'socket_io_manager.dart';
@@ -13,15 +12,20 @@ import 'cut_last_msg.dart';
 String textForChatIcon(String text) {
   String result = "";
   if (text.split(" ").length >= 2) {
-    if (text.split(" ")[0].length == 3 && text.split(" ").length >= 2) {
-      return text.split(" ")[0][0].toUpperCase() +
-          text.split(" ")[0][1].toUpperCase() +
-          text.split(" ")[1][0].toUpperCase();
-    }
+    try {
+      if (text.split(" ")[0].length == 3 && text.split(" ").length >= 2) {
+        return text.split(" ")[0][0].toUpperCase() +
+            text.split(" ")[0][1].toUpperCase() +
+            text.split(" ")[1][0].toUpperCase();
+      }
+    } catch (e) {}
     try {
       result += int.parse(text.split(" ")[0][0]).toString();
       try {
         result += int.parse(text.split(" ")[0][1]).toString();
+        try {
+          result += text.split(" ")[1][0].toString().toUpperCase();
+        } catch (e) {}
       } catch (e) {}
     } catch (e) {
       result += text.split(" ")[0][0].toUpperCase();
@@ -46,6 +50,7 @@ class ChatsState extends State<Chats> {
   var chatDatas = [];
   var addedNames = [];
   var searchText = "";
+  bool shouldScroll = false;
   void update() {
     if (mounted) {
       setState(() {});
@@ -53,6 +58,13 @@ class ChatsState extends State<Chats> {
   }
 
   final ScrollController _controller = ScrollController();
+
+  void _scrollToTop() {
+    if (shouldScroll) {
+      _controller.animateTo(0,
+          duration: const Duration(milliseconds: 200), curve: Curves.linear);
+    }
+  }
 
   var shouldUpdate = true;
 
@@ -87,6 +99,7 @@ class ChatsState extends State<Chats> {
           lastmsg['time'] ?? "",
           uid));
       chatDatas.sort((a, b) => a.id.compareTo(b.id));
+      shouldScroll = true;
       update();
     }
   }
@@ -142,6 +155,7 @@ class ChatsState extends State<Chats> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) => _scrollToTop());
     List currNames = fillAllNames(chatDatas);
     for (int i = 0; i < addedNames.length; i++) {
       if (currNames.contains(addedNames[i]) == false) {
@@ -325,84 +339,88 @@ class ChatsState extends State<Chats> {
     react_chats(fillChats);
     recieve_chats(fillChats2);
 
-    Column createChats() {
-      Column columnOfChats = Column(children: <Widget>[findChat]);
+    Opacity createChats() {
+      Column columnOfchats = Column(children: <Widget>[findChat]);
+      Opacity containerOfChats = Opacity(
+        opacity: 1,
+        child: columnOfchats,
+      );
       var filtered = getSortedFilteredChats();
       for (int i = 0; i < filtered.length; i++) {
-        SizedBox chat = SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 86.0,
-            child: OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ChatView(chatDatas[i].id, filtered[i].name)));
-                  // _scrollController.animateTo(0.0,
-                  //     curve: Curves.easeOut,
-                  //     duration: const Duration(milliseconds: 300));
-                },
-                child: Row(children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(),
-                    height: 70,
-                    width: 70,
-                    decoration: const BoxDecoration(
-                      color: Colors.green,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Stack(
-                      children: <Widget>[
-                        Center(
-                            child: Text(
-                          textForChatIcon(filtered[i].name),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 36,
+        Opacity chat = Opacity(
+            opacity: 1,
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 86.0,
+                child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ChatView(chatDatas[i].id, filtered[i].name)));
+                    },
+                    child: Row(children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.only(),
+                        height: 70,
+                        width: 70,
+                        decoration: BoxDecoration(
+                          color: Colors.purple.shade700.withOpacity(0.6),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Stack(
+                          children: <Widget>[
+                            Center(
+                                child: Text(
+                              textForChatIcon(filtered[i].name),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 35,
+                                  fontFamily: "Helvetica"),
+                            ))
+                          ],
+                        ),
+                      ),
+                      const Spacer(),
+                      Column(children: <Widget>[
+                        (Container(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            correctLastMsg(filtered[i].name),
+                            style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
                           ),
-                        ))
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  Column(children: <Widget>[
-                    (Container(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        correctLastMsg(filtered[i].name),
-                        style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )),
-                    Container(
-                      padding: const EdgeInsets.only(top: 23),
-                      child: Text(
-                        correctLastMsg(filtered[i].last_msg_text),
-                        style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontFamily: "Helvetica"),
-                      ),
-                    )
-                  ]),
-                  const Spacer(),
-                  Align(
-                      child: Text(
-                          correctDate(formatDate(filtered[i].last_msg_time)),
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontFamily: "Helvetica")))
-                ])));
-        columnOfChats.children.add(chat);
+                        )),
+                        Container(
+                          padding: const EdgeInsets.only(top: 23),
+                          child: Text(
+                            correctLastMsg(filtered[i].last_msg_text),
+                            style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontFamily: "Helvetica"),
+                          ),
+                        )
+                      ]),
+                      const Spacer(),
+                      Align(
+                          child: Text(
+                              correctDate(
+                                  formatDate(filtered[i].last_msg_time)),
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontFamily: "Helvetica")))
+                    ]))));
+        columnOfchats.children.add(chat);
       }
-      return columnOfChats;
+      return containerOfChats;
     }
 
-    Column chatRows = createChats();
+    Opacity chatRows = createChats();
     ElevatedButton changeinfo = ElevatedButton(
       style: ElevatedButton.styleFrom(
         onPrimary: Colors.black87,
@@ -533,7 +551,7 @@ class ChatsState extends State<Chats> {
         home: Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              backgroundColor: Colors.green[200],
+              backgroundColor: Colors.cyan.shade300,
               title: topBar,
               centerTitle: true,
             ),
@@ -543,17 +561,23 @@ class ChatsState extends State<Chats> {
                 children: <Widget>[userinfo, exit],
               ),
             ),
-            body: ListView(
-                controller: _scrollController,
-                reverse: true,
-                shrinkWrap: true,
-                children: <Widget>[
-                  Container(
-                      color: Colors.white,
-                      alignment: const FractionalOffset(0.5, 0.2),
-                      child: Column(children: <Widget>[
-                        chatRows,
-                      ]))
-                ])));
+            body: SingleChildScrollView(
+                controller: _controller,
+                child: Container(
+                    height: MediaQuery.of(context).size.height,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Colors.white,
+                        Colors.cyan.withOpacity(0.3),
+                        Colors.purple.shade200.withOpacity(0.2)
+                      ],
+                    )),
+                    // alignment: const FractionalOffset(0.5, 0.2),
+                    child: Column(children: <Widget>[
+                      chatRows,
+                    ])))));
   }
 }

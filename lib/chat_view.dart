@@ -83,7 +83,6 @@ class ChatViewState extends State<ChatView> {
       messages.sort((a, b) => a.id.compareTo(b.id));
       shouldScroll = true;
       update();
-      // setState(() {});
     }
 
     void get_users(dynamic mass) {
@@ -128,12 +127,12 @@ class ChatViewState extends State<ChatView> {
         y = -1.0;
       } else {
         if (message.user_id == currentuser!.id) {
-          color = Colors.blue;
+          color = Colors.blue.shade800;
           x = 1.0;
           y = -1.0;
           pos1 = MediaQuery.of(context).size.width / 19;
         } else {
-          color = Colors.grey;
+          color = Colors.grey.shade800;
           x = -1.0;
           y = -1.0;
           pos2 = MediaQuery.of(context).size.width / 19;
@@ -204,7 +203,7 @@ class ChatViewState extends State<ChatView> {
                   textForChatIcon(name),
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 25,
+                    fontSize: 18,
                   ),
                 )))
           ],
@@ -226,16 +225,15 @@ class ChatViewState extends State<ChatView> {
 
     TextButton back = TextButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const Chats()));
+          Navigator.pop(context);
         },
         child: Row(children: <Widget>[
-          (Icon(Icons.arrow_back_rounded, size: 25, color: Colors.blue[400])),
+          (Icon(Icons.arrow_back_rounded, size: 25, color: Colors.blue[800])),
           (Text(
             '  Чаты  ',
             style: TextStyle(
               fontSize: 17,
-              color: Colors.blue[400],
+              color: Colors.blue[800],
             ),
           ))
         ]));
@@ -271,7 +269,7 @@ class ChatViewState extends State<ChatView> {
           },
           child: Icon(
             Icons.send,
-            color: Colors.blue[400],
+            color: Colors.blue[800],
             size: 30,
           ),
         ));
@@ -281,7 +279,7 @@ class ChatViewState extends State<ChatView> {
           onPressed: () {},
           child: Icon(
             Icons.attach_file_rounded,
-            color: Colors.blue[400],
+            color: Colors.blue[800],
             size: 30,
           ),
         ));
@@ -300,7 +298,7 @@ class ChatViewState extends State<ChatView> {
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
-                backgroundColor: Colors.white,
+                backgroundColor: Colors.cyan.shade50,
                 title: Row(
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[back, chaticon],
@@ -309,16 +307,27 @@ class ChatViewState extends State<ChatView> {
               height: kToolbarHeight,
               child: AppBar(
                 title: bottom,
-                backgroundColor: Colors.grey[350],
+                backgroundColor: Colors.grey.shade300,
               ),
             ),
-            body: SingleChildScrollView(
-                controller: _controller,
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).size.height / 11),
-                child: Column(
-                    children: messages.map<Widget>((msg) {
-                  return build_msg(msg);
-                }).toList()))));
+            body: Container(
+                height: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Colors.white,
+                    Colors.cyan.withOpacity(0.3),
+                  ],
+                )),
+                child: SingleChildScrollView(
+                    controller: _controller,
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).size.height / 11),
+                    child: Column(
+                        children: messages.map<Widget>((msg) {
+                      return build_msg(msg);
+                    }).toList())))));
   }
 }

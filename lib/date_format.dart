@@ -52,7 +52,7 @@ String formatDate(String unformatted) {
       if (time.minute.toString().length == 1) {
         return currhour.toString() + ":" + "0" + time.minute.toString();
       }
-      return currhour.toString() + ":" + time.minute.toString();
+      return (currhour % 24).toString() + ":" + time.minute.toString();
     } else if (difference.compareTo(twoDay) < 1) {
       return "Вчера";
     } else if (difference.compareTo(oneWeek) < 1) {
