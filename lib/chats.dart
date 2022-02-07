@@ -444,27 +444,23 @@ class ChatsState extends State<Chats> {
           ),
           onPressed: () => Navigator.push(
               context, MaterialPageRoute(builder: (context) => Auth())),
-          child: SizedBox(
-              height: MediaQuery.of(context).size.height / 25,
-              width: MediaQuery.of(context).size.width / 4,
-              child: Row(
-                children: const <Widget>[
-                  Spacer(),
-                  Icon(
-                    Icons.arrow_back_ios_rounded,
-                    color: Colors.red,
-                  ),
-                  Spacer(),
-                  Text(
-                    'Выход',
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.red,
-                        fontFamily: "Helvetica"),
-                  ),
-                  Spacer()
-                ],
-              )),
+          child: Center(
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 20,
+                  width: MediaQuery.of(context).size.width / 3.5,
+                  child: Row(children: const <Widget>[
+                    Icon(
+                      Icons.arrow_back_ios_rounded,
+                      color: Colors.red,
+                    ),
+                    Text(
+                      ' Выход',
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.red,
+                          fontFamily: "Helvetica"),
+                    ),
+                  ]))),
         ));
 
     Column userinfo = Column(children: <Widget>[

@@ -231,6 +231,7 @@ class _SignUpStageState extends State<SignUpPage> {
             width: MediaQuery.of(context).size.width / 1.2,
             height: MediaQuery.of(context).size.height / 11.5,
             child: TextField(
+                obscureText: true,
                 onChanged: (text) {
                   confirmPasswordVal = text;
                   if (confirmPasswordVal == "") {
@@ -283,6 +284,7 @@ class _SignUpStageState extends State<SignUpPage> {
         width: MediaQuery.of(context).size.width / 1.2,
         height: MediaQuery.of(context).size.height / 11.5,
         child: TextField(
+            obscureText: true,
             onChanged: (text) {
               passwordVal = text;
               if (passwordVal == "") {

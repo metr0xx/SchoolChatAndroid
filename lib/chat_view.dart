@@ -26,25 +26,28 @@ class ChatViewState extends State<ChatView> {
   String msg = "";
   ChatViewState(this.id, this.name);
   var shouldUpdate = true;
+  var shouldScroll = false;
   final ScrollController _controller = ScrollController();
 
   void update() {
     if (mounted) {
       setState(() {});
     }
-    // try {
-    //   _controller.jumpTo(_controller.position.maxScrollExtent);
-    // } catch (e) {
-    //   print(e);
-    // }
+  }
+
+  scrollToEnd() async {
+    if (shouldScroll) {
+      shouldScroll = false;
+      _controller.animateTo(_controller.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) => scrollToEnd());
     void new_message(dynamic arr) {
       var mass = arr["data"];
-      // print("NEW_MESSAGE");
-      // print(mass);
       messages.add(Message(
           mass["id"],
           mass["chat_id"],
@@ -56,6 +59,7 @@ class ChatViewState extends State<ChatView> {
           mass["edited"],
           mass["service"],
           mass["updatedAt"] ?? ""));
+      shouldScroll = true;
       update();
     }
 
@@ -77,6 +81,7 @@ class ChatViewState extends State<ChatView> {
           data["updatedAt"]);
       messages.add(newmsg);
       messages.sort((a, b) => a.id.compareTo(b.id));
+      shouldScroll = true;
       update();
       // setState(() {});
     }
@@ -310,7 +315,7 @@ class ChatViewState extends State<ChatView> {
             body: SingleChildScrollView(
                 controller: _controller,
                 padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).size.height / 6),
+                    bottom: MediaQuery.of(context).size.height / 11),
                 child: Column(
                     children: messages.map<Widget>((msg) {
                   return build_msg(msg);

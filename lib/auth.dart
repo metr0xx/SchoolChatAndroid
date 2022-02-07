@@ -158,7 +158,7 @@ class AuthState extends State<Auth> {
             if (!requested) {
               print(login);
               if (login == "" || password == "") {
-                print("Еблан введи все");
+                print("Введено не все");
               } else {
                 send_auth_data(login.toLowerCase());
               }
