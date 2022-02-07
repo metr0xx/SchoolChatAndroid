@@ -6,6 +6,7 @@ String formatDate(String unformatted) {
     Duration twoDay = const Duration(days: 2);
     Duration oneWeek = const Duration(days: 7);
     String month = "";
+    int currhour = 0;
     switch (time.month) {
       case 1:
         month = "января";
@@ -47,10 +48,11 @@ String formatDate(String unformatted) {
     Duration difference = today.difference(time);
 
     if (difference.compareTo(oneDay) < 1) {
+      currhour = time.hour + 3;
       if (time.minute.toString().length == 1) {
-        return time.hour.toString() + ":" + "0" + time.minute.toString();
+        return currhour.toString() + ":" + "0" + time.minute.toString();
       }
-      return time.hour.toString() + ":" + time.minute.toString();
+      return currhour.toString() + ":" + time.minute.toString();
     } else if (difference.compareTo(twoDay) < 1) {
       return "Вчера";
     } else if (difference.compareTo(oneWeek) < 1) {
