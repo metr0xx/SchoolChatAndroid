@@ -11,8 +11,13 @@ import 'date_format.dart';
 import 'cut_last_msg.dart';
 
 String textForChatIcon(String text) {
-  String result = '';
+  String result = "";
   if (text.split(" ").length >= 2) {
+    if (text.split(" ")[0].length == 3 && text.split(" ").length >= 2) {
+      return text.split(" ")[0][0].toUpperCase() +
+          text.split(" ")[0][1].toUpperCase() +
+          text.split(" ")[1][0].toUpperCase();
+    }
     try {
       result += int.parse(text.split(" ")[0][0]).toString();
       try {
