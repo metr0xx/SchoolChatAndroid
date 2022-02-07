@@ -20,11 +20,20 @@ class AuthState extends State<Auth> {
   String password = "";
   bool authStat = false;
   bool requested = false;
+  bool truepassword = true;
+  Color? color;
 
   void update() {
     if (mounted) {
       setState(() {});
     }
+  }
+
+  Color checkpassword() {
+    if (truepassword) {
+      return Colors.white;
+    }
+    return Colors.red.shade300;
   }
 
   void authDataHandler(dynamic data) {
@@ -49,7 +58,8 @@ class AuthState extends State<Auth> {
       update();
     } else {
       requested = false;
-      print("FALSE EBAT'");
+      truepassword = false;
+      update();
     }
   }
 
@@ -103,7 +113,7 @@ class AuthState extends State<Auth> {
                 ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(35.0)),
-                fillColor: Colors.white,
+                fillColor: checkpassword(),
                 filled: true)));
 
     Container enterpassword = Container(
@@ -138,7 +148,7 @@ class AuthState extends State<Auth> {
                     fontSize: 17),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(35.0)),
-                fillColor: Colors.white,
+                fillColor: checkpassword(),
                 filled: true)));
     Container signIn = Container(
         padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 24),
@@ -188,19 +198,7 @@ class AuthState extends State<Auth> {
         ));
 
     ElevatedButton authbtn = ElevatedButton(
-      onPressed: () {
-        // Fluttertoast.showToast(
-        //     msg: "This is Center Short Toast",
-        //     toastLength: Toast.LENGTH_SHORT,
-        //     gravity: ToastGravity.CENTER,
-        //     timeInSecForIosWeb: 1,
-        //     backgroundColor: Colors.red,
-        //     textColor: Colors.white,
-        //     fontSize: 16.0);
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //   content: Text("Sending Message"),
-        // ));
-      },
+      onPressed: () {},
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(35.0)),
@@ -239,7 +237,18 @@ class AuthState extends State<Auth> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => SignUpPage()));
       },
-      child: SizedBox(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(35.0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.white.withOpacity(0.6),
+              spreadRadius: 5,
+              blurRadius: 10,
+              offset: const Offset(0, 5), // changes position of shadow
+            ),
+          ],
+        ),
         width: MediaQuery.of(context).size.width / 3.4,
         height: MediaQuery.of(context).size.height / 16,
         child: Center(
@@ -253,7 +262,7 @@ class AuthState extends State<Auth> {
         ),
       ),
       style: ElevatedButton.styleFrom(
-        // minimumSize: Size(, 36),
+        primary: Colors.white,
         padding: EdgeInsets.symmetric(horizontal: 16),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),

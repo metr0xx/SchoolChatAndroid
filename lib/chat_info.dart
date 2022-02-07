@@ -107,41 +107,43 @@ class ChatInfoState extends State<ChatInfo> {
           )
         ],
       );
-      for (int i = 0; i < chatUsers.length; i++) {
-        infopage.children.add(Container(
-            width: MediaQuery.of(context).size.width / 1.1,
-            height: MediaQuery.of(context).size.height / 13,
-            color: Colors.white,
-            child: Row(children: <Widget>[
-              Container(
-                // padding: EdgeInsets.only(
-                //     left: MediaQuery.of(context).size.width / 5),
-                height: 40,
-                width: 40,
-                decoration: const BoxDecoration(
-                  color: Colors.green,
-                  shape: BoxShape.circle,
+      try {
+        for (int i = 0; i < chatUsers.length; i++) {
+          infopage.children.add(Container(
+              width: MediaQuery.of(context).size.width / 1.1,
+              height: MediaQuery.of(context).size.height / 13,
+              color: Colors.white,
+              child: Row(children: <Widget>[
+                Container(
+                  // padding: EdgeInsets.only(
+                  //     left: MediaQuery.of(context).size.width / 5),
+                  height: 40,
+                  width: 40,
+                  decoration: const BoxDecoration(
+                    color: Colors.green,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Stack(
+                    children: <Widget>[
+                      Center(
+                          child: Text(
+                        textForChatIcon(
+                            chatUsers[i].name + " " + chatUsers[i].surname),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 23,
+                            fontFamily: "Helvetica"),
+                      ))
+                    ],
+                  ),
                 ),
-                child: Stack(
-                  children: <Widget>[
-                    Center(
-                        child: Text(
-                      textForChatIcon(
-                          chatUsers[i].name + " " + chatUsers[i].surname),
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 23,
-                          fontFamily: "Helvetica"),
-                    ))
-                  ],
+                Text(
+                  "  " + chatUsers[i].name + " " + chatUsers[i].surname,
+                  style: const TextStyle(color: Colors.black, fontSize: 20),
                 ),
-              ),
-              Text(
-                "  " + chatUsers[i].name + " " + chatUsers[i].surname,
-                style: const TextStyle(color: Colors.black, fontSize: 20),
-              ),
-            ])));
-      }
+              ])));
+        }
+      } catch (e) {}
       return infopage;
     }
 

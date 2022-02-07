@@ -21,10 +21,22 @@ class _SignUpStageState extends State<SignUpPage> {
   String confirmPasswordVal = "";
   String inviteCodeVal = "";
   bool requested = false;
+  bool samepasswords = true;
+  Color testcolor = Colors.white;
   void update() {
     if (mounted) {
       setState(() {});
     }
+  }
+
+  Color checkpasswords() {
+    if (passwordVal == "" && confirmPasswordVal == "") {
+      return Colors.white;
+    }
+    if (passwordVal == confirmPasswordVal) {
+      return Colors.green.shade300;
+    }
+    return Colors.red.shade300;
   }
 
   bool authStat = false;
@@ -202,7 +214,6 @@ class _SignUpStageState extends State<SignUpPage> {
                     borderRadius: BorderRadius.circular(35.0)),
                 fillColor: Colors.white,
                 filled: true)));
-    Opacity ifPasswordIsClear = Opacity(opacity: 0.0);
     Opacity confirmpassword = Opacity(
         opacity: 1,
         child: Container(
@@ -222,21 +233,33 @@ class _SignUpStageState extends State<SignUpPage> {
             child: TextField(
                 onChanged: (text) {
                   confirmPasswordVal = text;
+                  if (confirmPasswordVal == "") {
+                    testcolor = Colors.white;
+                  } else if (confirmPasswordVal == passwordVal) {
+                    testcolor = Colors.green.shade300;
+                  } else {
+                    testcolor = Colors.red.shade300;
+                  }
+                  update();
                 },
                 decoration: InputDecoration(
-                    hintText: "Подтверждение пароля",
-                    hintStyle: TextStyle(
-                        color: Colors.purple[900],
-                        fontFamily: "Helvetica",
-                        fontSize: 17),
-                    prefixIcon: const Icon(
-                      Icons.lock_rounded,
-                      color: Colors.red,
-                    ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(35.0)),
-                    fillColor: Colors.white,
-                    filled: true))));
+                  hintText: "Подтверждение пароля",
+                  hintStyle: TextStyle(
+                      color: Colors.purple[900],
+                      fontFamily: "Helvetica",
+                      fontSize: 17),
+                  prefixIcon: const Icon(
+                    Icons.lock_rounded,
+                    color: Colors.red,
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(35.0)),
+                  // fillColor: checkpasswords(),
+                  fillColor: testcolor,
+                  filled: true,
+                ))));
+
+    Opacity ifPasswordIsClear = const Opacity(opacity: 0.0);
     Opacity showConfirmation() {
       if (passwordVal == "") {
         return ifPasswordIsClear;
@@ -262,6 +285,13 @@ class _SignUpStageState extends State<SignUpPage> {
         child: TextField(
             onChanged: (text) {
               passwordVal = text;
+              if (passwordVal == "") {
+                testcolor = Colors.white;
+              } else if (passwordVal == confirmPasswordVal) {
+                testcolor = Colors.green.shade300;
+              } else {
+                testcolor = Colors.red.shade300;
+              }
               showConfirmation();
               update();
             },
@@ -278,8 +308,10 @@ class _SignUpStageState extends State<SignUpPage> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(35.0),
                 ),
-                fillColor: Colors.white,
+                // fillColor: checkpasswords(),
+                fillColor: testcolor,
                 filled: true)));
+
     Container invitecode = Container(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(35.0)),
@@ -373,7 +405,18 @@ class _SignUpStageState extends State<SignUpPage> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Auth()));
       },
-      child: SizedBox(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(35.0)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.white.withOpacity(0.6),
+              spreadRadius: 5,
+              blurRadius: 10,
+              offset: const Offset(0, 5), // changes position of shadow
+            ),
+          ],
+        ),
         width: MediaQuery.of(context).size.width / 3.4,
         height: MediaQuery.of(context).size.height / 16,
         child: Center(
@@ -388,6 +431,7 @@ class _SignUpStageState extends State<SignUpPage> {
         ),
       ),
       style: ElevatedButton.styleFrom(
+        primary: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),

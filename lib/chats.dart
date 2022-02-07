@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_print, empty_catches
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/auth.dart';
+import 'package:flutter_application_1/sign_up_page.dart';
 import 'editprofile.dart';
 import 'chat_view.dart';
 import 'socket_io_manager.dart';
@@ -63,16 +65,23 @@ class ChatsState extends State<Chats> {
       }
     }
     if (noSame) {
+      var uid = 0;
+      try {
+        uid = int.parse(lastmsg['user_id']);
+      } catch (e) {
+        uid = 0;
+      }
       chatDatas.add(Chat(
           int.parse(chatinfo['id']),
           chatinfo['name'],
           chatinfo['users'],
           chatinfo['admins'],
           int.parse(chatinfo['creator']),
-          chatinfo['pic'],
-          lastmsg['text'],
-          lastmsg['time'],
-          int.parse(lastmsg['user_id'])));
+          chatinfo['pic'] ?? "",
+          lastmsg['text'] ?? "",
+          lastmsg['time'] ?? "",
+          uid));
+      chatDatas.sort((a, b) => a.id.compareTo(b.id));
       update();
     }
   }
@@ -421,6 +430,42 @@ class ChatsState extends State<Chats> {
             ],
           )),
     );
+    Container exit = Container(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 1.6),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            onPrimary: Colors.black87,
+            primary: Colors.white,
+            minimumSize: const Size(88, 36),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+            ),
+          ),
+          onPressed: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Auth())),
+          child: SizedBox(
+              height: MediaQuery.of(context).size.height / 25,
+              width: MediaQuery.of(context).size.width / 4,
+              child: Row(
+                children: const <Widget>[
+                  Spacer(),
+                  Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: Colors.red,
+                  ),
+                  Spacer(),
+                  Text(
+                    'Выход',
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.red,
+                        fontFamily: "Helvetica"),
+                  ),
+                  Spacer()
+                ],
+              )),
+        ));
 
     Column userinfo = Column(children: <Widget>[
       Container(
@@ -494,7 +539,7 @@ class ChatsState extends State<Chats> {
             drawer: Drawer(
               backgroundColor: Colors.grey[300],
               child: Column(
-                children: <Widget>[userinfo],
+                children: <Widget>[userinfo, exit],
               ),
             ),
             body: ListView(

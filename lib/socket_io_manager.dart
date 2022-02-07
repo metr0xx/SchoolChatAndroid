@@ -119,7 +119,6 @@ void send_auth_data(data) {
 }
 
 void send_registration_data(data) {
-  print('aboba');
   socket.emit("register", data);
 }
 

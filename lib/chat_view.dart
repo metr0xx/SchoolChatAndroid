@@ -32,27 +32,30 @@ class ChatViewState extends State<ChatView> {
     if (mounted) {
       setState(() {});
     }
-    _controller.animateTo(_controller.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 1), curve: Curves.ease);
+    // try {
+    //   _controller.jumpTo(_controller.position.maxScrollExtent);
+    // } catch (e) {
+    //   print(e);
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
     void new_message(dynamic arr) {
       var mass = arr["data"];
-      print("NEW_MESSAGE");
-      print(mass);
+      // print("NEW_MESSAGE");
+      // print(mass);
       messages.add(Message(
-          int.parse(mass["id"]),
-          int.parse(mass["chat_id"]),
-          int.parse(mass["user_id"]),
+          mass["id"],
+          mass["chat_id"],
+          mass["user_id"],
           mass["text"],
           mass["attachments"],
           mass["deleted_all"],
           mass["deleted_user"],
           mass["edited"],
           mass["service"],
-          mass["updatedAt"]));
+          mass["updatedAt"] ?? ""));
       update();
     }
 
@@ -75,6 +78,7 @@ class ChatViewState extends State<ChatView> {
       messages.add(newmsg);
       messages.sort((a, b) => a.id.compareTo(b.id));
       update();
+      // setState(() {});
     }
 
     void get_users(dynamic mass) {
@@ -89,8 +93,8 @@ class ChatViewState extends State<ChatView> {
             data[i][0]["surname"],
             int.parse(data[i][0]["school_id"]),
             int.parse(data[i][0]["class_id"]),
-            data[i][0]["email"],
-            data[i][0]["phone"],
+            data[i][0]["email"] ?? "",
+            data[i][0]["phone"] ?? "",
             data[i][0]["picture_url"] ?? ""));
       }
       print('chatUsers:');
@@ -305,7 +309,8 @@ class ChatViewState extends State<ChatView> {
             ),
             body: SingleChildScrollView(
                 controller: _controller,
-                padding: const EdgeInsets.only(bottom: 63),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.height / 6),
                 child: Column(
                     children: messages.map<Widget>((msg) {
                   return build_msg(msg);
