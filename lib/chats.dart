@@ -301,13 +301,8 @@ class ChatsState extends State<Chats> {
     Text chats = const Text('Чаты',
         style: TextStyle(
             fontSize: 26, color: Colors.white, fontFamily: "Helvetica"));
-
-    Row topBar = Row(children: <Widget>[
-      const Spacer(),
-      chats,
-      const Spacer(),
-      Container(child: plus, padding: const EdgeInsets.only())
-    ]);
+    Row topBar =
+        Row(children: <Widget>[const Spacer(), chats, const Spacer(), plus]);
     Container findChat = Container(
         padding: EdgeInsets.only(
             top: MediaQuery.of(context).size.height / 50,
@@ -339,88 +334,81 @@ class ChatsState extends State<Chats> {
     react_chats(fillChats);
     recieve_chats(fillChats2);
 
-    Opacity createChats() {
+    Column createChats() {
       Column columnOfchats = Column(children: <Widget>[findChat]);
-      Opacity containerOfChats = Opacity(
-        opacity: 1,
-        child: columnOfchats,
-      );
       var filtered = getSortedFilteredChats();
       for (int i = 0; i < filtered.length; i++) {
-        Opacity chat = Opacity(
-            opacity: 1,
-            child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 86.0,
-                child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ChatView(chatDatas[i].id, filtered[i].name)));
-                    },
-                    child: Row(children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.only(),
-                        height: 70,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          color: Colors.purple.shade700.withOpacity(0.6),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Stack(
-                          children: <Widget>[
-                            Center(
-                                child: Text(
-                              textForChatIcon(filtered[i].name),
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 35,
-                                  fontFamily: "Helvetica"),
-                            ))
-                          ],
-                        ),
+        SizedBox chat = SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 86.0,
+            child: OutlinedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ChatView(chatDatas[i].id, filtered[i].name)));
+                },
+                child: Row(children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.only(),
+                    height: 70,
+                    width: 70,
+                    decoration: BoxDecoration(
+                      color: Colors.purple.shade700.withOpacity(0.6),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Stack(
+                      children: <Widget>[
+                        Center(
+                            child: Text(
+                          textForChatIcon(filtered[i].name),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 35,
+                              fontFamily: "Helvetica"),
+                        ))
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  Column(children: <Widget>[
+                    (Container(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        correctLastMsg(filtered[i].name),
+                        style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
                       ),
-                      const Spacer(),
-                      Column(children: <Widget>[
-                        (Container(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            correctLastMsg(filtered[i].name),
-                            style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        )),
-                        Container(
-                          padding: const EdgeInsets.only(top: 23),
-                          child: Text(
-                            correctLastMsg(filtered[i].last_msg_text),
-                            style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontFamily: "Helvetica"),
-                          ),
-                        )
-                      ]),
-                      const Spacer(),
-                      Align(
-                          child: Text(
-                              correctDate(
-                                  formatDate(filtered[i].last_msg_time)),
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontFamily: "Helvetica")))
-                    ]))));
+                    )),
+                    Container(
+                      padding: const EdgeInsets.only(top: 23),
+                      child: Text(
+                        correctLastMsg(filtered[i].last_msg_text),
+                        style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontFamily: "Helvetica"),
+                      ),
+                    )
+                  ]),
+                  const Spacer(),
+                  Align(
+                      child: Text(
+                          correctDate(formatDate(filtered[i].last_msg_time)),
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontFamily: "Helvetica")))
+                ])));
         columnOfchats.children.add(chat);
       }
-      return containerOfChats;
+      return columnOfchats;
     }
 
-    Opacity chatRows = createChats();
+    Column chatRows = createChats();
     ElevatedButton changeinfo = ElevatedButton(
       style: ElevatedButton.styleFrom(
         onPrimary: Colors.black87,
@@ -501,8 +489,8 @@ class ChatsState extends State<Chats> {
                     padding: const EdgeInsets.only(),
                     height: 60,
                     width: 60,
-                    decoration: const BoxDecoration(
-                      color: Colors.green,
+                    decoration: BoxDecoration(
+                      color: Colors.purple.shade700.withOpacity(0.6),
                       shape: BoxShape.circle,
                     ),
                     child: Stack(
@@ -551,7 +539,7 @@ class ChatsState extends State<Chats> {
         home: Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              backgroundColor: Colors.cyan.shade300,
+              backgroundColor: Colors.grey,
               title: topBar,
               centerTitle: true,
             ),
@@ -561,21 +549,23 @@ class ChatsState extends State<Chats> {
                 children: <Widget>[userinfo, exit],
               ),
             ),
-            body: SingleChildScrollView(
-                controller: _controller,
-                child: Container(
-                    height: MediaQuery.of(context).size.height,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [
-                        Colors.white,
-                        Colors.cyan.withOpacity(0.3),
-                        Colors.purple.shade200.withOpacity(0.2)
-                      ],
-                    )),
-                    // alignment: const FractionalOffset(0.5, 0.2),
+            body: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    // Colors.white,
+                    Colors.grey.shade400,
+                    Colors.cyan.withOpacity(0.3),
+                    Colors.purple.withOpacity(0.3)
+                  ],
+                )),
+                // alignment: const FractionalOffset(0.5, 0.2),
+                child: SingleChildScrollView(
+                    controller: _controller,
                     child: Column(children: <Widget>[
                       chatRows,
                     ])))));

@@ -189,8 +189,8 @@ class ChatViewState extends State<ChatView> {
         padding: const EdgeInsets.only(),
         height: 48,
         width: 48,
-        decoration: const BoxDecoration(
-          color: Colors.green,
+        decoration: BoxDecoration(
+          color: Colors.purple.shade700.withOpacity(0.6),
           shape: BoxShape.circle,
         ),
         child: Stack(
@@ -298,7 +298,7 @@ class ChatViewState extends State<ChatView> {
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
-                backgroundColor: Colors.cyan.shade50,
+                backgroundColor: Colors.blueGrey.shade100,
                 title: Row(
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[back, chaticon],

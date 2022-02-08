@@ -1,4 +1,6 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models.dart';
 import 'chats.dart';
@@ -21,7 +23,8 @@ class AuthState extends State<Auth> {
   bool authStat = false;
   bool requested = false;
   bool truepassword = true;
-  Color? color;
+  Color? logicolor;
+  Color? passwordcolor;
 
   void update() {
     if (mounted) {
@@ -100,6 +103,7 @@ class AuthState extends State<Auth> {
         child: TextField(
             onChanged: (text) {
               login = text;
+              update();
             },
             decoration: InputDecoration(
                 hintText: "Эл. почта или телефон",
@@ -135,6 +139,7 @@ class AuthState extends State<Auth> {
             obscureText: true,
             onChanged: (text) {
               password = text;
+              update();
             },
             decoration: InputDecoration(
                 hintText: "Пароль",
@@ -150,19 +155,44 @@ class AuthState extends State<Auth> {
                     borderRadius: BorderRadius.circular(35.0)),
                 fillColor: checkpassword(),
                 filled: true)));
+    Opacity ifNothing = Opacity(
+        opacity: 1,
+        child: Text(
+          "Введите логин и пароль",
+          style: TextStyle(color: Colors.red, fontFamily: "Helvetica"),
+        ));
+    Opacity ifNoLogin = Opacity(
+        opacity: 1,
+        child: Text(
+          "Введите логин и пароль",
+          style: TextStyle(color: Colors.red, fontFamily: "Helvetica"),
+        ));
+    Opacity ifNoPassword = Opacity(
+        opacity: 1,
+        child: Text(
+          "Введите логин и пароль",
+          style: TextStyle(color: Colors.red, fontFamily: "Helvetica"),
+        ));
+    Opacity changer = Opacity(
+      opacity: 0,
+    );
+
     Container signIn = Container(
         padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 24),
         child: ElevatedButton(
           onPressed: () {
             start_connection();
-            if (!requested) {
-              print(login);
-              if (login == "" || password == "") {
-                print("Введено не все");
-              } else {
-                send_auth_data(login.toLowerCase());
-              }
-              requested = true;
+            if (login == "" && password == "") {
+              changer = ifNothing;
+              update();
+            } else if (login == "") {
+              changer = ifNoLogin;
+              update();
+            } else if (password == "") {
+              changer = ifNoPassword;
+              update();
+            } else {
+              send_auth_data(login.toLowerCase());
             }
           },
           child: Container(
@@ -302,6 +332,7 @@ class AuthState extends State<Auth> {
                   Spacer(),
                   enterlogin,
                   enterpassword,
+                  changer,
                   signIn,
                   Spacer(),
                   inup,

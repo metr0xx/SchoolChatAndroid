@@ -23,6 +23,14 @@ class _SignUpStageState extends State<SignUpPage> {
   bool requested = false;
   bool samepasswords = true;
   Color testcolor = Colors.white;
+  Color surnamecolor = Colors.white;
+  Color namecolor = Colors.white;
+  Color emailcolor = Colors.white;
+  Color phonecolor = Colors.white;
+  Color passwordcolor = Colors.white;
+  Color codecolor = Colors.white;
+  bool passwordIsEmpty = false;
+
   void update() {
     if (mounted) {
       setState(() {});
@@ -116,7 +124,7 @@ class _SignUpStageState extends State<SignUpPage> {
                 ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(35.0)),
-                fillColor: Colors.white,
+                fillColor: surnamecolor,
                 filled: true)));
     Container name = Container(
         decoration: BoxDecoration(
@@ -148,7 +156,7 @@ class _SignUpStageState extends State<SignUpPage> {
                 ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(35.0)),
-                fillColor: Colors.white,
+                fillColor: namecolor,
                 filled: true)));
     Container email = Container(
         decoration: BoxDecoration(
@@ -180,7 +188,7 @@ class _SignUpStageState extends State<SignUpPage> {
                 ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(35.0)),
-                fillColor: Colors.white,
+                fillColor: emailcolor,
                 filled: true)));
     Container phone = Container(
         decoration: BoxDecoration(
@@ -212,7 +220,7 @@ class _SignUpStageState extends State<SignUpPage> {
                 ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(35.0)),
-                fillColor: Colors.white,
+                fillColor: phonecolor,
                 filled: true)));
     Opacity confirmpassword = Opacity(
         opacity: 1,
@@ -294,6 +302,7 @@ class _SignUpStageState extends State<SignUpPage> {
               } else {
                 testcolor = Colors.red.shade300;
               }
+
               showConfirmation();
               update();
             },
@@ -344,7 +353,7 @@ class _SignUpStageState extends State<SignUpPage> {
                 ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(35.0)),
-                fillColor: Colors.white,
+                fillColor: codecolor,
                 filled: true)));
     Container signUp = Container(
         decoration: BoxDecoration(
@@ -362,14 +371,28 @@ class _SignUpStageState extends State<SignUpPage> {
         child: ElevatedButton(
           onPressed: () {
             start_connection();
-            if (surnameVal == "" ||
-                nameVal == "" ||
-                emailVal == "" ||
-                phoneVal == "" ||
-                passwordVal == "" ||
-                confirmPasswordVal == "" ||
-                inviteCodeVal == "") {
-              print("Бистро ввел все!");
+            if (surnameVal == "") {
+              surnamecolor = Colors.red.shade300;
+              update();
+            }
+            if (nameVal == "") {
+              namecolor = Colors.red.shade300;
+              update();
+            }
+            if (emailVal == "") {
+              emailcolor = Colors.red.shade300;
+              update();
+            }
+            if (phoneVal == "") {
+              phonecolor = Colors.red.shade300;
+              update();
+            }
+            if (passwordVal == "") {
+              passwordIsEmpty = true;
+              update();
+            }
+            if (inviteCodeVal == "") {
+              codecolor = Colors.red.shade300;
             } else {
               send_registration_data({
                 "name": nameVal,
