@@ -18,8 +18,8 @@ class Auth extends StatefulWidget {
 }
 
 class AuthState extends State<Auth> {
-  String login = "";
-  String password = "";
+  String login = "test";
+  String password = "aboba";
   bool authStat = false;
   bool requested = false;
   bool truepassword = true;

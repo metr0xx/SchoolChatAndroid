@@ -1,5 +1,4 @@
 // ignore_for_file: no_logic_in_create_state, avoid_print
-
 import 'package:flutter/material.dart';
 import 'chats.dart';
 import 'chat_view.dart';
@@ -31,6 +30,14 @@ class ChatInfoState extends State<ChatInfo> {
   List chatUsers;
   bool loaded = false;
   String searchusers = "";
+
+  List getSortedFilteredUsers() {
+    return chatUsers
+        .where((element) =>
+            element.name.toLowerCase().contains(searchusers.toLowerCase()))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     TextButton back = TextButton(
@@ -87,22 +94,36 @@ class ChatInfoState extends State<ChatInfo> {
         child: TextField(
           onChanged: (text) {
             searchusers = text;
+            update();
           },
           decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(35)),
             contentPadding: const EdgeInsets.all(10),
             hintStyle:
-                TextStyle(color: Colors.grey.shade700, fontFamily: "Helvetica"),
+                TextStyle(color: Colors.grey.shade800, fontFamily: "Helvetica"),
             prefixIcon: const Icon(Icons.search_rounded),
             hintText: 'Найти пользователей',
-            fillColor: Colors.grey[300],
+            fillColor: Colors.blueGrey.shade100.withOpacity(0.5),
             filled: true,
           ),
         ));
+    Container addUser = Container(
+        padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 19),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 17,
+        child: TextButton(
+            onPressed: () {},
+            child: Row(children: const <Widget>[
+              Icon(Icons.person_add_alt_1_rounded),
+              Text(
+                "  Добавить пользователя",
+                style: TextStyle(fontFamily: "Helvetica", fontSize: 18),
+              )
+            ])));
     SizedBox upper = SizedBox(
         // padding:
         //     EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 15),
-        height: 300,
+        height: MediaQuery.of(context).size.height / 2,
         width: MediaQuery.of(context).size.width,
         child: Column(children: <Widget>[
           Row(
@@ -113,55 +134,58 @@ class ChatInfoState extends State<ChatInfo> {
           const Spacer(),
           Text(name, style: const TextStyle(color: Colors.black, fontSize: 30)),
           const Spacer(),
-          findusers
+          findusers,
+          addUser
         ]));
 
     Column createUsers() {
+      var filtered = getSortedFilteredUsers();
       Column infopage = Column(
         children: <Widget>[
           upper,
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 35,
-          )
+          // SizedBox(
+          //   width: MediaQuery.of(context).size.width,
+          //   height: MediaQuery.of(context).size.height / 35,
+          // )
         ],
       );
       try {
-        for (int i = 0; i < chatUsers.length; i++) {
-          infopage.children.add(SizedBox(
+        for (int i = 0; i < filtered.length; i++) {
+          infopage.children.add(Container(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width / 19,
+                  top: MediaQuery.of(context).size.width / 20),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height / 15,
-              child: OutlinedButton(
-                  onPressed: () {},
-                  child: Row(children: <Widget>[
-                    Container(
-                      // padding: EdgeInsets.only(
-                      //     left: MediaQuery.of(context).size.width / 5),
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.purple.shade700.withOpacity(0.6),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Stack(
-                        children: <Widget>[
-                          Center(
-                              child: Text(
-                            textForChatIcon(
-                                chatUsers[i].name + " " + chatUsers[i].surname),
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 23,
-                                fontFamily: "Helvetica"),
-                          ))
-                        ],
-                      ),
-                    ),
-                    Text(
-                      "  " + chatUsers[i].name + " " + chatUsers[i].surname,
-                      style: const TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                  ]))));
+              child: Row(children: <Widget>[
+                Container(
+                  // padding: EdgeInsets.only(
+                  //     left: MediaQuery.of(context).size.width / 5),
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.purple.shade700.withOpacity(0.6),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Stack(
+                    children: <Widget>[
+                      Center(
+                          child: Text(
+                        textForChatIcon(
+                            filtered[i].name + " " + filtered[i].surname),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontFamily: "Helvetica"),
+                      ))
+                    ],
+                  ),
+                ),
+                Text(
+                  "  " + filtered[i].name + " " + filtered[i].surname,
+                  style: const TextStyle(color: Colors.black, fontSize: 20),
+                ),
+              ])));
         }
       } catch (e) {}
       return infopage;
