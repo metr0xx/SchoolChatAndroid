@@ -1,4 +1,4 @@
-# flutter_application_1
+# SchoolChatAndroid
 
 A new Flutter project.
 
