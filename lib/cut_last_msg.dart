@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 String correctLastMsg(String lastmsg) {
   String result = lastmsg;
   if (lastmsg.length >= 20) {
@@ -15,7 +13,6 @@ String correctLastMsg(String lastmsg) {
 
 String correctDate(String date) {
   if (!date.contains(':')) {
-    // return '           ' + date;
   }
   return date;
 }
