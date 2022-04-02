@@ -1,4 +1,3 @@
-// ignore_for_file: no_logic_in_create_state, avoid_print
 import 'package:flutter/material.dart';
 import 'chats.dart';
 import 'chat_view.dart';
@@ -46,7 +45,6 @@ class ChatInfoState extends State<ChatInfo> {
           Navigator.pop(context);
         },
         child: Container(
-            // padding: const EdgeInsets.only(top: ),
             height: MediaQuery.of(context).size.height / 28,
             width: MediaQuery.of(context).size.width / 4,
             child: Row(children: <Widget>[
@@ -121,8 +119,6 @@ class ChatInfoState extends State<ChatInfo> {
               )
             ])));
     SizedBox upper = SizedBox(
-        // padding:
-        //     EdgeInsets.only(bottom: MediaQuery.of(context).size.height / 15),
         height: MediaQuery.of(context).size.height / 2,
         width: MediaQuery.of(context).size.width,
         child: Column(children: <Widget>[
@@ -143,10 +139,6 @@ class ChatInfoState extends State<ChatInfo> {
       Column infopage = Column(
         children: <Widget>[
           upper,
-          // SizedBox(
-          //   width: MediaQuery.of(context).size.width,
-          //   height: MediaQuery.of(context).size.height / 35,
-          // )
         ],
       );
       try {
@@ -159,8 +151,6 @@ class ChatInfoState extends State<ChatInfo> {
               height: MediaQuery.of(context).size.height / 15,
               child: Row(children: <Widget>[
                 Container(
-                  // padding: EdgeInsets.only(
-                  //     left: MediaQuery.of(context).size.width / 5),
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
@@ -205,10 +195,6 @@ class ChatInfoState extends State<ChatInfo> {
             ],
           )),
           child: ListView(children: <Widget>[createUsers()])),
-
-      // Container(
-      //     height: MediaQuery.of(context).size.height / 1.8,
-      //     child: ListView(children: <Widget>[test])),
 
       backgroundColor: Colors.grey[300],
     ));
