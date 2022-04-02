@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print, empty_catches
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/auth.dart';
 import 'editprofile.dart';
@@ -51,6 +49,7 @@ class ChatsState extends State<Chats> {
   var addedNames = [];
   var searchText = "";
   bool shouldScroll = false;
+  
   void update() {
     if (mounted) {
       setState(() {});
@@ -149,10 +148,6 @@ class ChatsState extends State<Chats> {
     return allNames;
   }
 
-  Color hexToColor(String code) {
-    return Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
-  }
-
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance!.addPostFrameCallback((_) => _scrollToTop());
@@ -193,13 +188,12 @@ class ChatsState extends State<Chats> {
                                     spreadRadius: 5,
                                     blurRadius: 7,
                                     offset: const Offset(
-                                        0, 0), // changes position of shadow
+                                        0, 0), 
                                   ),
                                 ],
                               ),
                               width: MediaQuery.of(context).size.width / 1.2,
-                              height: MediaQuery.of(context).size.height / 11.5,
-                              // padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 50),
+                              height: MediaQuery.of(context).size.height / 11.5,                       
                               child: TextField(
                                   onChanged: (text) {
                                     name = text;
@@ -218,7 +212,6 @@ class ChatsState extends State<Chats> {
                                               BorderRadius.circular(35.0)),
                                       fillColor: Colors.white,
                                       filled: true))),
-                          // Spacer(),
                           Container(
                               padding: EdgeInsets.only(
                                   top: MediaQuery.of(context).size.height / 65),
@@ -239,7 +232,6 @@ class ChatsState extends State<Chats> {
                                       action: SnackBarAction(
                                         label: 'Ок',
                                         onPressed: () {
-                                          // Some code to undo the change.
                                         },
                                       ),
                                     );
@@ -258,7 +250,7 @@ class ChatsState extends State<Chats> {
                                           spreadRadius: 8,
                                           blurRadius: 30,
                                           offset: const Offset(0,
-                                              10), // changes position of shadow
+                                              10), 
                                         ),
                                       ],
                                     ),
@@ -286,7 +278,6 @@ class ChatsState extends State<Chats> {
                                   ),
                                 ),
                               )),
-                          // Spacer()
                         ],
                       )));
             },
@@ -507,7 +498,6 @@ class ChatsState extends State<Chats> {
                       ],
                     ),
                   ),
-                  // Spacer(),
                   Text(
                     '  ' + currentuser!.name + ' ' + currentuser!.surname,
                     style: const TextStyle(
@@ -524,7 +514,6 @@ class ChatsState extends State<Chats> {
                 style: const TextStyle(
                     color: Colors.black, fontSize: 20, fontFamily: "Helvetica"),
               ),
-              // Spacer(),
               Text(
                 'E-mail: ' + currentuser!.email,
                 style: const TextStyle(
@@ -557,13 +546,11 @@ class ChatsState extends State<Chats> {
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   colors: [
-                    // Colors.white,
                     Colors.grey.shade400,
                     Colors.cyan.withOpacity(0.3),
                     Colors.purple.withOpacity(0.3)
                   ],
                 )),
-                // alignment: const FractionalOffset(0.5, 0.2),
                 child: SingleChildScrollView(
                     controller: _controller,
                     child: Column(children: <Widget>[
