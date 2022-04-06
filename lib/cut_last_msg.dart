@@ -11,8 +11,3 @@ String correctLastMsg(String lastmsg) {
   return result.substring(0, 16);
 }
 
-String correctDate(String date) {
-  if (!date.contains(':')) {
-  }
-  return date;
-}
